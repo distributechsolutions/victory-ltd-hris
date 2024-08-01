@@ -1,11 +1,11 @@
 package com.victorylimited.hris.views.profile;
 
+import com.vaadin.flow.component.formlayout.FormLayout;
 import com.vaadin.flow.component.html.Span;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.tabs.Tab;
 import com.vaadin.flow.component.tabs.Tabs;
 import com.vaadin.flow.component.tabs.TabsVariant;
-import com.vaadin.flow.dom.Style;
 import com.vaadin.flow.router.*;
 import com.victorylimited.hris.dtos.profile.EmployeeDTO;
 import com.victorylimited.hris.services.profile.EmployeeService;
@@ -24,7 +24,7 @@ public class EmployeeDetailsView extends VerticalLayout implements HasUrlParamet
     private final EmployeeService employeeService;
     private EmployeeDTO employeeDTO;
 
-    private final VerticalLayout employeeDetailsLayout = new VerticalLayout();
+    private final FormLayout employeeDetailsLayout = new FormLayout();
     private final Tabs employeeInformationTabs = new Tabs();
 
     public EmployeeDetailsView(EmployeeService employeeService) {
@@ -47,23 +47,26 @@ public class EmployeeDetailsView extends VerticalLayout implements HasUrlParamet
     }
 
     public void buildEmployeeDetailsLayout() {
+        Span recordIdLabelSpan = new Span("Record ID");
+        recordIdLabelSpan.getStyle().set("text-align", "right");
+
         Span recordIdValueSpan = new Span(employeeDTO.getId().toString());
         recordIdValueSpan.getStyle().setFontWeight("bold");
 
-        Span recordIdSpan = new Span();
-        recordIdSpan.add(new Span("Record ID: "), recordIdValueSpan);
+        Span employeeNoLabelSpan = new Span("Employee No");
+        employeeNoLabelSpan.getStyle().set("text-align", "right");
 
-        Span employeeValueSpan = new Span(employeeDTO.getEmployeeNumber());
-        employeeValueSpan.getStyle().setFontWeight("bold");
+        Span employeeNoValueSpan = new Span(employeeDTO.getEmployeeNumber());
+        employeeNoValueSpan.getStyle().setFontWeight("bold");
 
-        Span employeeNoSpan = new Span();
-        employeeNoSpan.add(new Span("Employee No: "), employeeValueSpan);
+        Span biometricNoLabelSpan = new Span("Biometric No");
+        biometricNoLabelSpan.getStyle().set("text-align", "right");
 
         Span biometricNoValueSpan = new Span(employeeDTO.getBiometricsNumber());
         biometricNoValueSpan.getStyle().setFontWeight("bold");
 
-        Span biometricNoSpan = new Span();
-        biometricNoSpan.add(new Span("Biometric No: "), biometricNoValueSpan);
+        Span fullNameLabelSpan = new Span("Full Name");
+        fullNameLabelSpan.getStyle().set("text-align", "right");
 
         String fullName = employeeDTO.getFirstName().concat(" ")
                 .concat(employeeDTO.getMiddleName())
@@ -74,14 +77,14 @@ public class EmployeeDetailsView extends VerticalLayout implements HasUrlParamet
         Span fullNameValueSpan = new Span(fullName);
         fullNameValueSpan.getStyle().setFontWeight("bold");
 
-        Span fullNameSpan = new Span();
-        fullNameSpan.add(new Span("Full Name: "), fullNameValueSpan);
+        Span genderLabelSpan = new Span("Gender");
+        genderLabelSpan.getStyle().set("text-align", "right");
 
         Span genderValueSpan = new Span(employeeDTO.getGender());
         genderValueSpan.getStyle().setFontWeight("bold");
 
-        Span genderSpan = new Span();
-        genderSpan.add(new Span("Gender: "), genderValueSpan);
+        Span dateHiredLabelSpan = new Span("Date Hired");
+        dateHiredLabelSpan.getStyle().set("text-align", "right");
 
         DateTimeFormatter df = DateTimeFormatter.ofPattern("MMM dd, yyyy", Locale.ENGLISH);
         String dateHired = df.format(employeeDTO.getDateHired());
@@ -89,22 +92,27 @@ public class EmployeeDetailsView extends VerticalLayout implements HasUrlParamet
         Span dateHiredValueSpan = new Span(dateHired);
         dateHiredValueSpan.getStyle().setFontWeight("bold");
 
-        Span dateHiredSpan = new Span();
-        dateHiredSpan.add(new Span("Date Hired: "), dateHiredValueSpan);
+        Span atmAccountNoLabelSpan = new Span("ATM Account Number");
+        atmAccountNoLabelSpan.getStyle().set("text-align", "right");
 
         Span atmAccountNoValueSpan = new Span(employeeDTO.getAtmAccountNumber());
         atmAccountNoValueSpan.getStyle().setFontWeight("bold");
 
-        Span atmAccountNoSpan = new Span();
-        atmAccountNoSpan.add(new Span("ATM Account Number: "), atmAccountNoValueSpan);
-
-        employeeDetailsLayout.add(recordIdSpan,
-                                  employeeNoSpan,
-                                  biometricNoSpan,
-                                  fullNameSpan,
-                                  genderSpan,
-                                  dateHiredSpan,
-                                  atmAccountNoSpan);
+        employeeDetailsLayout.add(recordIdLabelSpan,
+                                  recordIdValueSpan,
+                                  employeeNoLabelSpan,
+                                  employeeNoValueSpan,
+                                  biometricNoLabelSpan,
+                                  biometricNoValueSpan,
+                                  fullNameLabelSpan,
+                                  fullNameValueSpan,
+                                  genderLabelSpan,
+                                  genderValueSpan,
+                                  dateHiredLabelSpan,
+                                  dateHiredValueSpan,
+                                  atmAccountNoLabelSpan,
+                                  atmAccountNoValueSpan);
+        employeeDetailsLayout.setWidth("720px");
     }
 
     public void buildEmployeeInformationTabs() {
