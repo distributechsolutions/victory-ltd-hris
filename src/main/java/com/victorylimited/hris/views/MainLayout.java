@@ -11,6 +11,7 @@ import com.vaadin.flow.component.sidenav.SideNav;
 import com.vaadin.flow.component.sidenav.SideNavItem;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.theme.lumo.LumoUtility;
+import com.victorylimited.hris.views.admin.UserListView;
 import com.victorylimited.hris.views.mypage.MyPageView;
 import com.victorylimited.hris.views.profile.EmployeeListView;
 import org.vaadin.lineawesome.LineAwesomeIcon;
@@ -53,6 +54,7 @@ public class MainLayout extends AppLayout {
 
         nav.addItem(new SideNavItem("My Page", MyPageView.class, LineAwesomeIcon.USER_CIRCLE.create()));
         nav.addItem(new SideNavItem("Employees", EmployeeListView.class, LineAwesomeIcon.USER_TIE_SOLID.create()));
+        nav.addItem(new SideNavItem("Users", UserListView.class, LineAwesomeIcon.USER_LOCK_SOLID.create()));
 
         return nav;
     }
