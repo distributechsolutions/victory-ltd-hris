@@ -109,4 +109,12 @@ public class EmployeeDTO extends BaseDTO {
     public void setAtmAccountNumber(String atmAccountNumber) {
         this.atmAccountNumber = atmAccountNumber;
     }
+
+    public String getEmployeeFullName() {
+        return this.lastName.concat(this.suffix != null ? this.suffix : "")
+                            .concat(", ")
+                            .concat(this.firstName)
+                            .concat(" ")
+                            .concat(this.middleName);
+    }
 }
