@@ -127,8 +127,6 @@ public class PositionServiceImpl implements PositionService {
         if (!positionList.isEmpty()) {
             logger.info("Position records with parameter '%".concat(param).concat("%' has successfully retrieved."));
 
-            PositionService positionService = new PositionServiceImpl(positionRepository);
-
             for (Position position : positionList) {
                 PositionDTO positionDTO = new PositionDTO();
 
