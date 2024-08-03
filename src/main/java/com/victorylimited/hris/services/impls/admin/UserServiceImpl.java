@@ -79,8 +79,8 @@ public class UserServiceImpl implements UserService {
         userDTO.setAccountLocked(user.isAccountLocked());
         userDTO.setAccountActive(user.isAccountActive());
         userDTO.setPasswordChanged(user.isPasswordChanged());
-        userDTO.setCreatedBy(userDTO.getCreatedBy());
-        userDTO.setDateAndTimeCreated(userDTO.getDateAndTimeCreated());
+        userDTO.setCreatedBy(user.getCreatedBy());
+        userDTO.setDateAndTimeCreated(user.getDateAndTimeCreated());
         userDTO.setUpdatedBy(user.getUpdatedBy());
         userDTO.setDateAndTimeUpdated(user.getDateAndTimeUpdated());
 
@@ -125,8 +125,8 @@ public class UserServiceImpl implements UserService {
                 userDTO.setAccountLocked(user.isAccountLocked());
                 userDTO.setAccountActive(user.isAccountActive());
                 userDTO.setPasswordChanged(user.isPasswordChanged());
-                userDTO.setCreatedBy(userDTO.getCreatedBy());
-                userDTO.setDateAndTimeCreated(userDTO.getDateAndTimeCreated());
+                userDTO.setCreatedBy(user.getCreatedBy());
+                userDTO.setDateAndTimeCreated(user.getDateAndTimeCreated());
                 userDTO.setUpdatedBy(user.getUpdatedBy());
                 userDTO.setDateAndTimeUpdated(user.getDateAndTimeUpdated());
 
@@ -169,8 +169,8 @@ public class UserServiceImpl implements UserService {
                 userDTO.setAccountLocked(user.isAccountLocked());
                 userDTO.setAccountActive(user.isAccountActive());
                 userDTO.setPasswordChanged(user.isPasswordChanged());
-                userDTO.setCreatedBy(userDTO.getCreatedBy());
-                userDTO.setDateAndTimeCreated(userDTO.getDateAndTimeCreated());
+                userDTO.setCreatedBy(user.getCreatedBy());
+                userDTO.setDateAndTimeCreated(user.getDateAndTimeCreated());
                 userDTO.setUpdatedBy(user.getUpdatedBy());
                 userDTO.setDateAndTimeUpdated(user.getDateAndTimeUpdated());
 
