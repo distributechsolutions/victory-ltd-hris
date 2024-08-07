@@ -10,12 +10,16 @@ import com.vaadin.flow.router.*;
 
 import com.victorylimited.hris.dtos.admin.PositionDTO;
 import com.victorylimited.hris.services.admin.PositionService;
+import com.victorylimited.hris.utils.SecurityUtil;
 import com.victorylimited.hris.views.MainLayout;
 
 import jakarta.annotation.Resource;
+import jakarta.annotation.security.RolesAllowed;
 
+import java.util.Objects;
 import java.util.UUID;
 
+@RolesAllowed({"ROLE_ADMIN", "ROLE_HR_MANAGER", "ROLE_HR_SUPERVISOR"})
 @PageTitle("Position Form")
 @Route(value = "position-form", layout = MainLayout.class)
 public class PositionFormView extends VerticalLayout implements HasUrlParameter<String> {
@@ -82,16 +86,18 @@ public class PositionFormView extends VerticalLayout implements HasUrlParameter<
     }
 
     private void saveOrUpdatePositionDTO() {
+        String loggedInUser = Objects.requireNonNull(SecurityUtil.getAuthenticatedUser()).getUsername();
+
         if (parameterId != null) {
             positionDTO = positionService.getById(parameterId);
         } else {
             positionDTO = new PositionDTO();
-            positionDTO.setCreatedBy("admin");
+            positionDTO.setCreatedBy(loggedInUser);
         }
 
         positionDTO.setCode(codeTextField.getValue());
         positionDTO.setName(nameTextField.getValue());
-        positionDTO.setUpdatedBy("admin");
+        positionDTO.setUpdatedBy(loggedInUser);
 
         positionService.saveOrUpdate(positionDTO);
     }

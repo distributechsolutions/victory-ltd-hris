@@ -14,22 +14,29 @@ import com.vaadin.flow.router.*;
 
 import com.victorylimited.hris.dtos.admin.UserDTO;
 import com.victorylimited.hris.dtos.profile.EmployeeDTO;
+import com.victorylimited.hris.services.EmailService;
 import com.victorylimited.hris.services.admin.UserService;
 import com.victorylimited.hris.services.profile.EmployeeService;
+import com.victorylimited.hris.utils.SecurityUtil;
 import com.victorylimited.hris.utils.StringUtil;
 import com.victorylimited.hris.views.MainLayout;
 
 import jakarta.annotation.Resource;
+import jakarta.annotation.security.RolesAllowed;
+
+import java.util.Objects;
+import java.util.UUID;
 
 import org.vaadin.lineawesome.LineAwesomeIcon;
 
-import java.util.UUID;
-
+@RolesAllowed({"ROLE_ADMIN", "ROLE_HR_MANAGER"})
 @PageTitle("User Form")
 @Route(value = "user-form", layout = MainLayout.class)
 public class UserFormView extends VerticalLayout implements HasUrlParameter<String> {
     @Resource private final UserService userService;
     @Resource private final EmployeeService employeeService;
+    @Resource private final EmailService emailService;
+
     private UserDTO userDTO;
     private UUID parameterId;
 
@@ -41,9 +48,11 @@ public class UserFormView extends VerticalLayout implements HasUrlParameter<Stri
     private Checkbox accountLockedCheckbox, accountActiveCheckbox, passwordChangedCheckbox;
 
     public UserFormView(UserService userService,
-                        EmployeeService employeeService) {
+                        EmployeeService employeeService,
+                        EmailService emailService) {
         this.userService = userService;
         this.employeeService = employeeService;
+        this.emailService = emailService;
 
         setSizeFull();
         setMargin(true);
@@ -144,23 +153,34 @@ public class UserFormView extends VerticalLayout implements HasUrlParameter<Stri
     }
 
     private void saveOrUpdateUserDTO() {
+        String generatedPassword = StringUtil.generateRandomPassword();
+        String loggedInUser = Objects.requireNonNull(SecurityUtil.getAuthenticatedUser()).getUsername();
+
         if (parameterId != null) {
             userDTO = userService.getById(parameterId);
         } else {
             userDTO = new UserDTO();
-            userDTO.setCreatedBy("admin");
+            userDTO.setPassword(StringUtil.encryptPassword(generatedPassword));
+            userDTO.setCreatedBy(loggedInUser);
         }
 
         userDTO.setEmployeeDTO(employeeService.getById(employeeDTOComboBox.getValue().getId()));
         userDTO.setUsername(usernameTextField.getValue());
-        userDTO.setPassword(StringUtil.generateRandomPassword());
         userDTO.setRole(roleComboBox.getValue());
         userDTO.setEmailAddress(emailField.getValue());
         userDTO.setAccountActive(accountActiveCheckbox.getValue());
         userDTO.setAccountLocked(accountLockedCheckbox.getValue());
         userDTO.setPasswordChanged(passwordChangedCheckbox.getValue());
-        userDTO.setUpdatedBy("admin");
+        userDTO.setUpdatedBy(loggedInUser);
 
         userService.saveOrUpdate(userDTO);
+
+        // Send the generated password if the user is new record or password has not changed.
+        if (!userDTO.isPasswordChanged()) {
+            emailService.sendWelcomeEmailForNewUser(userDTO.getEmailAddress(),
+                                                    userDTO.getEmployeeDTO().getFirstName(),
+                                                    userDTO.getUsername(),
+                                                    generatedPassword);
+        }
     }
 }
