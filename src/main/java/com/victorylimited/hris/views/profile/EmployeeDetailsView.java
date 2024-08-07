@@ -7,16 +7,22 @@ import com.vaadin.flow.component.tabs.Tab;
 import com.vaadin.flow.component.tabs.Tabs;
 import com.vaadin.flow.component.tabs.TabsVariant;
 import com.vaadin.flow.router.*;
+
 import com.victorylimited.hris.dtos.profile.EmployeeDTO;
 import com.victorylimited.hris.services.profile.EmployeeService;
 import com.victorylimited.hris.views.MainLayout;
 
 import jakarta.annotation.Resource;
+import jakarta.annotation.security.RolesAllowed;
 
 import java.time.format.DateTimeFormatter;
 import java.util.Locale;
 import java.util.UUID;
 
+@RolesAllowed({"ROLE_ADMIN",
+               "ROLE_HR_MANAGER",
+               "ROLE_HR_SUPERVISOR",
+               "ROLE_HR_EMPLOYEE"})
 @PageTitle("Employee Details")
 @Route(value = "employee-details", layout = MainLayout.class)
 public class EmployeeDetailsView extends VerticalLayout implements HasUrlParameter<String> {

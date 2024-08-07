@@ -34,8 +34,7 @@ public class StringUtil {
      * @return The generated random password.
      */
     public static String generateRandomPassword() {
-        BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder(12);
-        return bCryptPasswordEncoder.encode(UUID.randomUUID().toString());
+        return UUID.randomUUID().toString();
     }
 
     /**

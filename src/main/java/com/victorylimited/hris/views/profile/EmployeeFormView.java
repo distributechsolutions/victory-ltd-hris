@@ -9,14 +9,22 @@ import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.router.*;
+
 import com.victorylimited.hris.dtos.profile.EmployeeDTO;
 import com.victorylimited.hris.services.profile.EmployeeService;
+import com.victorylimited.hris.utils.SecurityUtil;
 import com.victorylimited.hris.views.MainLayout;
 
 import jakarta.annotation.Resource;
+import jakarta.annotation.security.RolesAllowed;
 
+import java.util.Objects;
 import java.util.UUID;
 
+@RolesAllowed({"ROLE_ADMIN",
+               "ROLE_HR_MANAGER",
+               "ROLE_HR_SUPERVISOR",
+               "ROLE_HR_EMPLOYEE"})
 @PageTitle("Employee Form")
 @Route(value = "employee-form", layout = MainLayout.class)
 public class EmployeeFormView extends VerticalLayout implements HasUrlParameter<String> {
@@ -154,11 +162,13 @@ public class EmployeeFormView extends VerticalLayout implements HasUrlParameter<
     }
 
     private void saveOrUpdateEmployeeDTO() {
+        String loggedInUser = Objects.requireNonNull(SecurityUtil.getAuthenticatedUser()).getUsername();
+
         if (parameterId != null) {
             employeeDTO = employeeService.getById(parameterId);
         } else {
             employeeDTO = new EmployeeDTO();
-            employeeDTO.setCreatedBy("admin");
+            employeeDTO.setCreatedBy(loggedInUser);
         }
 
         employeeDTO.setEmployeeNumber(employeeNoTextField.getValue());
@@ -170,7 +180,7 @@ public class EmployeeFormView extends VerticalLayout implements HasUrlParameter<
         employeeDTO.setGender(genderComboBox.getValue());
         employeeDTO.setDateHired(dateHiredDatePicker.getValue());
         employeeDTO.setAtmAccountNumber(atmAccountNoTextField.getValue());
-        employeeDTO.setUpdatedBy("admin");
+        employeeDTO.setUpdatedBy(loggedInUser);
 
         employeeService.saveOrUpdate(employeeDTO);
     }

@@ -9,9 +9,11 @@ import com.victorylimited.hris.services.admin.UserService;
 import com.victorylimited.hris.views.MainLayout;
 
 import jakarta.annotation.Resource;
+import jakarta.annotation.security.RolesAllowed;
 
 import java.util.UUID;
 
+@RolesAllowed({"ROLE_ADMIN", "ROLE_HR_MANAGER"})
 @PageTitle("User Details")
 @Route(value = "user-details", layout = MainLayout.class)
 public class UserDetailsView extends VerticalLayout implements HasUrlParameter<String> {
