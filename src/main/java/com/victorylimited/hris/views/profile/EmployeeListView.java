@@ -11,14 +11,20 @@ import com.vaadin.flow.data.renderer.LocalDateRenderer;
 import com.vaadin.flow.data.value.ValueChangeMode;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
+
 import com.victorylimited.hris.dtos.profile.EmployeeDTO;
 import com.victorylimited.hris.services.profile.EmployeeService;
 import com.victorylimited.hris.views.MainLayout;
 
 import jakarta.annotation.Resource;
+import jakarta.annotation.security.RolesAllowed;
 
 import org.vaadin.lineawesome.LineAwesomeIcon;
 
+@RolesAllowed({"ROLE_ADMIN",
+               "ROLE_HR_MANAGER",
+               "ROLE_HR_SUPERVISOR",
+               "ROLE_HR_EMPLOYEE"})
 @PageTitle("Employee List")
 @Route(value = "employee-list", layout = MainLayout.class)
 public class EmployeeListView extends VerticalLayout {

@@ -8,10 +8,12 @@ import com.victorylimited.hris.dtos.admin.DepartmentDTO;
 import com.victorylimited.hris.services.admin.DepartmentService;
 import com.victorylimited.hris.views.MainLayout;
 import jakarta.annotation.Resource;
+import jakarta.annotation.security.RolesAllowed;
 
 import java.time.format.DateTimeFormatter;
 import java.util.UUID;
 
+@RolesAllowed({"ROLE_ADMIN", "ROLE_HR_MANAGER", "ROLE_HR_SUPERVISOR"})
 @PageTitle("Department Details")
 @Route(value = "department-details", layout = MainLayout.class)
 public class DepartmentDetailsView extends VerticalLayout implements HasUrlParameter<String> {

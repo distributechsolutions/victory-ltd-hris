@@ -18,8 +18,10 @@ import com.victorylimited.hris.views.MainLayout;
 
 import jakarta.annotation.Resource;
 
+import jakarta.annotation.security.RolesAllowed;
 import org.vaadin.lineawesome.LineAwesomeIcon;
 
+@RolesAllowed({"ROLE_ADMIN", "ROLE_HR_MANAGER", "ROLE_HR_SUPERVISOR"})
 @PageTitle("Position List")
 @Route(value = "position-list", layout = MainLayout.class)
 public class PositionListView extends VerticalLayout {

@@ -10,12 +10,12 @@ import com.victorylimited.hris.services.admin.PositionService;
 import com.victorylimited.hris.views.MainLayout;
 
 import jakarta.annotation.Resource;
+import jakarta.annotation.security.RolesAllowed;
 
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.time.format.DateTimeFormatter;
 import java.util.UUID;
 
+@RolesAllowed({"ROLE_ADMIN", "ROLE_HR_MANAGER", "ROLE_HR_SUPERVISOR"})
 @PageTitle("Position Details")
 @Route(value = "position-details", layout = MainLayout.class)
 public class PositionDetailsView extends VerticalLayout implements HasUrlParameter<String> {
