@@ -22,6 +22,7 @@ import com.victorylimited.hris.views.admin.UserListView;
 import com.victorylimited.hris.views.common.DashboardView;
 import com.victorylimited.hris.views.profile.EmployeeListView;
 
+import com.victorylimited.hris.views.profile.EmployeePositionListView;
 import org.vaadin.lineawesome.LineAwesomeIcon;
 
 /**
@@ -91,6 +92,7 @@ public class MainLayout extends AppLayout {
             userDTO.getRole().equals("ROLE_HR_SUPERVISOR") ||
             userDTO.getRole().equals("ROLE_HR_EMPLOYEE")) {
             nav.addItem(new SideNavItem("Employees", EmployeeListView.class, LineAwesomeIcon.USER_TIE_SOLID.create()));
+            nav.addItem(new SideNavItem("Employee Position", EmployeePositionListView.class, LineAwesomeIcon.USER_TAG_SOLID.create()));
         }
 
         if (userDTO.getRole().equals("ROLE_ADMIN") ||
