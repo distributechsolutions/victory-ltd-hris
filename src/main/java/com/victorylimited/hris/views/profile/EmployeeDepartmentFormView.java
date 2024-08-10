@@ -8,13 +8,17 @@ import com.vaadin.flow.component.formlayout.FormLayout;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.data.provider.Query;
-import com.vaadin.flow.router.*;
+import com.vaadin.flow.router.BeforeEvent;
+import com.vaadin.flow.router.HasUrlParameter;
+import com.vaadin.flow.router.OptionalParameter;
+import com.vaadin.flow.router.PageTitle;
+import com.vaadin.flow.router.Route;
 
-import com.victorylimited.hris.dtos.admin.PositionDTO;
+import com.victorylimited.hris.dtos.admin.DepartmentDTO;
 import com.victorylimited.hris.dtos.profile.EmployeeDTO;
-import com.victorylimited.hris.dtos.profile.EmployeePositionDTO;
-import com.victorylimited.hris.services.admin.PositionService;
-import com.victorylimited.hris.services.profile.EmployeePositionService;
+import com.victorylimited.hris.dtos.profile.EmployeeDepartmentDTO;
+import com.victorylimited.hris.services.admin.DepartmentService;
+import com.victorylimited.hris.services.profile.EmployeeDepartmentService;
 import com.victorylimited.hris.services.profile.EmployeeService;
 import com.victorylimited.hris.utils.SecurityUtil;
 import com.victorylimited.hris.views.MainLayout;
@@ -29,30 +33,30 @@ import java.util.UUID;
         "ROLE_HR_MANAGER",
         "ROLE_HR_SUPERVISOR",
         "ROLE_HR_EMPLOYEE"})
-@PageTitle("Employee Position Form")
-@Route(value = "employee-position-form", layout = MainLayout.class)
-public class EmployeePositionFormView extends VerticalLayout implements HasUrlParameter<String> {
+@PageTitle("Employee Department Form")
+@Route(value = "employee-department-form", layout = MainLayout.class)
+public class EmployeeDepartmentFormView extends VerticalLayout implements HasUrlParameter<String> {
     @Resource
-    private final EmployeePositionService employeePositionService;
+    private final EmployeeDepartmentService employeeDepartmentService;
     @Resource
     private final EmployeeService employeeService;
     @Resource
-    private final PositionService positionService;
+    private final DepartmentService departmentService;
 
-    private EmployeePositionDTO employeePositionDTO;
+    private EmployeeDepartmentDTO employeeDepartmentDTO;
     private UUID parameterId;
 
     private final FormLayout employeePositionDTOFormLayout = new FormLayout();
     private ComboBox<EmployeeDTO> employeeDTOComboBox;
-    private ComboBox<PositionDTO> positionDTOComboBox;
-    private Checkbox currentPositionCheckbox;
+    private ComboBox<DepartmentDTO> departmentDTOComboBox;
+    private Checkbox currentDepartmentCheckbox;
 
-    public EmployeePositionFormView(EmployeePositionService employeePositionService,
+    public EmployeeDepartmentFormView(EmployeeDepartmentService employeeDepartmentService,
                                     EmployeeService employeeService,
-                                    PositionService positionService) {
-        this.employeePositionService = employeePositionService;
+                                    DepartmentService departmentService) {
+        this.employeeDepartmentService = employeeDepartmentService;
         this.employeeService = employeeService;
-        this.positionService = positionService;
+        this.departmentService = departmentService;
 
         setSizeFull();
         setMargin(true);
@@ -63,13 +67,13 @@ public class EmployeePositionFormView extends VerticalLayout implements HasUrlPa
     public void setParameter(BeforeEvent beforeEvent, @OptionalParameter String parameter) {
         if (parameter != null) {
             parameterId = UUID.fromString(parameter);
-            employeePositionDTO = employeePositionService.getById(parameterId);
+            employeeDepartmentDTO = employeeDepartmentService.getById(parameterId);
         }
 
-        buildEmployeePositionFormLayout();
+        buildEmployeeDepartmentFormLayout();
     }
 
-    private void buildEmployeePositionFormLayout() {
+    private void buildEmployeeDepartmentFormLayout() {
         // Create the query object that will do the pagination of employee records in the combo box component.
         Query<EmployeeDTO, Void> employeeQuery = new Query<>();
 
@@ -80,33 +84,33 @@ public class EmployeePositionFormView extends VerticalLayout implements HasUrlPa
         employeeDTOComboBox.setClearButtonVisible(true);
         employeeDTOComboBox.setRequired(true);
         employeeDTOComboBox.setRequiredIndicatorVisible(true);
-        if (employeePositionDTO != null) employeeDTOComboBox.setValue(employeePositionDTO.getEmployeeDTO());
+        if (employeeDepartmentDTO != null) employeeDTOComboBox.setValue(employeeDepartmentDTO.getEmployeeDTO());
 
         // Create the query object that will do the pagination of position records in the combo box component.
-        Query<PositionDTO, Void> positionQuery = new Query<>();
+        Query<DepartmentDTO, Void> departmentQuery = new Query<>();
 
-        positionDTOComboBox = new ComboBox<>("Position");
-        positionDTOComboBox.setItems((positionDTO, filterString) -> positionDTO.getName().toLowerCase().contains(filterString.toLowerCase()),
-                positionService.getAll(positionQuery.getPage(), positionQuery.getPageSize()));
-        positionDTOComboBox.setItemLabelGenerator(PositionDTO::getName);
-        positionDTOComboBox.setClearButtonVisible(true);
-        positionDTOComboBox.setRequired(true);
-        positionDTOComboBox.setRequiredIndicatorVisible(true);
-        if (employeePositionDTO != null) positionDTOComboBox.setValue(employeePositionDTO.getPositionDTO());
+        departmentDTOComboBox = new ComboBox<>("Department");
+        departmentDTOComboBox.setItems((departmentDTO, filterString) -> departmentDTO.getName().toLowerCase().contains(filterString.toLowerCase()),
+                departmentService.getAll(departmentQuery.getPage(), departmentQuery.getPageSize()));
+        departmentDTOComboBox.setItemLabelGenerator(DepartmentDTO::getName);
+        departmentDTOComboBox.setClearButtonVisible(true);
+        departmentDTOComboBox.setRequired(true);
+        departmentDTOComboBox.setRequiredIndicatorVisible(true);
+        if (employeeDepartmentDTO != null) departmentDTOComboBox.setValue(employeeDepartmentDTO.getDepartmentDTO());
 
-        currentPositionCheckbox = new Checkbox("Is Position Active?");
-        if (employeePositionDTO != null) currentPositionCheckbox.setValue(employeePositionDTO.isCurrentPosition());
+        currentDepartmentCheckbox = new Checkbox("Is Current Department?");
+        if (employeeDepartmentDTO != null) currentDepartmentCheckbox.setValue(employeeDepartmentDTO.isCurrentDepartment());
 
         Button saveButton = new Button("Save");
         saveButton.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
         saveButton.addClickListener(buttonClickEvent -> {
             saveOrUpdateEmployeePositionDTO();
-            saveButton.getUI().ifPresent(ui -> ui.navigate(EmployeePositionListView.class));
+            saveButton.getUI().ifPresent(ui -> ui.navigate(EmployeeDepartmentListView.class));
         });
 
         Button cancelButton = new Button("Cancel");
         cancelButton.addThemeVariants(ButtonVariant.LUMO_TERTIARY);
-        cancelButton.addClickListener(buttonClickEvent -> cancelButton.getUI().ifPresent(ui -> ui.navigate(EmployeePositionListView.class)));
+        cancelButton.addClickListener(buttonClickEvent -> cancelButton.getUI().ifPresent(ui -> ui.navigate(EmployeeDepartmentListView.class)));
 
         HorizontalLayout buttonLayout = new HorizontalLayout();
         buttonLayout.add(cancelButton, saveButton);
@@ -115,10 +119,10 @@ public class EmployeePositionFormView extends VerticalLayout implements HasUrlPa
         buttonLayout.setPadding(true);
 
         employeePositionDTOFormLayout.add(employeeDTOComboBox,
-                positionDTOComboBox,
-                currentPositionCheckbox,
+                departmentDTOComboBox,
+                currentDepartmentCheckbox,
                 buttonLayout);
-        employeePositionDTOFormLayout.setColspan(currentPositionCheckbox, 2);
+        employeePositionDTOFormLayout.setColspan(currentDepartmentCheckbox, 2);
         employeePositionDTOFormLayout.setColspan(buttonLayout, 2);
         employeePositionDTOFormLayout.setMaxWidth("720px");
     }
@@ -127,17 +131,17 @@ public class EmployeePositionFormView extends VerticalLayout implements HasUrlPa
         String loggedInUser = Objects.requireNonNull(SecurityUtil.getAuthenticatedUser()).getUsername();
 
         if (parameterId != null) {
-            employeePositionDTO = employeePositionService.getById(parameterId);
+            employeeDepartmentDTO = employeeDepartmentService.getById(parameterId);
         } else {
-            employeePositionDTO = new EmployeePositionDTO();
-            employeePositionDTO.setCreatedBy(loggedInUser);
+            employeeDepartmentDTO = new EmployeeDepartmentDTO();
+            employeeDepartmentDTO.setCreatedBy(loggedInUser);
         }
 
-        employeePositionDTO.setEmployeeDTO(employeeDTOComboBox.getValue());
-        employeePositionDTO.setPositionDTO(positionDTOComboBox.getValue());
-        employeePositionDTO.setCurrentPosition(currentPositionCheckbox.getValue());
-        employeePositionDTO.setUpdatedBy(loggedInUser);
+        employeeDepartmentDTO.setEmployeeDTO(employeeDTOComboBox.getValue());
+        employeeDepartmentDTO.setDepartmentDTO(departmentDTOComboBox.getValue());
+        employeeDepartmentDTO.setCurrentDepartment(currentDepartmentCheckbox.getValue());
+        employeeDepartmentDTO.setUpdatedBy(loggedInUser);
 
-        employeePositionService.saveOrUpdate(employeePositionDTO);
+        employeeDepartmentService.saveOrUpdate(employeeDepartmentDTO);
     }
 }

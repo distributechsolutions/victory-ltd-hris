@@ -20,6 +20,6 @@ public interface EmployeePositionRepository extends JpaRepository<EmployeePositi
            """)
     List<EmployeePosition> findByStringParameter(@Param("param") String parameter);
 
-    @Query("SELECT ep FROM EmployeePosition ep WHERE ep.activePosition = :param")
+    @Query("SELECT ep FROM EmployeePosition ep WHERE ep.currentPosition = :param")
     List<EmployeePosition> findByBooleanParameter(@Param("param") boolean param);
 }

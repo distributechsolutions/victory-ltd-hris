@@ -53,11 +53,11 @@ public class EmployeePositionListView extends VerticalLayout {
         searchFilterTextField.setValueChangeMode(ValueChangeMode.LAZY);
         searchFilterTextField.addValueChangeListener(valueChangeEvent -> this.updateEmployeePositionDTOGrid());
 
-        Button addEmployeeButton = new Button("Add Employee Position");
-        addEmployeeButton.addThemeVariants(ButtonVariant.LUMO_PRIMARY, ButtonVariant.LUMO_CONTRAST);
-        addEmployeeButton.addClickListener(buttonClickEvent -> addEmployeeButton.getUI().ifPresent(ui -> ui.navigate(EmployeePositionFormView.class)));
+        Button addButton = new Button("Add Employee Position");
+        addButton.addThemeVariants(ButtonVariant.LUMO_PRIMARY, ButtonVariant.LUMO_CONTRAST);
+        addButton.addClickListener(buttonClickEvent -> addButton.getUI().ifPresent(ui -> ui.navigate(EmployeePositionFormView.class)));
 
-        headerToolbarLayout.add(searchFilterTextField, addEmployeeButton);
+        headerToolbarLayout.add(searchFilterTextField, addButton);
         headerToolbarLayout.setAlignItems(Alignment.CENTER);
         headerToolbarLayout.getThemeList().clear();
 
@@ -81,11 +81,11 @@ public class EmployeePositionListView extends VerticalLayout {
                 .setHeader("Position")
                 .setSortable(true);
         employeePositionDTOGrid.addColumn(new ComponentRenderer<>(HorizontalLayout::new, (layout, employeePositionDTO) -> {
-            String theme = String.format("badge %s", employeePositionDTO.isActivePosition() ? "success" : "error");
+            String theme = String.format("badge %s", employeePositionDTO.isCurrentPosition() ? "success" : "error");
 
             Span activeSpan = new Span();
             activeSpan.getElement().setAttribute("theme", theme);
-            activeSpan.setText(employeePositionDTO.isActivePosition() ? "Yes" : "No");
+            activeSpan.setText(employeePositionDTO.isCurrentPosition() ? "Yes" : "No");
 
             layout.setJustifyContentMode(JustifyContentMode.CENTER);
             layout.add(activeSpan);

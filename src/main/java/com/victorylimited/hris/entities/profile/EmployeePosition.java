@@ -21,8 +21,8 @@ public class EmployeePosition extends BaseEntity {
     @JoinColumn(name = "position_id", referencedColumnName = "id", nullable = false)
     private Position position;
 
-    @Column(name = "is_active_position", nullable = false)
-    private boolean activePosition;
+    @Column(name = "is_current_position", nullable = false)
+    private boolean currentPosition;
 
     public Employee getEmployee() {
         return employee;
@@ -40,11 +40,11 @@ public class EmployeePosition extends BaseEntity {
         this.position = position;
     }
 
-    public boolean isActivePosition() {
-        return activePosition;
+    public boolean isCurrentPosition() {
+        return currentPosition;
     }
 
-    public void setActivePosition(boolean activePosition) {
-        this.activePosition = activePosition;
+    public void setCurrentPosition(boolean currentPosition) {
+        this.currentPosition = currentPosition;
     }
 }

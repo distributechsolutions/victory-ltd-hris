@@ -54,7 +54,7 @@ public class EmployeePositionServiceImpl implements EmployeePositionService {
 
         employeePosition.setEmployee(employeeRepository.getReferenceById(object.getEmployeeDTO().getId()));
         employeePosition.setPosition(positionRepository.getReferenceById(object.getPositionDTO().getId()));
-        employeePosition.setActivePosition(object.isActivePosition());
+        employeePosition.setCurrentPosition(object.isCurrentPosition());
         employeePosition.setUpdatedBy(object.getUpdatedBy());
         employeePosition.setDateAndTimeUpdated(LocalDateTime.now(ZoneId.of("Asia/Manila")));
 
@@ -72,7 +72,7 @@ public class EmployeePositionServiceImpl implements EmployeePositionService {
         employeePositionDTO.setId(employeePosition.getId());
         employeePositionDTO.setEmployeeDTO(new EmployeeServiceImpl(employeeRepository).getById(employeePosition.getEmployee().getId()));
         employeePositionDTO.setPositionDTO(new PositionServiceImpl(positionRepository).getById(employeePosition.getPosition().getId()));
-        employeePositionDTO.setActivePosition(employeePosition.isActivePosition());
+        employeePositionDTO.setCurrentPosition(employeePosition.isCurrentPosition());
         employeePositionDTO.setCreatedBy(employeePosition.getCreatedBy());
         employeePositionDTO.setDateAndTimeCreated(employeePosition.getDateAndTimeCreated());
         employeePositionDTO.setUpdatedBy(employeePosition.getUpdatedBy());
@@ -114,7 +114,7 @@ public class EmployeePositionServiceImpl implements EmployeePositionService {
                 employeePositionDTO.setId(employeePosition.getId());
                 employeePositionDTO.setEmployeeDTO(employeeService.getById(employeePosition.getEmployee().getId()));
                 employeePositionDTO.setPositionDTO(positionService.getById(employeePosition.getPosition().getId()));
-                employeePositionDTO.setActivePosition(employeePosition.isActivePosition());
+                employeePositionDTO.setCurrentPosition(employeePosition.isCurrentPosition());
                 employeePositionDTO.setCreatedBy(employeePosition.getCreatedBy());
                 employeePositionDTO.setDateAndTimeCreated(employeePosition.getDateAndTimeCreated());
                 employeePositionDTO.setUpdatedBy(employeePosition.getUpdatedBy());
@@ -154,7 +154,7 @@ public class EmployeePositionServiceImpl implements EmployeePositionService {
                 employeePositionDTO.setId(employeePosition.getId());
                 employeePositionDTO.setEmployeeDTO(employeeService.getById(employeePosition.getEmployee().getId()));
                 employeePositionDTO.setPositionDTO(positionService.getById(employeePosition.getPosition().getId()));
-                employeePositionDTO.setActivePosition(employeePosition.isActivePosition());
+                employeePositionDTO.setCurrentPosition(employeePosition.isCurrentPosition());
                 employeePositionDTO.setCreatedBy(employeePosition.getCreatedBy());
                 employeePositionDTO.setDateAndTimeCreated(employeePosition.getDateAndTimeCreated());
                 employeePositionDTO.setUpdatedBy(employeePosition.getUpdatedBy());

@@ -76,7 +76,7 @@ public class EmployeePositionDetailsView extends VerticalLayout implements HasUr
         Span isActivePositionLabelSpan = new Span("Is Active Position?");
         isActivePositionLabelSpan.getStyle().set("text-align", "right");
 
-        Span isActivePositionValueSpan = new Span(employeePositionDTO.isActivePosition() ? "Yes" : "No");
+        Span isActivePositionValueSpan = new Span(employeePositionDTO.isCurrentPosition() ? "Yes" : "No");
         isActivePositionValueSpan.getStyle().setFontWeight("bold");
 
         employeePositionDetailsLayout.add(employeeNoLabelSpan,
