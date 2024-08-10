@@ -6,7 +6,7 @@ import com.victorylimited.hris.dtos.admin.PositionDTO;
 public class EmployeePositionDTO extends BaseDTO {
     private EmployeeDTO employeeDTO;
     private PositionDTO positionDTO;
-    private boolean activePosition;
+    private boolean currentPosition;
 
     public EmployeeDTO getEmployeeDTO() {
         return employeeDTO;
@@ -24,11 +24,11 @@ public class EmployeePositionDTO extends BaseDTO {
         this.positionDTO = positionDTO;
     }
 
-    public boolean isActivePosition() {
-        return activePosition;
+    public boolean isCurrentPosition() {
+        return currentPosition;
     }
 
-    public void setActivePosition(boolean activePosition) {
-        this.activePosition = activePosition;
+    public void setCurrentPosition(boolean currentPosition) {
+        this.currentPosition = currentPosition;
     }
 }

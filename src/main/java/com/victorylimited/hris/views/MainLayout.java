@@ -20,6 +20,7 @@ import com.victorylimited.hris.views.admin.DepartmentListView;
 import com.victorylimited.hris.views.admin.PositionListView;
 import com.victorylimited.hris.views.admin.UserListView;
 import com.victorylimited.hris.views.common.DashboardView;
+import com.victorylimited.hris.views.profile.EmployeeDepartmentListView;
 import com.victorylimited.hris.views.profile.EmployeeListView;
 
 import com.victorylimited.hris.views.profile.EmployeePositionListView;
@@ -91,15 +92,16 @@ public class MainLayout extends AppLayout {
             userDTO.getRole().equals("ROLE_HR_MANAGER") ||
             userDTO.getRole().equals("ROLE_HR_SUPERVISOR") ||
             userDTO.getRole().equals("ROLE_HR_EMPLOYEE")) {
-            nav.addItem(new SideNavItem("Employees", EmployeeListView.class, LineAwesomeIcon.USER_TIE_SOLID.create()));
-            nav.addItem(new SideNavItem("Employee Position", EmployeePositionListView.class, LineAwesomeIcon.USER_TAG_SOLID.create()));
+            nav.addItem(new SideNavItem("Employees", EmployeeListView.class, LineAwesomeIcon.ID_BADGE_SOLID.create()));
+            nav.addItem(new SideNavItem("Employee Position", EmployeePositionListView.class, LineAwesomeIcon.ID_CARD_SOLID.create()));
+            nav.addItem(new SideNavItem("Employee Department", EmployeeDepartmentListView.class, LineAwesomeIcon.PORTRAIT_SOLID.create()));
         }
 
         if (userDTO.getRole().equals("ROLE_ADMIN") ||
             userDTO.getRole().equals("ROLE_HR_MANAGER") ||
             userDTO.getRole().equals("ROLE_HR_SUPERVISOR")) {
-            nav.addItem(new SideNavItem("Positions", PositionListView.class, LineAwesomeIcon.AWARD_SOLID.create()));
-            nav.addItem(new SideNavItem("Departments", DepartmentListView.class, LineAwesomeIcon.DOOR_OPEN_SOLID.create()));
+            nav.addItem(new SideNavItem("Positions", PositionListView.class, LineAwesomeIcon.GLASSES_SOLID.create()));
+            nav.addItem(new SideNavItem("Departments", DepartmentListView.class, LineAwesomeIcon.BUILDING_SOLID.create()));
         }
 
         if (userDTO.getRole().equals("ROLE_ADMIN") ||
