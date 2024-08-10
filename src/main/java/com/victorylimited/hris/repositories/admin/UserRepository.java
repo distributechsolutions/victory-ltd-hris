@@ -28,5 +28,5 @@ public interface UserRepository extends JpaRepository<User, UUID> {
            OR u.accountActive = :param
            OR u.passwordChanged = :param
            """)
-    public List<User> findByBooleanParameter(@Param("param") boolean param);
+    List<User> findByBooleanParameter(@Param("param") boolean param);
 }
