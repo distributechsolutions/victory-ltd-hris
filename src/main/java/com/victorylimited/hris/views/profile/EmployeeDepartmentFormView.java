@@ -46,7 +46,7 @@ public class EmployeeDepartmentFormView extends VerticalLayout implements HasUrl
     private EmployeeDepartmentDTO employeeDepartmentDTO;
     private UUID parameterId;
 
-    private final FormLayout employeePositionDTOFormLayout = new FormLayout();
+    private final FormLayout employeeDepartmentDTOFormLayout = new FormLayout();
     private ComboBox<EmployeeDTO> employeeDTOComboBox;
     private ComboBox<DepartmentDTO> departmentDTOComboBox;
     private Checkbox currentDepartmentCheckbox;
@@ -60,7 +60,7 @@ public class EmployeeDepartmentFormView extends VerticalLayout implements HasUrl
 
         setSizeFull();
         setMargin(true);
-        add(employeePositionDTOFormLayout);
+        add(employeeDepartmentDTOFormLayout);
     }
 
     @Override
@@ -104,7 +104,7 @@ public class EmployeeDepartmentFormView extends VerticalLayout implements HasUrl
         Button saveButton = new Button("Save");
         saveButton.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
         saveButton.addClickListener(buttonClickEvent -> {
-            saveOrUpdateEmployeePositionDTO();
+            saveOrUpdateEmployeeDepartmentDTO();
             saveButton.getUI().ifPresent(ui -> ui.navigate(EmployeeDepartmentListView.class));
         });
 
@@ -118,16 +118,16 @@ public class EmployeeDepartmentFormView extends VerticalLayout implements HasUrl
         buttonLayout.setMaxWidth("720px");
         buttonLayout.setPadding(true);
 
-        employeePositionDTOFormLayout.add(employeeDTOComboBox,
-                departmentDTOComboBox,
-                currentDepartmentCheckbox,
-                buttonLayout);
-        employeePositionDTOFormLayout.setColspan(currentDepartmentCheckbox, 2);
-        employeePositionDTOFormLayout.setColspan(buttonLayout, 2);
-        employeePositionDTOFormLayout.setMaxWidth("720px");
+        employeeDepartmentDTOFormLayout.add(employeeDTOComboBox,
+                                            departmentDTOComboBox,
+                                            currentDepartmentCheckbox,
+                                            buttonLayout);
+        employeeDepartmentDTOFormLayout.setColspan(currentDepartmentCheckbox, 2);
+        employeeDepartmentDTOFormLayout.setColspan(buttonLayout, 2);
+        employeeDepartmentDTOFormLayout.setMaxWidth("720px");
     }
 
-    private void saveOrUpdateEmployeePositionDTO() {
+    private void saveOrUpdateEmployeeDepartmentDTO() {
         String loggedInUser = Objects.requireNonNull(SecurityUtil.getAuthenticatedUser()).getUsername();
 
         if (parameterId != null) {

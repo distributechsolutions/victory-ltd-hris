@@ -20,10 +20,11 @@ import com.victorylimited.hris.views.admin.DepartmentListView;
 import com.victorylimited.hris.views.admin.PositionListView;
 import com.victorylimited.hris.views.admin.UserListView;
 import com.victorylimited.hris.views.common.DashboardView;
+import com.victorylimited.hris.views.compenben.RatesListView;
 import com.victorylimited.hris.views.profile.EmployeeDepartmentListView;
 import com.victorylimited.hris.views.profile.EmployeeListView;
-
 import com.victorylimited.hris.views.profile.EmployeePositionListView;
+
 import org.vaadin.lineawesome.LineAwesomeIcon;
 
 /**
@@ -100,6 +101,7 @@ public class MainLayout extends AppLayout {
         if (userDTO.getRole().equals("ROLE_ADMIN") ||
             userDTO.getRole().equals("ROLE_HR_MANAGER") ||
             userDTO.getRole().equals("ROLE_HR_SUPERVISOR")) {
+            nav.addItem(new SideNavItem("Rates", RatesListView.class, LineAwesomeIcon.MONEY_CHECK_SOLID.create()));
             nav.addItem(new SideNavItem("Positions", PositionListView.class, LineAwesomeIcon.GLASSES_SOLID.create()));
             nav.addItem(new SideNavItem("Departments", DepartmentListView.class, LineAwesomeIcon.BUILDING_SOLID.create()));
         }

@@ -79,7 +79,7 @@ public class EmployeeDepartmentListView extends VerticalLayout {
                 .setHeader("Employee Name")
                 .setSortable(true);
         employeeDepartmentDTOGrid.addColumn(employeeDepartmentDTO -> employeeDepartmentDTO.getDepartmentDTO().getName())
-                .setHeader("Position")
+                .setHeader("Department")
                 .setSortable(true);
         employeeDepartmentDTOGrid.addColumn(new ComponentRenderer<>(HorizontalLayout::new, (layout, employeeDepartmentDTO) -> {
             String theme = String.format("badge %s", employeeDepartmentDTO.isCurrentDepartment() ? "success" : "error");
@@ -90,7 +90,7 @@ public class EmployeeDepartmentListView extends VerticalLayout {
 
             layout.setJustifyContentMode(JustifyContentMode.CENTER);
             layout.add(activeSpan);
-        })).setHeader("Is Position Active?").setSortable(true);
+        })).setHeader("Is Current Department?").setSortable(true);
         employeeDepartmentDTOGrid.addComponentColumn(userDTO -> buildRowToolbar()).setHeader("Action");
         employeeDepartmentDTOGrid.addThemeVariants(GridVariant.LUMO_ROW_STRIPES,
                 GridVariant.LUMO_COLUMN_BORDERS,
@@ -130,7 +130,7 @@ public class EmployeeDepartmentListView extends VerticalLayout {
         }));
 
         Button deleteButton = new Button();
-        deleteButton.setTooltipText("Delete Employee Position");
+        deleteButton.setTooltipText("Delete Employee Department");
         deleteButton.setIcon(LineAwesomeIcon.TRASH_ALT_SOLID.create());
         deleteButton.addThemeVariants(ButtonVariant.LUMO_PRIMARY, ButtonVariant.LUMO_ERROR);
 
