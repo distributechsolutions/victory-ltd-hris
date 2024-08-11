@@ -89,7 +89,7 @@ public class EmployeePositionListView extends VerticalLayout {
 
             layout.setJustifyContentMode(JustifyContentMode.CENTER);
             layout.add(activeSpan);
-        })).setHeader("Is Position Active?").setSortable(true);
+        })).setHeader("Is Current Position?").setSortable(true);
         employeePositionDTOGrid.addComponentColumn(userDTO -> buildRowToolbar()).setHeader("Action");
         employeePositionDTOGrid.addThemeVariants(GridVariant.LUMO_ROW_STRIPES,
                 GridVariant.LUMO_COLUMN_BORDERS,
