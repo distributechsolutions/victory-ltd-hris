@@ -220,7 +220,6 @@ public class PersonalInfoForm extends FormLayout {
         HorizontalLayout buttonLayout = new HorizontalLayout();
         buttonLayout.add(cancelButton, editButton, saveButton);
         buttonLayout.setJustifyContentMode(FlexComponent.JustifyContentMode.END);
-        buttonLayout.setMaxWidth("720px");
         buttonLayout.setPadding(true);
 
         this.add(maritalStatusComboBox,
@@ -237,7 +236,7 @@ public class PersonalInfoForm extends FormLayout {
                  buttonLayout);
         this.setColspan(placeOfBirthTextField, 2);
         this.setColspan(buttonLayout, 2);
-        this.setMaxWidth("720px");
+        this.setMaxWidth("75%");
     }
 
     private void saveOrUpdatePersonalInfoDTO(PersonalInfoDTO personalInfoDTO) {
