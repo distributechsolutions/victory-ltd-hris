@@ -1,12 +1,12 @@
 package com.victorylimited.hris.views.info;
 
-import com.vaadin.flow.component.html.Div;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.tabs.*;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 import com.victorylimited.hris.services.admin.UserService;
 import com.victorylimited.hris.services.info.AddressInfoService;
+import com.victorylimited.hris.services.info.DependentInfoService;
 import com.victorylimited.hris.services.info.PersonalInfoService;
 import com.victorylimited.hris.services.profile.EmployeeService;
 import com.victorylimited.hris.services.reference.BarangayService;
@@ -24,6 +24,7 @@ import jakarta.annotation.security.PermitAll;
 public class EmployeeInfoView extends VerticalLayout {
     @Resource private final PersonalInfoService personalInfoService;
     @Resource private final AddressInfoService addressInfoService;
+    @Resource private final DependentInfoService dependentInfoService;
     @Resource private final UserService userService;
     @Resource private final EmployeeService employeeService;
     @Resource private final RegionService regionService;
@@ -35,6 +36,7 @@ public class EmployeeInfoView extends VerticalLayout {
 
     public EmployeeInfoView(PersonalInfoService personalInfoService,
                             AddressInfoService addressInfoService,
+                            DependentInfoService dependentInfoService,
                             UserService userService,
                             EmployeeService employeeService,
                             RegionService regionService,
@@ -43,6 +45,7 @@ public class EmployeeInfoView extends VerticalLayout {
                             BarangayService barangayService) {
         this.personalInfoService = personalInfoService;
         this.addressInfoService = addressInfoService;
+        this.dependentInfoService = dependentInfoService;
         this.userService = userService;
         this.employeeService = employeeService;
         this.regionService = regionService;
@@ -66,10 +69,13 @@ public class EmployeeInfoView extends VerticalLayout {
                                                               provinceService,
                                                               municipalityService,
                                                               barangayService);
+        DependentInfoForm dependentInfoForm = new DependentInfoForm(dependentInfoService,
+                                                                    userService,
+                                                                    employeeService);
 
         infoTabSheets.add("Personal", personalInfoForm);
         infoTabSheets.add("Addresses", addressInfoForm);
-        infoTabSheets.add("Dependents", new Div());
+        infoTabSheets.add("Dependents", dependentInfoForm);
     }
 
 }
