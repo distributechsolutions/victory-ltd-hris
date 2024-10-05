@@ -239,7 +239,7 @@ public class AddressInfoForm extends VerticalLayout {
         editButton = new Button();
         editButton.setTooltipText("Edit Address");
         editButton.setIcon(LineAwesomeIcon.PENCIL_ALT_SOLID.create());
-        editButton.addThemeVariants(ButtonVariant.LUMO_SUCCESS);
+        editButton.addThemeVariants(ButtonVariant.LUMO_SUCCESS, ButtonVariant.LUMO_PRIMARY);
         editButton.addClickListener(buttonClickEvent -> this.loadAddressInfoDTO(false));
 
         rowToolbarLayout.add(viewButton, editButton);
