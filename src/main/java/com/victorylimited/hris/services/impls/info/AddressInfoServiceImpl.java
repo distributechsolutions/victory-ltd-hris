@@ -86,11 +86,12 @@ public class AddressInfoServiceImpl implements AddressInfoService {
         addressInfo.setDateAndTimeUpdated(LocalDateTime.now(ZoneId.of("Asia/Manila")));
 
         addressInfoRepository.save(addressInfo);
+        logger.info(logMessage);
     }
 
     @Override
     public AddressInfoDTO getById(UUID id) {
-        logger.info("Retrieving personal record with UUID ".concat(id.toString()));
+        logger.info("Retrieving personal address record with UUID ".concat(id.toString()));
 
         AddressInfo addressInfo = addressInfoRepository.getReferenceById(id);
         AddressInfoDTO addressInfoDTO = new AddressInfoDTO();
