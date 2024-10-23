@@ -7,7 +7,6 @@ import com.vaadin.flow.component.combobox.ComboBox;
 import com.vaadin.flow.component.formlayout.FormLayout;
 import com.vaadin.flow.component.grid.Grid;
 import com.vaadin.flow.component.grid.GridVariant;
-import com.vaadin.flow.component.html.Div;
 import com.vaadin.flow.component.notification.Notification;
 import com.vaadin.flow.component.notification.NotificationVariant;
 import com.vaadin.flow.component.orderedlayout.FlexComponent;
@@ -16,6 +15,7 @@ import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.radiobutton.RadioButtonGroup;
 import com.vaadin.flow.component.textfield.IntegerField;
 import com.vaadin.flow.component.textfield.TextField;
+
 import com.victorylimited.hris.dtos.admin.UserDTO;
 import com.victorylimited.hris.dtos.info.AddressInfoDTO;
 import com.victorylimited.hris.dtos.profile.EmployeeDTO;
@@ -34,6 +34,7 @@ import com.victorylimited.hris.utils.SecurityUtil;
 import com.victorylimited.hris.views.common.DashboardView;
 
 import jakarta.annotation.Resource;
+
 import java.util.List;
 import java.util.Objects;
 
@@ -88,7 +89,7 @@ public class AddressInfoForm extends VerticalLayout {
         loggedInUser = Objects.requireNonNull(SecurityUtil.getAuthenticatedUser()).getUsername();
 
         if (loggedInUser != null) {
-            userDTO = userService.findByParameter(loggedInUser).get(0);
+            userDTO = userService.getByUsername(loggedInUser);
         }
 
         if (userDTO != null) {
@@ -105,9 +106,7 @@ public class AddressInfoForm extends VerticalLayout {
         this.buildAddressInfoFormLayout();
         this.buildAddressInfoDTOGrid();
 
-        this.setSizeFull();
-        this.setAlignItems(Alignment.STRETCH);
-        this.add(new Div(addressInfoFormLayout), addressInfoDTOGrid);
+        this.add(addressInfoFormLayout, addressInfoDTOGrid);
     }
 
     private void buildAddressInfoFormLayout() {
@@ -197,7 +196,7 @@ public class AddressInfoForm extends VerticalLayout {
                                   postalCodeIntegerField,
                                   addressTypeRadioButtonGroup,
                                   buttonLayout);
-        addressInfoFormLayout.setMaxWidth("75%");
+        addressInfoFormLayout.setMaxWidth("768px");
     }
 
     private void buildAddressInfoDTOGrid() {

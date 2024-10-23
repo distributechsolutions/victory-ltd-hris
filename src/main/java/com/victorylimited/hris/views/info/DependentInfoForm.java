@@ -14,6 +14,7 @@ import com.vaadin.flow.component.orderedlayout.FlexComponent;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.textfield.TextField;
+
 import com.vaadin.flow.data.renderer.LocalDateRenderer;
 import com.victorylimited.hris.dtos.admin.UserDTO;
 import com.victorylimited.hris.dtos.info.DependentInfoDTO;
@@ -25,6 +26,7 @@ import com.victorylimited.hris.utils.SecurityUtil;
 import com.victorylimited.hris.views.common.DashboardView;
 
 import jakarta.annotation.Resource;
+
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Objects;
@@ -63,7 +65,7 @@ public class DependentInfoForm extends VerticalLayout {
         loggedInUser = Objects.requireNonNull(SecurityUtil.getAuthenticatedUser()).getUsername();
 
         if (loggedInUser != null) {
-            userDTO = userService.findByParameter(loggedInUser).get(0);
+            userDTO = userService.getByUsername(loggedInUser);
         }
 
         if (userDTO != null) {
@@ -80,8 +82,6 @@ public class DependentInfoForm extends VerticalLayout {
         this.buildDependentInfoFormLayout();
         this.buildDependentInfoDTOGrid();
 
-        this.setSizeFull();
-        this.setAlignItems(Alignment.STRETCH);
         this.add(dependentInfoFormLayout, dependentInfoDTOGrid);
     }
 
@@ -130,6 +130,7 @@ public class DependentInfoForm extends VerticalLayout {
                                     dateOfBirthDatePicker,
                                     relationshipComboBox,
                                     buttonLayout);
+        dependentInfoFormLayout.setWidth("768px");
     }
 
     private void buildDependentInfoDTOGrid() {

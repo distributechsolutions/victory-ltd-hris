@@ -9,6 +9,9 @@ import java.util.List;
 import java.util.UUID;
 
 public interface UserRepository extends JpaRepository<User, UUID> {
+    @Query("SELECT u FROM User u WHERE u.username = :param")
+    User findByUsername(@Param("param") String username);
+
     @Query("""
            SELECT u FROM User u
            WHERE LOWER(u.username) LIKE LOWER(CONCAT('%', :param, '%'))

@@ -179,7 +179,7 @@ public class RatesFormView extends VerticalLayout implements HasUrlParameter<Str
                                buttonLayout);
         ratesDTOFormLayout.setColspan(employeeDTOComboBox, 2);
         ratesDTOFormLayout.setColspan(buttonLayout, 2);
-        ratesDTOFormLayout.setMaxWidth("720px");
+        ratesDTOFormLayout.setMaxWidth("768px");
     }
 
     private void saveOrUpdateRatesDTO() {
