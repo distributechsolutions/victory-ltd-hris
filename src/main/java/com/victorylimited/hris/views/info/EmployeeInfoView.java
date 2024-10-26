@@ -1,9 +1,10 @@
 package com.victorylimited.hris.views.info;
 
-import com.vaadin.flow.component.orderedlayout.VerticalLayout;
+import com.vaadin.flow.component.html.Div;
 import com.vaadin.flow.component.tabs.*;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
+
 import com.victorylimited.hris.services.admin.UserService;
 import com.victorylimited.hris.services.info.AddressInfoService;
 import com.victorylimited.hris.services.info.DependentInfoService;
@@ -21,7 +22,7 @@ import jakarta.annotation.security.PermitAll;
 @PermitAll
 @PageTitle("Employee Information")
 @Route(value = "employee-information", layout = MainLayout.class)
-public class EmployeeInfoView extends VerticalLayout {
+public class EmployeeInfoView extends Div {
     @Resource private final PersonalInfoService personalInfoService;
     @Resource private final AddressInfoService addressInfoService;
     @Resource private final DependentInfoService dependentInfoService;
@@ -53,7 +54,7 @@ public class EmployeeInfoView extends VerticalLayout {
         this.municipalityService = municipalityService;
         this.barangayService = barangayService;
 
-        this.setSizeFull();
+        this.setWidth("100%");
         this.createInfoTabSheets();
         this.add(infoTabSheets);
     }

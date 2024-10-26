@@ -100,7 +100,7 @@ public class EmployeeListView extends VerticalLayout {
         HorizontalLayout rowToolbarLayout = new HorizontalLayout();
 
         Button viewEmployeeButton = new Button();
-        viewEmployeeButton.setTooltipText("View User");
+        viewEmployeeButton.setTooltipText("View Employee");
         viewEmployeeButton.setIcon(LineAwesomeIcon.SEARCH_SOLID.create());
         viewEmployeeButton.addThemeVariants(ButtonVariant.LUMO_CONTRAST);
         viewEmployeeButton.addClickListener(buttonClickEvent -> viewEmployeeButton.getUI().ifPresent(ui -> {
@@ -111,7 +111,7 @@ public class EmployeeListView extends VerticalLayout {
         }));
 
         Button editEmployeeButton = new Button();
-        editEmployeeButton.setTooltipText("Edit User");
+        editEmployeeButton.setTooltipText("Edit Employee");
         editEmployeeButton.setIcon(LineAwesomeIcon.PENCIL_ALT_SOLID.create());
         editEmployeeButton.addThemeVariants(ButtonVariant.LUMO_PRIMARY, ButtonVariant.LUMO_SUCCESS);
         editEmployeeButton.addClickListener(buttonClickEvent -> editEmployeeButton.getUI().ifPresent(ui -> {
@@ -121,12 +121,18 @@ public class EmployeeListView extends VerticalLayout {
             }
         }));
 
-        Button deleteEmployeeButton = new Button();
-        deleteEmployeeButton.setTooltipText("Delete User");
-        deleteEmployeeButton.setIcon(LineAwesomeIcon.TRASH_ALT_SOLID.create());
-        deleteEmployeeButton.addThemeVariants(ButtonVariant.LUMO_PRIMARY, ButtonVariant.LUMO_ERROR);
+        Button documentEmployeeButton = new Button();
+        documentEmployeeButton.setTooltipText("Upload Documents");
+        documentEmployeeButton.setIcon(LineAwesomeIcon.FOLDER_OPEN_SOLID.create());
+        documentEmployeeButton.addThemeVariants(ButtonVariant.LUMO_CONTRAST, ButtonVariant.LUMO_PRIMARY);
+        documentEmployeeButton.addClickListener(buttonClickEvent -> documentEmployeeButton.getUI().ifPresent(ui -> {
+            if (employeeDTOGrid.getSelectionModel().getFirstSelectedItem().isPresent()) {
+                EmployeeDTO selectedEmployeeDTO = employeeDTOGrid.getSelectionModel().getFirstSelectedItem().get();
+                ui.navigate(EmployeeDocumentFormView.class, selectedEmployeeDTO.getId().toString());
+            }
+        }));
 
-        rowToolbarLayout.add(viewEmployeeButton, editEmployeeButton, deleteEmployeeButton);
+        rowToolbarLayout.add(viewEmployeeButton, editEmployeeButton, documentEmployeeButton);
         rowToolbarLayout.setJustifyContentMode(JustifyContentMode.CENTER);
         rowToolbarLayout.getStyle().set("flex-wrap", "wrap");
 

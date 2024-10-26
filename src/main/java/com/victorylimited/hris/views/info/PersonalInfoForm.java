@@ -12,6 +12,7 @@ import com.vaadin.flow.component.orderedlayout.FlexComponent;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.textfield.EmailField;
 import com.vaadin.flow.component.textfield.TextField;
+
 import com.victorylimited.hris.dtos.admin.UserDTO;
 import com.victorylimited.hris.dtos.info.PersonalInfoDTO;
 import com.victorylimited.hris.dtos.profile.EmployeeDTO;
@@ -22,6 +23,7 @@ import com.victorylimited.hris.utils.SecurityUtil;
 import com.victorylimited.hris.views.common.DashboardView;
 
 import jakarta.annotation.Resource;
+
 import java.time.LocalDate;
 import java.util.Objects;
 
@@ -63,7 +65,7 @@ public class PersonalInfoForm extends FormLayout {
         loggedInUser = Objects.requireNonNull(SecurityUtil.getAuthenticatedUser()).getUsername();
 
         if (loggedInUser != null) {
-            userDTO = userService.findByParameter(loggedInUser).get(0);
+            userDTO = userService.getByUsername(loggedInUser);
         }
 
         if (userDTO != null) {
@@ -75,6 +77,7 @@ public class PersonalInfoForm extends FormLayout {
         }
 
         this.buildPersonalInfoForm();
+        this.getStyle().setPadding("10px");
     }
 
     public void buildPersonalInfoForm() {
@@ -236,7 +239,7 @@ public class PersonalInfoForm extends FormLayout {
                  buttonLayout);
         this.setColspan(placeOfBirthTextField, 2);
         this.setColspan(buttonLayout, 2);
-        this.setMaxWidth("75%");
+        this.setMaxWidth("768px");
     }
 
     private void saveOrUpdatePersonalInfoDTO(PersonalInfoDTO personalInfoDTO) {

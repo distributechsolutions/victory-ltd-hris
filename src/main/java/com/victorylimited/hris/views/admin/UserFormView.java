@@ -138,7 +138,7 @@ public class UserFormView extends VerticalLayout implements HasUrlParameter<Stri
         HorizontalLayout buttonLayout = new HorizontalLayout();
         buttonLayout.add(cancelButton, saveButton);
         buttonLayout.setJustifyContentMode(JustifyContentMode.END);
-        buttonLayout.setMaxWidth("720px");
+        buttonLayout.setMaxWidth("768px");
         buttonLayout.setPadding(true);
 
         userDTOFormLayout.add(employeeDTOComboBox,

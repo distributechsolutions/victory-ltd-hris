@@ -82,7 +82,7 @@ public class DepartmentFormView extends VerticalLayout implements HasUrlParamete
                                   nameTextField,
                                   buttonLayout);
         departmentDTOFormLayout.setColspan(buttonLayout, 2);
-        departmentDTOFormLayout.setMaxWidth("720px");
+        departmentDTOFormLayout.setMaxWidth("768px");
     }
 
     private void saveOrUpdateDepartmentDTO() {

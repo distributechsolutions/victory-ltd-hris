@@ -180,4 +180,30 @@ public class UserServiceImpl implements UserService {
 
         return userDTOList;
     }
+
+    @Override
+    public UserDTO getByUsername(String username) {
+        logger.info("Retrieving user record with username ".concat(username));
+
+        User user = userRepository.findByUsername(username);
+        UserDTO userDTO = new UserDTO();
+
+        userDTO.setId(user.getId());
+        userDTO.setEmployeeDTO(new EmployeeServiceImpl(employeeRepository).getById(user.getEmployee().getId()));
+        userDTO.setUsername(user.getUsername());
+        userDTO.setPassword(user.getPassword());
+        userDTO.setRole(user.getRole());
+        userDTO.setEmailAddress(user.getEmailAddress());
+        userDTO.setAccountLocked(user.isAccountLocked());
+        userDTO.setAccountActive(user.isAccountActive());
+        userDTO.setPasswordChanged(user.isPasswordChanged());
+        userDTO.setCreatedBy(user.getCreatedBy());
+        userDTO.setDateAndTimeCreated(user.getDateAndTimeCreated());
+        userDTO.setUpdatedBy(user.getUpdatedBy());
+        userDTO.setDateAndTimeUpdated(user.getDateAndTimeUpdated());
+
+        logger.info("User record with username ".concat(username).concat(" is successfully retrieved."));
+
+        return userDTO;
+    }
 }

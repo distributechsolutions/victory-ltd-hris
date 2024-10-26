@@ -115,7 +115,7 @@ public class EmployeeDepartmentFormView extends VerticalLayout implements HasUrl
         HorizontalLayout buttonLayout = new HorizontalLayout();
         buttonLayout.add(cancelButton, saveButton);
         buttonLayout.setJustifyContentMode(JustifyContentMode.END);
-        buttonLayout.setMaxWidth("720px");
+        buttonLayout.setMaxWidth("768px");
         buttonLayout.setPadding(true);
 
         employeeDepartmentDTOFormLayout.add(employeeDTOComboBox,
