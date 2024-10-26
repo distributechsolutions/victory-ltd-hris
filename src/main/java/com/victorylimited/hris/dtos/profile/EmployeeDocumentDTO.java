@@ -9,6 +9,7 @@ public class EmployeeDocumentDTO extends BaseDTO {
     private String documentType;
     private String fileName;
     private byte[] fileData;
+    private String fileType;
     private String remarks;
     private LocalDate expirationDate;
 
@@ -42,6 +43,14 @@ public class EmployeeDocumentDTO extends BaseDTO {
 
     public void setFileData(byte[] fileData) {
         this.fileData = fileData;
+    }
+
+    public String getFileType() {
+        return fileType;
+    }
+
+    public void setFileType(String fileType) {
+        this.fileType = fileType;
     }
 
     public String getRemarks() {

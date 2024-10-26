@@ -52,6 +52,7 @@ public class EmployeeDocumentServiceImpl implements EmployeeDocumentService {
         employeeDocument.setDocumentType(object.getDocumentType());
         employeeDocument.setFileName(object.getFileName());
         employeeDocument.setFileData(object.getFileData());
+        employeeDocument.setFileType(object.getFileType());
         employeeDocument.setRemarks(object.getRemarks());
         employeeDocument.setExpirationDate(object.getExpirationDate());
         employeeDocument.setUpdatedBy(object.getUpdatedBy());
@@ -72,6 +73,7 @@ public class EmployeeDocumentServiceImpl implements EmployeeDocumentService {
         employeeDocumentDTO.setDocumentType(employeeDocument.getDocumentType());
         employeeDocumentDTO.setFileName(employeeDocument.getFileName());
         employeeDocumentDTO.setFileData(employeeDocument.getFileData());
+        employeeDocumentDTO.setFileType(employeeDocument.getFileType());
         employeeDocumentDTO.setRemarks(employeeDocument.getRemarks());
         employeeDocumentDTO.setExpirationDate(employeeDocument.getExpirationDate());
         employeeDocumentDTO.setCreatedBy(employeeDocument.getCreatedBy());
@@ -116,6 +118,7 @@ public class EmployeeDocumentServiceImpl implements EmployeeDocumentService {
                 employeeDocumentDTO.setDocumentType(employeeDocument.getDocumentType());
                 employeeDocumentDTO.setFileName(employeeDocument.getFileName());
                 employeeDocumentDTO.setFileData(employeeDocument.getFileData());
+                employeeDocumentDTO.setFileType(employeeDocument.getFileType());
                 employeeDocumentDTO.setRemarks(employeeDocument.getRemarks());
                 employeeDocumentDTO.setExpirationDate(employeeDocument.getExpirationDate());
                 employeeDocumentDTO.setCreatedBy(employeeDocument.getCreatedBy());
@@ -157,6 +160,7 @@ public class EmployeeDocumentServiceImpl implements EmployeeDocumentService {
                 employeeDocumentDTO.setDocumentType(employeeDocument.getDocumentType());
                 employeeDocumentDTO.setFileName(employeeDocument.getFileName());
                 employeeDocumentDTO.setFileData(employeeDocument.getFileData());
+                employeeDocumentDTO.setFileType(employeeDocument.getFileType());
                 employeeDocumentDTO.setRemarks(employeeDocument.getRemarks());
                 employeeDocumentDTO.setExpirationDate(employeeDocument.getExpirationDate());
                 employeeDocumentDTO.setCreatedBy(employeeDocument.getCreatedBy());

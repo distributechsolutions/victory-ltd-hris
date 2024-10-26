@@ -23,6 +23,9 @@ public class EmployeeDocument extends BaseEntity {
     @Column(name = "file_data", nullable = false)
     private byte[] fileData;
 
+    @Column(name = "file_type", length = 25, nullable = false)
+    private String fileType;
+
     @Column(name = "remarks", length = 150, nullable = false)
     private String remarks;
 
@@ -59,6 +62,14 @@ public class EmployeeDocument extends BaseEntity {
 
     public void setFileData(byte[] fileData) {
         this.fileData = fileData;
+    }
+
+    public String getFileType() {
+        return fileType;
+    }
+
+    public void setFileType(String fileType) {
+        this.fileType = fileType;
     }
 
     public String getRemarks() {
