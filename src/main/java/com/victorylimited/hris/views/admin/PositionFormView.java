@@ -82,7 +82,7 @@ public class PositionFormView extends VerticalLayout implements HasUrlParameter<
                                   nameTextField,
                                   buttonLayout);
         positionDTOFormLayout.setColspan(buttonLayout, 2);
-        positionDTOFormLayout.setMaxWidth("720px");
+        positionDTOFormLayout.setMaxWidth("768px");
     }
 
     private void saveOrUpdatePositionDTO() {

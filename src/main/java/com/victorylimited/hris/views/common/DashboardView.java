@@ -1,13 +1,11 @@
 package com.victorylimited.hris.views.common;
 
-import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.Text;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
 import com.vaadin.flow.component.dialog.Dialog;
 import com.vaadin.flow.component.formlayout.FormLayout;
 import com.vaadin.flow.component.html.Div;
-import com.vaadin.flow.component.html.Image;
 import com.vaadin.flow.component.icon.SvgIcon;
 import com.vaadin.flow.component.notification.Notification;
 import com.vaadin.flow.component.notification.NotificationVariant;
@@ -17,18 +15,23 @@ import com.vaadin.flow.component.textfield.PasswordField;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 import com.vaadin.flow.router.RouteAlias;
+
 import com.victorylimited.hris.configs.SecurityConfig;
 import com.victorylimited.hris.dtos.admin.UserDTO;
+import com.victorylimited.hris.dtos.info.AddressInfoDTO;
+import com.victorylimited.hris.dtos.info.DependentInfoDTO;
 import com.victorylimited.hris.dtos.info.PersonalInfoDTO;
 import com.victorylimited.hris.services.admin.UserService;
+import com.victorylimited.hris.services.info.AddressInfoService;
+import com.victorylimited.hris.services.info.DependentInfoService;
 import com.victorylimited.hris.services.info.PersonalInfoService;
 import com.victorylimited.hris.utils.SecurityUtil;
 import com.victorylimited.hris.utils.StringUtil;
 import com.victorylimited.hris.views.MainLayout;
-import com.victorylimited.hris.views.info.EmployeeInfoView;
 
 import jakarta.annotation.Resource;
 import jakarta.annotation.security.PermitAll;
+
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.*;
@@ -42,10 +45,13 @@ import org.vaadin.lineawesome.LineAwesomeIcon;
 public class DashboardView extends VerticalLayout {
     @Resource private final UserService userService;
     @Resource private final PersonalInfoService personalInfoService;
+    @Resource private final AddressInfoService addressInfoService;
+    @Resource private final DependentInfoService dependentInfoService;
 
     private UserDTO userDTO;
     private PersonalInfoDTO personalInfoDTO;
-    private Div messageNotification;
+    private List<AddressInfoDTO> addressInfoDTOList;
+    private List<DependentInfoDTO> dependentInfoDTOList;
 
     enum MessageLevel {
         INFO,
@@ -55,13 +61,17 @@ public class DashboardView extends VerticalLayout {
     }
 
     public DashboardView(UserService userService,
-                         PersonalInfoService personalService) {
+                         PersonalInfoService personalService,
+                         AddressInfoService addressInfoService,
+                         DependentInfoService dependentInfoService) {
         this.userService = userService;
         this.personalInfoService = personalService;
+        this.addressInfoService = addressInfoService;
+        this.dependentInfoService = dependentInfoService;
 
         // Gets the user data transfer object based from the logged in user.
         if (SecurityUtil.getAuthenticatedUser() != null) {
-            userDTO = userService.findByParameter(SecurityUtil.getAuthenticatedUser().getUsername()).get(0);
+            userDTO = userService.getByUsername(SecurityUtil.getAuthenticatedUser().getUsername());
         }
 
         // Shows the change password dialog if the user has not changed its password for the first time.
@@ -69,23 +79,49 @@ public class DashboardView extends VerticalLayout {
             buildChangePasswordDialog().open();
         }
 
+        Div profileMessageNotification = null;
+        Div addressMessageNotification = null;
+        Div dependentMessageNotification = null;
+
         if (userDTO != null) {
             personalInfoDTO = personalInfoService.getByEmployeeDTO(userDTO.getEmployeeDTO());
+            addressInfoDTOList = addressInfoService.getByEmployeeDTO(userDTO.getEmployeeDTO());
+            dependentInfoDTOList = dependentInfoService.getByEmployeeDTO(userDTO.getEmployeeDTO());
 
             // Shows the notification message if the user hasn't yet add its personal information.
             if (personalInfoDTO == null) {
-                messageNotification = buildNotification("Please add your personal information in 'My Profile' menu.",
-                                                        MessageLevel.INFO,
-                                                        LineAwesomeIcon.INFO_CIRCLE_SOLID.create());
+                profileMessageNotification = buildNotification("Please add your personal information in 'My Profile' menu.",
+                        MessageLevel.INFO,
+                        LineAwesomeIcon.INFO_CIRCLE_SOLID.create());
             } else {
-                messageNotification = new Div();
+                profileMessageNotification = new Div();
+            }
+
+            // Shows the notification message if the user hasn't yet add its address information.
+            if (addressInfoDTOList.isEmpty()) {
+                addressMessageNotification = buildNotification("Please add your address information in 'My Profile' menu.",
+                        MessageLevel.INFO,
+                        LineAwesomeIcon.INFO_CIRCLE_SOLID.create());
+            } else {
+                addressMessageNotification = new Div();
+            }
+
+            // Shows the notification message if the user hasn't yet add its dependent information.
+            if (dependentInfoDTOList.isEmpty()) {
+                dependentMessageNotification = buildNotification("Please add your dependent information in 'My Profile' menu.",
+                        MessageLevel.INFO,
+                        LineAwesomeIcon.INFO_CIRCLE_SOLID.create());
+            } else {
+                dependentMessageNotification = new Div();
             }
         }
 
         this.setSizeFull();
         this.setAlignItems(Alignment.STRETCH);
         this.setPadding(true);
-        this.add(messageNotification, buildDashboardMenu());
+        this.add(profileMessageNotification,
+                 addressMessageNotification,
+                 dependentMessageNotification);
     }
 
     private Dialog buildChangePasswordDialog() {
@@ -148,63 +184,6 @@ public class DashboardView extends VerticalLayout {
         return changePasswordDialog;
     }
 
-    private HorizontalLayout buildDashboardMenu() {
-        Button myProfileButton = new Button("My Profile");
-        myProfileButton.addThemeVariants(ButtonVariant.LUMO_CONTRAST);
-        myProfileButton.addClickListener(buttonClickEvent -> buttonClickEvent.getSource().getUI().ifPresent(ui -> ui.navigate(EmployeeInfoView.class)));
-
-        Image myProfileImage = new Image("icons/user.png", "user.png") ;
-        myProfileImage.setWidth("64px");
-        myProfileImage.setHeight("64px");
-
-        Button myTimesheetButton = new Button("My Timesheet");
-        myTimesheetButton.addThemeVariants(ButtonVariant.LUMO_CONTRAST);
-
-        Image myTimesheetImage = new Image("icons/calendar.png", "calendar.png");
-        myTimesheetImage.setWidth("64px");
-        myTimesheetImage.setHeight("64px");
-
-        Button myLeavesButton = new Button("My Leaves");
-        myLeavesButton.addThemeVariants(ButtonVariant.LUMO_CONTRAST);
-
-        Image myLeavesImage = new Image("icons/absentism.png", "absentism.png");
-        myLeavesImage.setWidth("64px");
-        myLeavesImage.setHeight("64px");
-
-        Button myPayslipButton = new Button("My Payslip");
-        myLeavesButton.addThemeVariants(ButtonVariant.LUMO_CONTRAST);
-
-        Image myPayslipImage = new Image("icons/payslip.png", "payslip.png");
-        myPayslipImage.setWidth("64px");
-        myPayslipImage.setHeight("64px");
-
-        Component myProfileCard = createCardComponent(myProfileImage, myProfileButton);
-        Component myTimesheetCard = createCardComponent(myTimesheetImage, myTimesheetButton);
-        Component myLeavesCard = createCardComponent(myLeavesImage, myLeavesButton);
-        Component myPayslipCard = createCardComponent(myPayslipImage, myPayslipButton);
-
-        HorizontalLayout menuLayout = new HorizontalLayout();
-        menuLayout.add(myProfileCard, myTimesheetCard, myLeavesCard, myPayslipCard);
-
-        return menuLayout;
-    }
-
-    private Component createCardComponent(Image image, Button button) {
-        Div content = new Div();
-        content.getStyle().set("margin", "10px")
-                          .set("text-align", "center");
-        content.add(image, button);
-
-        Div card = new Div();
-        card.getStyle().set("width", "150px")
-                       .set("height", "128px")
-                       .set("border-radius", "5px")
-                       .set("box-shadow", "0 4px 8px 0 rgba(0,0,0,0.2)");
-        card.add(content);
-
-        return card;
-    }
-
     public Div buildNotification(String message, MessageLevel messageLevel, SvgIcon svgIcon) {
         Div text = new Div(new Text(message));
 
@@ -215,7 +194,7 @@ public class DashboardView extends VerticalLayout {
         notificationDiv.getStyle().set("padding", "20px")
                                   .set("border-radius", "3px")
                                   .set("color", "#fdfefe")
-                                  .set("margin-bottom", "15px");
+                                  .set("margin-bottom", "5px");
 
         // Change the background color based on the message level.
         switch (messageLevel) {

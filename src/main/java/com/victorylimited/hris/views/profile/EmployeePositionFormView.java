@@ -111,7 +111,7 @@ public class EmployeePositionFormView extends VerticalLayout implements HasUrlPa
         HorizontalLayout buttonLayout = new HorizontalLayout();
         buttonLayout.add(cancelButton, saveButton);
         buttonLayout.setJustifyContentMode(JustifyContentMode.END);
-        buttonLayout.setMaxWidth("720px");
+        buttonLayout.setWidth("768px");
         buttonLayout.setPadding(true);
 
         employeePositionDTOFormLayout.add(employeeDTOComboBox,
@@ -120,7 +120,7 @@ public class EmployeePositionFormView extends VerticalLayout implements HasUrlPa
                 buttonLayout);
         employeePositionDTOFormLayout.setColspan(currentPositionCheckbox, 2);
         employeePositionDTOFormLayout.setColspan(buttonLayout, 2);
-        employeePositionDTOFormLayout.setMaxWidth("720px");
+        employeePositionDTOFormLayout.setWidth("768px");
     }
 
     private void saveOrUpdateEmployeePositionDTO() {

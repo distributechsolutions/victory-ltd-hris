@@ -143,7 +143,7 @@ public class EmployeeFormView extends VerticalLayout implements HasUrlParameter<
         HorizontalLayout buttonLayout = new HorizontalLayout();
         buttonLayout.add(cancelButton, saveButton);
         buttonLayout.setJustifyContentMode(JustifyContentMode.END);
-        buttonLayout.setMaxWidth("720px");
+        buttonLayout.setMaxWidth("768px");
         buttonLayout.setPadding(true);
 
         employeeDTOFormLayout.add(employeeNoTextField,
@@ -158,7 +158,7 @@ public class EmployeeFormView extends VerticalLayout implements HasUrlParameter<
                 buttonLayout);
         employeeDTOFormLayout.setColspan(atmAccountNoTextField, 2);
         employeeDTOFormLayout.setColspan(buttonLayout, 2);
-        employeeDTOFormLayout.setMaxWidth("720px");
+        employeeDTOFormLayout.setMaxWidth("768px");
     }
 
     private void saveOrUpdateEmployeeDTO() {
