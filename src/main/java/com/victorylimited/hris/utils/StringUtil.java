@@ -7,6 +7,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.UUID;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * A String utility class that provides the following functions:
@@ -75,5 +77,31 @@ public class StringUtil {
      */
     public static boolean isNumeric(String input) {
         return input.matches("-?\\d+(\\.\\d+)?");
+    }
+
+    /**
+     * Generates a string of leave code that will be used as a part of the data to save in the database.
+     *
+     * @param inputs - A sequence of input strings.
+     * @return A concatenated input strings which is the leave code.
+     */
+    public static String generateLeaveCode(String... inputs) {
+        String leaveCode = "";
+
+        for (String input : inputs) {
+            Pattern pattern = Pattern.compile("\\(([^)]+)\\)");
+            Matcher matcher = pattern.matcher(input);
+            String output;
+
+            if (matcher.find()) {
+                output = matcher.group(1);
+            } else {
+                output = input;
+            }
+
+            leaveCode = leaveCode.concat(output);
+        }
+
+        return leaveCode;
     }
 }
