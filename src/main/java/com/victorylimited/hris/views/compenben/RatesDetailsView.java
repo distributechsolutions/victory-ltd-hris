@@ -20,8 +20,8 @@ import java.util.UUID;
 @RolesAllowed({"ROLE_ADMIN",
                "ROLE_HR_MANAGER",
                "ROLE_HR_SUPERVISOR"})
-@PageTitle("Employee Department Details")
-@Route(value = "employee-rates-details", layout = MainLayout.class)
+@PageTitle("Rates Details")
+@Route(value = "rates-details", layout = MainLayout.class)
 public class RatesDetailsView extends VerticalLayout implements HasUrlParameter<String> {
     @Resource
     private final RatesService ratesService;
@@ -44,10 +44,10 @@ public class RatesDetailsView extends VerticalLayout implements HasUrlParameter<
             ratesDTO = ratesService.getById(parameterId);
         }
 
-        buildEmployeeDepartmentDetailsLayout();
+        buildRatesDetailsLayout();
     }
 
-    public void buildEmployeeDepartmentDetailsLayout() {
+    public void buildRatesDetailsLayout() {
         Span employeeNoLabelSpan = new Span("Employee No");
         employeeNoLabelSpan.getStyle().set("text-align", "right");
 
@@ -127,6 +127,6 @@ public class RatesDetailsView extends VerticalLayout implements HasUrlParameter<
                             absentDailyRateValueSpan,
                             isCurrentRatesLabelSpan,
                             isCurrentRatesValueSpan);
-        ratesDetailsLayout.setWidth("720px");
+        ratesDetailsLayout.setWidth("768px");
     }
 }

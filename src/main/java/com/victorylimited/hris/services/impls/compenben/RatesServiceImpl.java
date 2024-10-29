@@ -108,7 +108,7 @@ public class RatesServiceImpl implements RatesService {
         logger.info("Retrieving employee's rates records from the database.");
         List<Rates> ratesList = ratesRepository.findAll(PageRequest.of(page, pageSize)).stream().toList();
 
-        logger.info("Employee's department records successfully retrieved.");
+        logger.info("Employee's rates records successfully retrieved.");
         List<RatesDTO> ratesDTOList = new ArrayList<>();
 
         if (!ratesList.isEmpty()) {
