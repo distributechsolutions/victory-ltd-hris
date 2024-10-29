@@ -20,6 +20,7 @@ import com.victorylimited.hris.views.admin.DepartmentListView;
 import com.victorylimited.hris.views.admin.PositionListView;
 import com.victorylimited.hris.views.admin.UserListView;
 import com.victorylimited.hris.views.common.DashboardView;
+import com.victorylimited.hris.views.compenben.LeaveBenefitsListView;
 import com.victorylimited.hris.views.compenben.RatesListView;
 import com.victorylimited.hris.views.info.EmployeeInfoView;
 import com.victorylimited.hris.views.profile.EmployeeDepartmentListView;
@@ -118,6 +119,7 @@ public class MainLayout extends AppLayout {
                 userDTO.getRole().equals("ROLE_HR_SUPERVISOR")) {
             nav.setLabel("Compensation and Benefits");
             nav.addItem(new SideNavItem("Rates", RatesListView.class, LineAwesomeIcon.MONEY_CHECK_SOLID.create()));
+            nav.addItem(new SideNavItem("Leave Benefits", LeaveBenefitsListView.class, LineAwesomeIcon.DOOR_OPEN_SOLID.create()));
         }
 
         return nav;
@@ -162,9 +164,7 @@ public class MainLayout extends AppLayout {
     }
 
     private Footer createFooter() {
-        Footer layout = new Footer();
-
-        return layout;
+        return new Footer();
     }
 
     @Override

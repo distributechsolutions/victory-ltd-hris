@@ -25,8 +25,8 @@ import org.vaadin.lineawesome.LineAwesomeIcon;
 @RolesAllowed({"ROLE_ADMIN",
                "ROLE_HR_MANAGER",
                "ROLE_HR_SUPERVISOR"})
-@PageTitle("Employee Rates List")
-@Route(value = "employee-rates-list", layout = MainLayout.class)
+@PageTitle("Rates List")
+@Route(value = "rates-list", layout = MainLayout.class)
 public class RatesListView extends VerticalLayout {
     @Resource
     private final RatesService ratesService;

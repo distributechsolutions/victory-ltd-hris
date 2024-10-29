@@ -32,8 +32,8 @@ import java.util.UUID;
 @RolesAllowed({"ROLE_ADMIN",
                "ROLE_HR_MANAGER",
                "ROLE_HR_SUPERVISOR"})
-@PageTitle("Employee Rates Form")
-@Route(value = "employee-rates-form", layout = MainLayout.class)
+@PageTitle("Rates Form")
+@Route(value = "rates-form", layout = MainLayout.class)
 public class RatesFormView extends VerticalLayout implements HasUrlParameter<String> {
     @Resource
     private final RatesService ratesService;
