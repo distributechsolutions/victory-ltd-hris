@@ -50,7 +50,7 @@ public class DepartmentListView extends VerticalLayout {
         searchFilterTextField.addValueChangeListener(valueChangeEvent -> this.updateDepartmentDTOGrid());
 
         Button addDepartmentButton = new Button("Add Department");
-        addDepartmentButton.addThemeVariants(ButtonVariant.LUMO_PRIMARY, ButtonVariant.LUMO_CONTRAST);
+        addDepartmentButton.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
         addDepartmentButton.addClickListener(buttonClickEvent -> addDepartmentButton.getUI().ifPresent(ui -> ui.navigate(DepartmentFormView.class)));
 
         headerToolbarLayout.add(searchFilterTextField, addDepartmentButton);

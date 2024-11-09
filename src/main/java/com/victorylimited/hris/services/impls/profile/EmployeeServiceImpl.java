@@ -122,6 +122,26 @@ public class EmployeeServiceImpl implements EmployeeService {
         return employeeDTOList;
     }
 
+    @Override
+    public List<EmployeeDTO> getEmployeesWhoAreApprovers() {
+        logger.info("Retrieving employees who are approvers from the database.");
+        List<Employee> employeeList = employeeRepository.findEmployeesWhoAreApprovers();
+
+        logger.info("Employees who are approvers were successfully retrieved.");
+        List<EmployeeDTO> employeeDTOList = new ArrayList<>();
+
+        if (!employeeList.isEmpty()) {
+            for (Employee employee : employeeList) {
+                EmployeeDTO employeeDTO = getEmployeeDTO(employee);
+                employeeDTOList.add(employeeDTO);
+            }
+
+            logger.info(String.valueOf(employeeList.size()).concat(" record(s) found."));
+        }
+
+        return employeeDTOList;
+    }
+
     /**
      * Returns the employee data transfer object where values comes from the employee object.
      * @param employee - The employee object that contains values from the database.

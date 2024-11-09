@@ -50,7 +50,7 @@ public class PositionListView extends VerticalLayout {
         searchFilterTextField.addValueChangeListener(valueChangeEvent -> this.updatePositionDTOGrid());
 
         Button addPositionButton = new Button("Add Position");
-        addPositionButton.addThemeVariants(ButtonVariant.LUMO_PRIMARY, ButtonVariant.LUMO_CONTRAST);
+        addPositionButton.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
         addPositionButton.addClickListener(buttonClickEvent -> addPositionButton.getUI().ifPresent(ui -> ui.navigate(PositionFormView.class)));
 
         headerToolbarLayout.add(searchFilterTextField, addPositionButton);

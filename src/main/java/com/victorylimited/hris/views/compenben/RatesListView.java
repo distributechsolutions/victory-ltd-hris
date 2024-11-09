@@ -54,7 +54,7 @@ public class RatesListView extends VerticalLayout {
         searchFilterTextField.addValueChangeListener(valueChangeEvent -> this.updateRatesDTOGrid());
 
         Button addButton = new Button("Add Employee Rates");
-        addButton.addThemeVariants(ButtonVariant.LUMO_PRIMARY, ButtonVariant.LUMO_CONTRAST);
+        addButton.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
         addButton.addClickListener(buttonClickEvent -> addButton.getUI().ifPresent(ui -> ui.navigate(RatesFormView.class)));
 
         headerToolbarLayout.add(searchFilterTextField, addButton);
@@ -137,12 +137,7 @@ public class RatesListView extends VerticalLayout {
             }
         }));
 
-        Button deleteButton = new Button();
-        deleteButton.setTooltipText("Delete Employee Rates");
-        deleteButton.setIcon(LineAwesomeIcon.TRASH_ALT_SOLID.create());
-        deleteButton.addThemeVariants(ButtonVariant.LUMO_PRIMARY, ButtonVariant.LUMO_ERROR);
-
-        rowToolbarLayout.add(viewButton, editButton, deleteButton);
+        rowToolbarLayout.add(viewButton, editButton);
         rowToolbarLayout.setJustifyContentMode(JustifyContentMode.CENTER);
         rowToolbarLayout.getStyle().set("flex-wrap", "wrap");
 

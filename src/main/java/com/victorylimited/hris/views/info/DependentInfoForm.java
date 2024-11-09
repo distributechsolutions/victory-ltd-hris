@@ -1,9 +1,11 @@
 package com.victorylimited.hris.views.info;
 
 import com.vaadin.flow.component.Component;
+import com.vaadin.flow.component.Html;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
 import com.vaadin.flow.component.combobox.ComboBox;
+import com.vaadin.flow.component.confirmdialog.ConfirmDialog;
 import com.vaadin.flow.component.datepicker.DatePicker;
 import com.vaadin.flow.component.formlayout.FormLayout;
 import com.vaadin.flow.component.grid.Grid;
@@ -50,10 +52,7 @@ public class DependentInfoForm extends VerticalLayout {
     private TextField fullNameTextField;
     private DatePicker dateOfBirthDatePicker;
     private ComboBox<String> relationshipComboBox;
-    private Button saveButton;
-    private Button cancelButton;
-    private Button viewButton;
-    private Button editButton;
+    private Button saveButton, cancelButton, viewButton, editButton, deleteButton;
 
     public DependentInfoForm(DependentInfoService dependentInfoService,
                              UserService userService,
@@ -151,18 +150,52 @@ public class DependentInfoForm extends VerticalLayout {
         HorizontalLayout rowToolbarLayout = new HorizontalLayout();
 
         viewButton = new Button();
-        viewButton.setTooltipText("View Address");
+        viewButton.setTooltipText("View Dependent");
         viewButton.setIcon(LineAwesomeIcon.SEARCH_SOLID.create());
         viewButton.addThemeVariants(ButtonVariant.LUMO_CONTRAST);
         viewButton.addClickListener(buttonClickEvent -> this.loadDependentInfoDTO(true));
 
         editButton = new Button();
-        editButton.setTooltipText("Edit Address");
+        editButton.setTooltipText("Edit Dependent");
         editButton.setIcon(LineAwesomeIcon.PENCIL_ALT_SOLID.create());
         editButton.addThemeVariants(ButtonVariant.LUMO_SUCCESS, ButtonVariant.LUMO_PRIMARY);
         editButton.addClickListener(buttonClickEvent -> this.loadDependentInfoDTO(false));
 
-        rowToolbarLayout.add(viewButton, editButton);
+        deleteButton = new Button();
+        deleteButton.setTooltipText("Delete Dependent");
+        deleteButton.setIcon(LineAwesomeIcon.TRASH_ALT_SOLID.create());
+        deleteButton.addThemeVariants(ButtonVariant.LUMO_PRIMARY, ButtonVariant.LUMO_ERROR);
+        deleteButton.addClickListener(buttonClickEvent -> {
+            if (dependentInfoDTOGrid.getSelectionModel().getFirstSelectedItem().isPresent()) {
+                // Show the confirmation dialog.
+                ConfirmDialog confirmDialog = new ConfirmDialog();
+                confirmDialog.setHeader("Delete Depdendent Information");
+                confirmDialog.setText(new Html("<p>WARNING! This will permanently remove the record in the database. Are you sure you want to delete the selected dependent information?</p>"));
+                confirmDialog.setConfirmText("Yes, Delete it.");
+                confirmDialog.setConfirmButtonTheme("error primary");
+                confirmDialog.addConfirmListener(confirmEvent -> {
+                    // Get the selected dependent information and delete it.
+                    DependentInfoDTO selectedDependentInfoDTO = dependentInfoDTOGrid.getSelectionModel().getFirstSelectedItem().get();
+                    dependentInfoService.delete(selectedDependentInfoDTO);
+
+                    // Show notification message.
+                    Notification notification = Notification.show("You have successfully deleted the selected dependent information.",  5000, Notification.Position.TOP_CENTER);
+                    notification.addThemeVariants(NotificationVariant.LUMO_SUCCESS);
+
+                    // Close the confirmation dialog.
+                    confirmDialog.close();
+
+                    // Update the dependent grid table.
+                    dependentInfoDTOList = dependentInfoService.getByEmployeeDTO(employeeDTO);
+                    dependentInfoDTOGrid.setItems(dependentInfoDTOList);
+                });
+                confirmDialog.setCancelable(true);
+                confirmDialog.setCancelText("No");
+                confirmDialog.open();
+            }
+        });
+
+        rowToolbarLayout.add(viewButton, editButton, deleteButton);
         rowToolbarLayout.setJustifyContentMode(JustifyContentMode.CENTER);
         rowToolbarLayout.getStyle().set("flex-wrap", "wrap");
 

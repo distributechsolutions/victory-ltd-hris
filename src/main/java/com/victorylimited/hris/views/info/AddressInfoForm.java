@@ -1,9 +1,11 @@
 package com.victorylimited.hris.views.info;
 
 import com.vaadin.flow.component.Component;
+import com.vaadin.flow.component.Html;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
 import com.vaadin.flow.component.combobox.ComboBox;
+import com.vaadin.flow.component.confirmdialog.ConfirmDialog;
 import com.vaadin.flow.component.formlayout.FormLayout;
 import com.vaadin.flow.component.grid.Grid;
 import com.vaadin.flow.component.grid.GridVariant;
@@ -66,10 +68,8 @@ public class AddressInfoForm extends VerticalLayout {
     private ComboBox<MunicipalityDTO> municipalityDTOComboBox;
     private ComboBox<BarangayDTO> barangayDTOComboBox;
     private IntegerField postalCodeIntegerField;
-    private Button saveButton;
-    private Button cancelButton;
-    private Button viewButton;
-    private Button editButton;
+    private Button saveButton, cancelButton, viewButton, editButton, deleteButton;
+
 
     public AddressInfoForm(AddressInfoService addressInfoService,
                            UserService userService,
@@ -241,7 +241,41 @@ public class AddressInfoForm extends VerticalLayout {
         editButton.addThemeVariants(ButtonVariant.LUMO_SUCCESS, ButtonVariant.LUMO_PRIMARY);
         editButton.addClickListener(buttonClickEvent -> this.loadAddressInfoDTO(false));
 
-        rowToolbarLayout.add(viewButton, editButton);
+        deleteButton = new Button();
+        deleteButton.setTooltipText("Delete Address");
+        deleteButton.setIcon(LineAwesomeIcon.TRASH_ALT_SOLID.create());
+        deleteButton.addThemeVariants(ButtonVariant.LUMO_PRIMARY, ButtonVariant.LUMO_ERROR);
+        deleteButton.addClickListener(buttonClickEvent -> {
+            if (addressInfoDTOGrid.getSelectionModel().getFirstSelectedItem().isPresent()) {
+                // Show the confirmation dialog.
+                ConfirmDialog confirmDialog = new ConfirmDialog();
+                confirmDialog.setHeader("Delete Address Information");
+                confirmDialog.setText(new Html("<p>WARNING! This will permanently remove the record in the database. Are you sure you want to delete the selected address information?</p>"));
+                confirmDialog.setConfirmText("Yes, Delete it.");
+                confirmDialog.setConfirmButtonTheme("error primary");
+                confirmDialog.addConfirmListener(confirmEvent -> {
+                    // Get the selected address information and delete it.
+                    AddressInfoDTO selectedAddressInfoDTO = addressInfoDTOGrid.getSelectionModel().getFirstSelectedItem().get();
+                    addressInfoService.delete(selectedAddressInfoDTO);
+
+                    // Show notification message.
+                    Notification notification = Notification.show("You have successfully deleted the selected address information.",  5000, Notification.Position.TOP_CENTER);
+                    notification.addThemeVariants(NotificationVariant.LUMO_SUCCESS);
+
+                    // Close the confirmation dialog.
+                    confirmDialog.close();
+
+                    // Update the address grid table.
+                    addressInfoDTOList = addressInfoService.getByEmployeeDTO(employeeDTO);
+                    addressInfoDTOGrid.setItems(addressInfoDTOList);
+                });
+                confirmDialog.setCancelable(true);
+                confirmDialog.setCancelText("No");
+                confirmDialog.open();
+            }
+        });
+
+        rowToolbarLayout.add(viewButton, editButton, deleteButton);
         rowToolbarLayout.setJustifyContentMode(JustifyContentMode.CENTER);
         rowToolbarLayout.getStyle().set("flex-wrap", "wrap");
 

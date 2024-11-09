@@ -30,6 +30,6 @@ public interface LeaveBenefitsRepository extends JpaRepository<LeaveBenefits, UU
     @Query("SELECT lb FROM LeaveBenefits lb WHERE lb.leaveActive = :param")
     List<LeaveBenefits> findByBooleanParameter(@Param("param") boolean param);
 
-    @Query("SELECT lb FROM LeaveBenefits lb WHERE lb.employee = :param")
+    @Query("SELECT lb FROM LeaveBenefits lb WHERE lb.employee = :param AND lb.leaveActive = true")
     List<LeaveBenefits> findByEmployee(@Param("param") Employee employee);
 }
