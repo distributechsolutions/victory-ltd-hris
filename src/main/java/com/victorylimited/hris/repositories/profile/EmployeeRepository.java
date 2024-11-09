@@ -1,6 +1,7 @@
 package com.victorylimited.hris.repositories.profile;
 
 import com.victorylimited.hris.entities.profile.Employee;
+
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -19,4 +20,12 @@ public interface EmployeeRepository extends JpaRepository<Employee, UUID> {
            LOWER(e.gender) LIKE LOWER(CONCAT('%', :param, '%'))
            """)
     List<Employee> findEmployeesByParameter(@Param("param") String param);
+
+    @Query(value = """
+            SELECT ve.* FROM vlh_employee ve
+            RIGHT JOIN vlh_user_account vua
+            ON ve.id = vua.employee_id
+            WHERE vua.role IN ('ROLE_HR_MANAGER', 'ROLE_MANAGER', 'ROLE_HR_SUPERVISOR', 'ROLE_SUPERVISOR')
+            """, nativeQuery = true)
+    List<Employee> findEmployeesWhoAreApprovers();
 }

@@ -53,7 +53,7 @@ public class UserListView extends VerticalLayout {
         searchFilterTextField.addValueChangeListener(valueChangeEvent -> this.updateUserDTOGrid());
 
         Button addUserButton = new Button("Add User");
-        addUserButton.addThemeVariants(ButtonVariant.LUMO_PRIMARY, ButtonVariant.LUMO_CONTRAST);
+        addUserButton.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
         addUserButton.addClickListener(buttonClickEvent -> addUserButton.getUI().ifPresent(ui -> ui.navigate(UserFormView.class)));
 
         headerToolbarLayout.add(searchFilterTextField, addUserButton);
