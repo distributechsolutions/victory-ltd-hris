@@ -55,7 +55,7 @@ public class EmployeeDepartmentListView extends VerticalLayout {
         searchFilterTextField.addValueChangeListener(valueChangeEvent -> this.updateEmployeeDepartmentDTOGrid());
 
         Button addButton = new Button("Add Employee Department");
-        addButton.addThemeVariants(ButtonVariant.LUMO_PRIMARY, ButtonVariant.LUMO_CONTRAST);
+        addButton.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
         addButton.addClickListener(buttonClickEvent -> addButton.getUI().ifPresent(ui -> ui.navigate(EmployeeDepartmentFormView.class)));
 
         headerToolbarLayout.add(searchFilterTextField, addButton);

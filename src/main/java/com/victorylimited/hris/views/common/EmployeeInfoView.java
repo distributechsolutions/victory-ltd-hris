@@ -1,4 +1,4 @@
-package com.victorylimited.hris.views.info;
+package com.victorylimited.hris.views.common;
 
 import com.vaadin.flow.component.html.Div;
 import com.vaadin.flow.component.tabs.*;
@@ -15,6 +15,10 @@ import com.victorylimited.hris.services.reference.MunicipalityService;
 import com.victorylimited.hris.services.reference.ProvinceService;
 import com.victorylimited.hris.services.reference.RegionService;
 import com.victorylimited.hris.views.MainLayout;
+
+import com.victorylimited.hris.views.info.AddressInfoForm;
+import com.victorylimited.hris.views.info.DependentInfoForm;
+import com.victorylimited.hris.views.info.PersonalInfoForm;
 
 import jakarta.annotation.Resource;
 import jakarta.annotation.security.PermitAll;

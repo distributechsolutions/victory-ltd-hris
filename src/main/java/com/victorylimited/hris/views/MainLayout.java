@@ -20,9 +20,10 @@ import com.victorylimited.hris.views.admin.DepartmentListView;
 import com.victorylimited.hris.views.admin.PositionListView;
 import com.victorylimited.hris.views.admin.UserListView;
 import com.victorylimited.hris.views.common.DashboardView;
+import com.victorylimited.hris.views.common.LeaveFilingView;
 import com.victorylimited.hris.views.compenben.LeaveBenefitsListView;
 import com.victorylimited.hris.views.compenben.RatesListView;
-import com.victorylimited.hris.views.info.EmployeeInfoView;
+import com.victorylimited.hris.views.common.EmployeeInfoView;
 import com.victorylimited.hris.views.profile.EmployeeDepartmentListView;
 import com.victorylimited.hris.views.profile.EmployeeListView;
 import com.victorylimited.hris.views.profile.EmployeePositionListView;
@@ -91,6 +92,7 @@ public class MainLayout extends AppLayout {
 
         nav.addItem(new SideNavItem("Dashboard", DashboardView.class, LineAwesomeIcon.CHART_BAR_SOLID.create()));
         nav.addItem(new SideNavItem("My Profile", EmployeeInfoView.class, LineAwesomeIcon.USER_TIE_SOLID.create()));
+        nav.addItem(new SideNavItem("My Leaves", LeaveFilingView.class, LineAwesomeIcon.DOOR_OPEN_SOLID.create()));
 
         return nav;
     }
