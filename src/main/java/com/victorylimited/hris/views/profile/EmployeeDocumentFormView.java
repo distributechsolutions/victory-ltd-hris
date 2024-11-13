@@ -215,6 +215,8 @@ public class EmployeeDocumentFormView extends Div implements HasUrlParameter<Str
                                                  GridVariant.LUMO_COLUMN_BORDERS,
                                                  GridVariant.LUMO_WRAP_CELL_CONTENT);
         employeeDocumentDTOGrid.setSelectionMode(Grid.SelectionMode.SINGLE);
+        employeeDocumentDTOGrid.setAllRowsVisible(true);
+        employeeDocumentDTOGrid.setEmptyStateText("No documents found.");
     }
 
     private Component buildRowToolbar(SvgIcon svgIcon) {

@@ -13,8 +13,13 @@ public interface LeaveFilingRepository extends JpaRepository<LeaveFiling, UUID> 
     @Query("SELECT lf FROM LeaveFiling lf WHERE lf.leaveBenefits.employee = :param ORDER BY lf.leaveDateAndTimeFrom DESC")
     List<LeaveFiling> findByEmployee(@Param("param") Employee employee);
 
-    @Query("SELECT lf FROm LeaveFiling lf WHERE lf.assignedApproverEmployee = :param ORDER BY lf.leaveDateAndTimeFrom DESC")
-    List<LeaveFiling> findByAssignedApproverEmployee(@Param("param") Employee employee);
+    @Query("""
+           SELECT lf FROM LeaveFiling lf 
+           WHERE lf.leaveStatus = :leaveStatusParam
+           AND lf.assignedApproverEmployee = :employeeParam 
+           ORDER BY lf.leaveDateAndTimeFrom ASC
+           """)
+    List<LeaveFiling> findByStatusAndAssignedApproverEmployee(@Param("leaveStatusParam") String leaveStatus, @Param("employeeParam") Employee employee);
 
     @Query("""
            SELECT lf FROM LeaveFiling lf

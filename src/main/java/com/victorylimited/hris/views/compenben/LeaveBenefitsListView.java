@@ -105,8 +105,8 @@ public class LeaveBenefitsListView extends VerticalLayout {
                                               GridVariant.LUMO_WRAP_CELL_CONTENT);
         leaveBenefitsDTOGrid.setSelectionMode(Grid.SelectionMode.SINGLE);
         leaveBenefitsDTOGrid.setMultiSort(true, Grid.MultiSortPriority.APPEND);
-        leaveBenefitsDTOGrid.setSizeFull();
         leaveBenefitsDTOGrid.setAllRowsVisible(true);
+        leaveBenefitsDTOGrid.setEmptyStateText("No benefit records found.");
         leaveBenefitsDTOGrid.setItems((query -> leaveBenefitsService.getAll(query.getPage(), query.getPageSize()).stream()));
 
         return leaveBenefitsDTOGrid;

@@ -143,6 +143,8 @@ public class DependentInfoForm extends VerticalLayout {
                                               GridVariant.LUMO_WRAP_CELL_CONTENT);
         dependentInfoDTOGrid.setSelectionMode(Grid.SelectionMode.SINGLE);
         dependentInfoDTOGrid.setMultiSort(true, Grid.MultiSortPriority.APPEND);
+        dependentInfoDTOGrid.setEmptyStateText("No dependent information found.");
+        dependentInfoDTOGrid.setAllRowsVisible(true);
         dependentInfoDTOGrid.setItems(dependentInfoDTOList);
     }
 
