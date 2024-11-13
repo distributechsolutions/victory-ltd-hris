@@ -370,6 +370,8 @@ public class EmployeeDetailsView extends Div implements HasUrlParameter<String> 
                                                      GridVariant.LUMO_COLUMN_BORDERS,
                                                      GridVariant.LUMO_WRAP_CELL_CONTENT);
             employeeDocumentDTOGrid.setSelectionMode(Grid.SelectionMode.SINGLE);
+            employeeDocumentDTOGrid.setAllRowsVisible(true);
+            employeeDocumentDTOGrid.setEmptyStateText("No documents found.");
             employeeDocumentDTOGrid.setItems(employeeDocumentDTOList);
 
             employeeDocumentDiv.add(employeeDocumentDTOGrid);

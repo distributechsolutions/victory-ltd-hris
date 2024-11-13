@@ -92,7 +92,7 @@ public class MainLayout extends AppLayout {
 
         nav.addItem(new SideNavItem("Dashboard", DashboardView.class, LineAwesomeIcon.CHART_BAR_SOLID.create()));
         nav.addItem(new SideNavItem("My Profile", EmployeeInfoView.class, LineAwesomeIcon.USER_TIE_SOLID.create()));
-        nav.addItem(new SideNavItem("My Leaves", LeaveFilingView.class, LineAwesomeIcon.DOOR_OPEN_SOLID.create()));
+        nav.addItem(new SideNavItem("My Leave Filings", LeaveFilingView.class, LineAwesomeIcon.DOOR_OPEN_SOLID.create()));
 
         return nav;
     }

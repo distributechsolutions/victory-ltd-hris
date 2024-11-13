@@ -67,12 +67,12 @@ public class PositionListView extends VerticalLayout {
         positionDTOGrid.addColumn(PositionDTO::getName).setHeader("Name").setSortable(true);
         positionDTOGrid.addComponentColumn(userDTO -> buildRowToolbar()).setHeader("Action");
         positionDTOGrid.addThemeVariants(GridVariant.LUMO_ROW_STRIPES,
-                GridVariant.LUMO_COLUMN_BORDERS,
-                GridVariant.LUMO_WRAP_CELL_CONTENT);
+                                         GridVariant.LUMO_COLUMN_BORDERS,
+                                         GridVariant.LUMO_WRAP_CELL_CONTENT);
         positionDTOGrid.setSelectionMode(Grid.SelectionMode.SINGLE);
         positionDTOGrid.setMultiSort(true, Grid.MultiSortPriority.APPEND);
-        positionDTOGrid.setSizeFull();
         positionDTOGrid.setAllRowsVisible(true);
+        positionDTOGrid.setEmptyStateText("No position records found.");
         positionDTOGrid.setItems((query -> positionService.getAll(query.getPage(), query.getPageSize()).stream()));
 
         return positionDTOGrid;

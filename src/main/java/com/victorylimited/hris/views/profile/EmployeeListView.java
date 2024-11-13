@@ -89,8 +89,8 @@ public class EmployeeListView extends VerticalLayout {
                                          GridVariant.LUMO_WRAP_CELL_CONTENT);
         employeeDTOGrid.setSelectionMode(Grid.SelectionMode.SINGLE);
         employeeDTOGrid.setMultiSort(true, Grid.MultiSortPriority.APPEND);
-        employeeDTOGrid.setSizeFull();
         employeeDTOGrid.setAllRowsVisible(true);
+        employeeDTOGrid.setEmptyStateText("No employee records found.");
         employeeDTOGrid.setItems((query -> employeeService.getAll(query.getPage(), query.getPageSize()).stream()));
 
         return employeeDTOGrid;

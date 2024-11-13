@@ -92,12 +92,12 @@ public class EmployeePositionListView extends VerticalLayout {
         })).setHeader("Is Current Position?").setSortable(true);
         employeePositionDTOGrid.addComponentColumn(userDTO -> buildRowToolbar()).setHeader("Action");
         employeePositionDTOGrid.addThemeVariants(GridVariant.LUMO_ROW_STRIPES,
-                GridVariant.LUMO_COLUMN_BORDERS,
-                GridVariant.LUMO_WRAP_CELL_CONTENT);
+                                                 GridVariant.LUMO_COLUMN_BORDERS,
+                                                 GridVariant.LUMO_WRAP_CELL_CONTENT);
         employeePositionDTOGrid.setSelectionMode(Grid.SelectionMode.SINGLE);
         employeePositionDTOGrid.setMultiSort(true, Grid.MultiSortPriority.APPEND);
-        employeePositionDTOGrid.setSizeFull();
         employeePositionDTOGrid.setAllRowsVisible(true);
+        employeePositionDTOGrid.setEmptyStateText("No employee positions found.");
         employeePositionDTOGrid.setItems((query -> employeePositionService.getAll(query.getPage(), query.getPageSize()).stream()));
 
         return employeePositionDTOGrid;

@@ -12,5 +12,5 @@ public interface LeaveFilingService extends BaseService<LeaveFilingDTO> {
     List<LeaveFilingDTO> getByEmployeeDTO(EmployeeDTO employeeDTO);
 
     @Transactional
-    List<LeaveFilingDTO> getByAssignedApproverEmployeeDTO(EmployeeDTO assignedApproverEmployeeDTO);
+    List<LeaveFilingDTO> getByLeaveStatusAndAssignedApproverEmployeeDTO(String leaveStatus, EmployeeDTO assignedApproverEmployeeDTO);
 }

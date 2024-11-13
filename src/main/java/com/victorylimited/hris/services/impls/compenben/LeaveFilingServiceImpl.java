@@ -219,11 +219,11 @@ public class LeaveFilingServiceImpl implements LeaveFilingService {
     }
 
     @Override
-    public List<LeaveFilingDTO> getByAssignedApproverEmployeeDTO(EmployeeDTO assignedApproverEmployeeDTO) {
+    public List<LeaveFilingDTO> getByLeaveStatusAndAssignedApproverEmployeeDTO(String leaveStatus, EmployeeDTO assignedApproverEmployeeDTO) {
         logger.info("Retrieving assigned leave filings approvals with UUID ".concat(assignedApproverEmployeeDTO.getId().toString()).concat(" from the database."));
 
         List<LeaveFilingDTO> leaveFilingDTOList = new ArrayList<>();
-        List<LeaveFiling> leaveFilingList = leaveFilingRepository.findByAssignedApproverEmployee(employeeRepository.getReferenceById(assignedApproverEmployeeDTO.getId()));
+        List<LeaveFiling> leaveFilingList = leaveFilingRepository.findByStatusAndAssignedApproverEmployee(leaveStatus, employeeRepository.getReferenceById(assignedApproverEmployeeDTO.getId()));
 
         if (!leaveFilingList.isEmpty()) {
             logger.info("Assigned leave filings for approval with UUID ".concat(assignedApproverEmployeeDTO.getId().toString()).concat(" has successfully retrieved."));
