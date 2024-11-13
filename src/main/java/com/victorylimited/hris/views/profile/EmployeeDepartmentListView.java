@@ -97,8 +97,8 @@ public class EmployeeDepartmentListView extends VerticalLayout {
                 GridVariant.LUMO_WRAP_CELL_CONTENT);
         employeeDepartmentDTOGrid.setSelectionMode(Grid.SelectionMode.SINGLE);
         employeeDepartmentDTOGrid.setMultiSort(true, Grid.MultiSortPriority.APPEND);
-        employeeDepartmentDTOGrid.setSizeFull();
         employeeDepartmentDTOGrid.setAllRowsVisible(true);
+        employeeDepartmentDTOGrid.setEmptyStateText("No employee departments found.");
         employeeDepartmentDTOGrid.setItems((query -> employeeDepartmentService.getAll(query.getPage(), query.getPageSize()).stream()));
 
         return employeeDepartmentDTOGrid;

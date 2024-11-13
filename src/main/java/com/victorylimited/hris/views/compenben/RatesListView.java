@@ -105,8 +105,8 @@ public class RatesListView extends VerticalLayout {
                                       GridVariant.LUMO_WRAP_CELL_CONTENT);
         ratesDTOGrid.setSelectionMode(Grid.SelectionMode.SINGLE);
         ratesDTOGrid.setMultiSort(true, Grid.MultiSortPriority.APPEND);
-        ratesDTOGrid.setSizeFull();
         ratesDTOGrid.setAllRowsVisible(true);
+        ratesDTOGrid.setEmptyStateText("No rate records found.");
         ratesDTOGrid.setItems((query -> ratesService.getAll(query.getPage(), query.getPageSize()).stream()));
 
         return ratesDTOGrid;

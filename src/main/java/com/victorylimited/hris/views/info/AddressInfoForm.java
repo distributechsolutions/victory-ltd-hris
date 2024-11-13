@@ -223,6 +223,8 @@ public class AddressInfoForm extends VerticalLayout {
                                             GridVariant.LUMO_WRAP_CELL_CONTENT);
         addressInfoDTOGrid.setSelectionMode(Grid.SelectionMode.SINGLE);
         addressInfoDTOGrid.setMultiSort(true, Grid.MultiSortPriority.APPEND);
+        addressInfoDTOGrid.setEmptyStateText("No address information found.");
+        addressInfoDTOGrid.setAllRowsVisible(true);
         addressInfoDTOGrid.setItems(addressInfoDTOList);
     }
 

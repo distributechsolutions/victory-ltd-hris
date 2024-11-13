@@ -110,8 +110,8 @@ public class UserListView extends VerticalLayout {
                                      GridVariant.LUMO_WRAP_CELL_CONTENT);
         userDTOGrid.setSelectionMode(Grid.SelectionMode.SINGLE);
         userDTOGrid.setMultiSort(true, Grid.MultiSortPriority.APPEND);
-        userDTOGrid.setSizeFull();
         userDTOGrid.setAllRowsVisible(true);
+        userDTOGrid.setEmptyStateText("No user records found.");
         userDTOGrid.setItems((query -> userService.getAll(query.getPage(), query.getPageSize()).stream()));
 
         return userDTOGrid;

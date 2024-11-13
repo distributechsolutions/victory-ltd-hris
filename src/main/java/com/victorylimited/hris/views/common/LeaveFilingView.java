@@ -241,6 +241,11 @@ public class LeaveFilingView extends VerticalLayout {
                                                     GridVariant.LUMO_WRAP_CELL_CONTENT);
         employeeLeaveFilingDTOGrid.setSelectionMode(Grid.SelectionMode.SINGLE);
         employeeLeaveFilingDTOGrid.setMultiSort(true, Grid.MultiSortPriority.APPEND);
+        employeeLeaveFilingDTOGrid.setAllRowsVisible(true);
+        employeeLeaveFilingDTOGrid.setEmptyStateText("No leave filing found.");
+        employeeLeaveFilingDTOGrid.addThemeVariants(GridVariant.LUMO_ROW_STRIPES,
+                                                    GridVariant.LUMO_COLUMN_BORDERS,
+                                                    GridVariant.LUMO_WRAP_CELL_CONTENT);
         employeeLeaveFilingDTOGrid.setItems(leaveFilingDTOList);
     }
 
@@ -281,8 +286,8 @@ public class LeaveFilingView extends VerticalLayout {
                     confirmDialog.setCancelText("No");
                     confirmDialog.open();
                 } else {
-                    Notification notification = Notification.show("You cannot cancel a leave request that is already cancelled.",  5000, Notification.Position.TOP_CENTER);
-                    notification.addThemeVariants(NotificationVariant.LUMO_PRIMARY);
+                    Notification notification = Notification.show("You cannot cancel a leave request that is already approved, rejected or cancelled.",  5000, Notification.Position.TOP_CENTER);
+                    notification.addThemeVariants(NotificationVariant.LUMO_ERROR, NotificationVariant.LUMO_PRIMARY);
                 }
             }
         }));
@@ -303,8 +308,8 @@ public class LeaveFilingView extends VerticalLayout {
                     leaveCountField.setValue(leaveFilingDTO.getLeaveCount());
                     leaveRemarks.setValue(leaveFilingDTO.getRemarks());
                 } else {
-                    Notification notification = Notification.show("You cannot edit a leave request that is already cancelled.",  5000, Notification.Position.TOP_CENTER);
-                    notification.addThemeVariants(NotificationVariant.LUMO_PRIMARY);
+                    Notification notification = Notification.show("You cannot edit a leave request that is already approved, rejected or cancelled.",  5000, Notification.Position.TOP_CENTER);
+                    notification.addThemeVariants(NotificationVariant.LUMO_ERROR, NotificationVariant.LUMO_PRIMARY);
                 }
             }
         }));

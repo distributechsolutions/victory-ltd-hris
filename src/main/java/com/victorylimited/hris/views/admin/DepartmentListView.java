@@ -67,12 +67,12 @@ public class DepartmentListView extends VerticalLayout {
         departmentDTOGrid.addColumn(DepartmentDTO::getName).setHeader("Name").setSortable(true);
         departmentDTOGrid.addComponentColumn(userDTO -> buildRowToolbar()).setHeader("Action");
         departmentDTOGrid.addThemeVariants(GridVariant.LUMO_ROW_STRIPES,
-                GridVariant.LUMO_COLUMN_BORDERS,
-                GridVariant.LUMO_WRAP_CELL_CONTENT);
+                                           GridVariant.LUMO_COLUMN_BORDERS,
+                                           GridVariant.LUMO_WRAP_CELL_CONTENT);
         departmentDTOGrid.setSelectionMode(Grid.SelectionMode.SINGLE);
         departmentDTOGrid.setMultiSort(true, Grid.MultiSortPriority.APPEND);
-        departmentDTOGrid.setSizeFull();
         departmentDTOGrid.setAllRowsVisible(true);
+        departmentDTOGrid.setEmptyStateText("No department records found.");
         departmentDTOGrid.setItems((query -> departmentService.getAll(query.getPage(), query.getPageSize()).stream()));
 
         return departmentDTOGrid;
