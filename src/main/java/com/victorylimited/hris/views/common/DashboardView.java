@@ -10,8 +10,7 @@ import com.vaadin.flow.component.dialog.Dialog;
 import com.vaadin.flow.component.formlayout.FormLayout;
 import com.vaadin.flow.component.grid.Grid;
 import com.vaadin.flow.component.grid.GridVariant;
-import com.vaadin.flow.component.html.Div;
-import com.vaadin.flow.component.html.H3;
+import com.vaadin.flow.component.html.*;
 import com.vaadin.flow.component.icon.SvgIcon;
 import com.vaadin.flow.component.notification.Notification;
 import com.vaadin.flow.component.notification.NotificationVariant;
@@ -107,9 +106,16 @@ public class DashboardView extends VerticalLayout {
         Div profileMessageNotification = null;
         Div addressMessageNotification = null;
         Div dependentMessageNotification = null;
+        Div notificationSectionDiv = null;
         Div approvalSectionDiv = null;
 
+        H3 headerNotification = new H3("Notifications");
+        headerNotification.getStyle().set("padding-bottom", "10px");
+
         if (userDTO != null) {
+            notificationSectionDiv = new Div();
+            notificationSectionDiv.add(headerNotification);
+
             personalInfoDTO = personalInfoService.getByEmployeeDTO(userDTO.getEmployeeDTO());
             addressInfoDTOList = addressInfoService.getByEmployeeDTO(userDTO.getEmployeeDTO());
             dependentInfoDTOList = dependentInfoService.getByEmployeeDTO(userDTO.getEmployeeDTO());
@@ -120,7 +126,7 @@ public class DashboardView extends VerticalLayout {
                                                                MessageLevel.INFO,
                                                                LineAwesomeIcon.INFO_CIRCLE_SOLID.create());
 
-                this.add(profileMessageNotification);
+                notificationSectionDiv.add(profileMessageNotification);
             }
 
             // Shows the notification message if the user hasn't yet add its address information.
@@ -128,7 +134,7 @@ public class DashboardView extends VerticalLayout {
                 addressMessageNotification = buildNotification("Please add your address information in 'My Profile' menu.",
                                                                MessageLevel.INFO,
                                                                LineAwesomeIcon.INFO_CIRCLE_SOLID.create());
-                this.add(addressMessageNotification);
+                notificationSectionDiv.add(addressMessageNotification);
             }
 
             // Shows the notification message if the user hasn't yet add its dependent information.
@@ -136,8 +142,15 @@ public class DashboardView extends VerticalLayout {
                 dependentMessageNotification = buildNotification("Please add your dependent information in 'My Profile' menu.",
                                                                  MessageLevel.INFO,
                                                                  LineAwesomeIcon.INFO_CIRCLE_SOLID.create());
-                this.add(dependentMessageNotification);
+                notificationSectionDiv.add(dependentMessageNotification);
             }
+
+            if (personalInfoDTO != null && !addressInfoDTOList.isEmpty() && !dependentInfoDTOList.isEmpty()) {
+                Span messageSpan = new Span("No notifications found. You are all caught up.");
+                notificationSectionDiv.add(messageSpan);
+            }
+
+            this.add(notificationSectionDiv, this.buildLeaveBenefitsSection());
         }
 
         // Shows the list of leave approvals only for users whose roles are supervisor or manager.
@@ -274,7 +287,7 @@ public class DashboardView extends VerticalLayout {
         return approvalSection;
     }
 
-    public Component buildRowToolbar() {
+    private Component buildRowToolbar() {
         HorizontalLayout rowToolbarLayout = new HorizontalLayout();
 
         Button approveButton = new Button();
@@ -287,19 +300,12 @@ public class DashboardView extends VerticalLayout {
                     LeaveFilingDTO employeeLeaveFilingDTO = pendingLeaveFilingGrid.getSelectionModel().getFirstSelectedItem().get();
                     LeaveBenefitsDTO leaveBenefitsDTO = employeeLeaveFilingDTO.getLeaveBenefitsDTO();
 
-                    // Check first if the remaining leave count balance is greater than the applied leave.
-                    if (leaveBenefitsDTO.getLeaveCount() > employeeLeaveFilingDTO.getLeaveCount()) {
+                    if (leaveBenefitsDTO.getLeaveType().contains("Unpaid")) {
                         // Set the status of leave filing to "APPROVED" and save.
                         employeeLeaveFilingDTO.setLeaveStatus("APPROVED");
                         employeeLeaveFilingDTO.setUpdatedBy(loggedInUser);
 
                         leaveFilingService.saveOrUpdate(employeeLeaveFilingDTO);
-
-                        // Deduct the leave count of the selected leave benefit.
-                        leaveBenefitsDTO.setLeaveCount(leaveBenefitsDTO.getLeaveCount() - employeeLeaveFilingDTO.getLeaveCount());
-                        leaveBenefitsDTO.setUpdatedBy(loggedInUser);
-
-                        leaveBenefitsService.saveOrUpdate(leaveBenefitsDTO);
 
                         // Update the data grid.
                         pendingLeaveFilingGrid.setItems(leaveFilingService.getByLeaveStatusAndAssignedApproverEmployeeDTO("PENDING", userDTO.getEmployeeDTO()));
@@ -308,8 +314,30 @@ public class DashboardView extends VerticalLayout {
                         Notification notification = Notification.show("You have successfully approved the leave request.",  5000, Notification.Position.TOP_CENTER);
                         notification.addThemeVariants(NotificationVariant.LUMO_SUCCESS);
                     } else {
-                        Notification notification = Notification.show("You cannot approve the leave request.\n The requested leave days is greater than the remaining leave days.",  5000, Notification.Position.TOP_CENTER);
-                        notification.addThemeVariants(NotificationVariant.LUMO_ERROR);
+                        // Check first if the remaining leave count balance is greater than the applied leave.
+                        if (leaveBenefitsDTO.getLeaveCount() > employeeLeaveFilingDTO.getLeaveCount()) {
+                            // Set the status of leave filing to "APPROVED" and save.
+                            employeeLeaveFilingDTO.setLeaveStatus("APPROVED");
+                            employeeLeaveFilingDTO.setUpdatedBy(loggedInUser);
+
+                            leaveFilingService.saveOrUpdate(employeeLeaveFilingDTO);
+
+                            // Deduct the leave count of the selected leave benefit.
+                            leaveBenefitsDTO.setLeaveCount(leaveBenefitsDTO.getLeaveCount() - employeeLeaveFilingDTO.getLeaveCount());
+                            leaveBenefitsDTO.setUpdatedBy(loggedInUser);
+
+                            leaveBenefitsService.saveOrUpdate(leaveBenefitsDTO);
+
+                            // Update the data grid.
+                            pendingLeaveFilingGrid.setItems(leaveFilingService.getByLeaveStatusAndAssignedApproverEmployeeDTO("PENDING", userDTO.getEmployeeDTO()));
+
+                            // Show notification message.
+                            Notification notification = Notification.show("You have successfully approved the leave request.",  5000, Notification.Position.TOP_CENTER);
+                            notification.addThemeVariants(NotificationVariant.LUMO_SUCCESS);
+                        } else {
+                            Notification notification = Notification.show("You cannot approve the leave request.\n The requested leave days is greater than the remaining leave days.",  5000, Notification.Position.TOP_CENTER);
+                            notification.addThemeVariants(NotificationVariant.LUMO_ERROR);
+                        }
                     }
                 }
             }
@@ -357,5 +385,44 @@ public class DashboardView extends VerticalLayout {
         rowToolbarLayout.getStyle().set("flex-wrap", "wrap");
 
         return rowToolbarLayout;
+    }
+
+    private Div buildLeaveBenefitsSection() {
+        Div leaveBenefitsSection = new Div();
+        HorizontalLayout leaveBenefitsLayout = new HorizontalLayout();
+        List<LeaveBenefitsDTO> leaveBenefitsDTOList = leaveBenefitsService.getByEmployeeDTO(userDTO.getEmployeeDTO());
+        List<LeaveBenefitsDTO> filteredLeaveBenefitsDTOList = leaveBenefitsDTOList.stream().filter(leaveBenefitsDTO -> leaveBenefitsDTO.getLeaveForYear() == LocalDateTime.now(ZoneId.of("Asia/Manila")).getYear() && !leaveBenefitsDTO.getLeaveType().contains("Unpaid")).toList();
+
+        leaveBenefitsSection.add(new H3("Leave Benefits"));
+
+        if (!leaveBenefitsDTOList.isEmpty()) {
+            for (LeaveBenefitsDTO leaveBenefitsDTO : filteredLeaveBenefitsDTOList) {
+                H1 leaveCountHeader = new H1(String.valueOf(leaveBenefitsDTO.getLeaveCount()));
+                Span leaveTypeSpan = new Span(leaveBenefitsDTO.getLeaveType());
+
+                Div leaveDiv = new Div(leaveCountHeader, leaveTypeSpan);
+                leaveDiv.getStyle().set("text-align", "center");
+
+                // Change the colors of leave count headers.
+                if (leaveBenefitsDTO.getLeaveCount() == 3 && leaveBenefitsDTO.getLeaveCount() == 2) {
+                    leaveCountHeader.getStyle().set("color", "#ffc107");
+                } else if (leaveBenefitsDTO.getLeaveCount() == 1) {
+                    leaveCountHeader.getStyle().set("color", "#dc3545");
+                } else if (leaveBenefitsDTO.getLeaveCount() > 3) {
+                    leaveCountHeader.getStyle().set("color", "#198754");
+                } else {
+                    leaveCountHeader.getStyle().set("color", "#adb5bd");
+                }
+
+                leaveBenefitsLayout.add(leaveDiv);
+            }
+
+            leaveBenefitsSection.add(leaveBenefitsLayout);
+        } else {
+            Span messageSpan = new Span("No leave benefits currently assigned  to you.");
+            leaveBenefitsSection.add(messageSpan);
+        }
+
+        return leaveBenefitsSection;
     }
 }
