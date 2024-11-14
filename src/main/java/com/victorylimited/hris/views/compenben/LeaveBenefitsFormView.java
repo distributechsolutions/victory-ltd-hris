@@ -81,11 +81,14 @@ public class LeaveBenefitsFormView extends VerticalLayout implements HasUrlParam
         leaveTypeComboBox = new ComboBox<>("Leave Type");
         leaveTypeComboBox.setItems("(VL) Vacation Leave",
                                    "(SL) Sick Leave",
+                                   "(EL) Emergency Leave",
                                    "(ML) Maternity Leave",
                                    "(PL) Paternity Leave",
                                    "(PLSP) Parental Leave for Solo Parent",
                                    "(VAWC) Victims of Violence Against Women and Their Children Leave",
-                                   "(BL) Bereavement Leave");
+                                   "(BL) Bereavement Leave",
+                                   "(SIL) Service Incentive Leave",
+                                   "(UL) Unpaid Leave");
         leaveTypeComboBox.setClearButtonVisible(true);
         leaveTypeComboBox.setRequired(true);
         leaveTypeComboBox.setRequiredIndicatorVisible(true);
@@ -100,11 +103,12 @@ public class LeaveBenefitsFormView extends VerticalLayout implements HasUrlParam
         if (leaveBenefitsDTO != null) leaveForYearIntegerField.setValue(leaveBenefitsDTO.getLeaveForYear());
 
         leaveCountIntegerField = new IntegerField("Leave Count");
-        leaveCountIntegerField.setMin(1);
+        leaveCountIntegerField.setMin(0);
         leaveCountIntegerField.setMax(20);
         leaveCountIntegerField.setClearButtonVisible(true);
         leaveCountIntegerField.setRequired(true);
         leaveCountIntegerField.setRequiredIndicatorVisible(true);
+        leaveCountIntegerField.setHelperText("If it is Unpaid Leave, set its value to 0");
         if (leaveBenefitsDTO != null) leaveCountIntegerField.setValue(leaveBenefitsDTO.getLeaveCount());
 
         leaveActiveCheckbox = new Checkbox("Is Leave Active?");
