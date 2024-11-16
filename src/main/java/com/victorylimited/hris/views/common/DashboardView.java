@@ -125,7 +125,6 @@ public class DashboardView extends VerticalLayout {
                 profileMessageNotification = buildNotification("Please add your personal information in 'My Profile' menu.",
                                                                MessageLevel.INFO,
                                                                LineAwesomeIcon.INFO_CIRCLE_SOLID.create());
-
                 notificationSectionDiv.add(profileMessageNotification);
             }
 
@@ -237,7 +236,8 @@ public class DashboardView extends VerticalLayout {
         Div notificationDiv = new Div();
         notificationDiv.getStyle().set("padding", "20px")
                                   .set("border-radius", "5px")
-                                  .set("color", "#fdfefe");
+                                  .set("color", "#fdfefe")
+                                  .set("margin-bottom", "5px");
 
         // Change the background color based on the message level.
         switch (messageLevel) {

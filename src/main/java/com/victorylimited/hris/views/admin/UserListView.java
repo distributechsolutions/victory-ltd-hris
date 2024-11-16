@@ -142,12 +142,7 @@ public class UserListView extends VerticalLayout {
             }
         }));
 
-        Button deleteUserButton = new Button();
-        deleteUserButton.setTooltipText("Delete User");
-        deleteUserButton.setIcon(LineAwesomeIcon.TRASH_ALT_SOLID.create());
-        deleteUserButton.addThemeVariants(ButtonVariant.LUMO_PRIMARY, ButtonVariant.LUMO_ERROR);
-
-        rowToolbarLayout.add(viewUserButton, editUserButton, deleteUserButton);
+        rowToolbarLayout.add(viewUserButton, editUserButton);
         rowToolbarLayout.setJustifyContentMode(JustifyContentMode.CENTER);
         rowToolbarLayout.getStyle().set("flex-wrap", "wrap");
 

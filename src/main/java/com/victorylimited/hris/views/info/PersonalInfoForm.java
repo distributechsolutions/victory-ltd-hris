@@ -157,6 +157,7 @@ public class PersonalInfoForm extends FormLayout {
         taxIdentificationNumberTextField.setMinLength(9);
         taxIdentificationNumberTextField.setMaxLength(9);
         taxIdentificationNumberTextField.setAllowedCharPattern("[0-9]");
+        taxIdentificationNumberTextField.setHelperText("Input the 9-digit TIN. Last digits 000 is not included.");
         if (personalInfoDTO != null) {
             taxIdentificationNumberTextField.setValue(personalInfoDTO.getTaxIdentificationNumber());
             taxIdentificationNumberTextField.setReadOnly(true);
@@ -168,6 +169,7 @@ public class PersonalInfoForm extends FormLayout {
         sssNumberTextField.setMinLength(10);
         sssNumberTextField.setMaxLength(10);
         sssNumberTextField.setAllowedCharPattern("[0-9]");
+        sssNumberTextField.setHelperText("Input the 10-digit SSS number");
         if (personalInfoDTO != null) {
             sssNumberTextField.setValue(personalInfoDTO.getSssNumber());
             sssNumberTextField.setReadOnly(true);
@@ -179,6 +181,7 @@ public class PersonalInfoForm extends FormLayout {
         hdmfNumberTextField.setMinLength(12);
         hdmfNumberTextField.setMaxLength(12);
         hdmfNumberTextField.setAllowedCharPattern("[0-9]");
+        hdmfNumberTextField.setHelperText("Input the 12-digit PagIbig number.");
         if (personalInfoDTO != null) {
             hdmfNumberTextField.setValue(personalInfoDTO.getHdmfNumber());
             hdmfNumberTextField.setReadOnly(true);
@@ -190,6 +193,7 @@ public class PersonalInfoForm extends FormLayout {
         philhealthNumberTextField.setMinLength(12);
         philhealthNumberTextField.setMaxLength(12);
         philhealthNumberTextField.setAllowedCharPattern("[0-9]");
+        philhealthNumberTextField.setHelperText("Enter the 12-digit Philhealth number.");
         if (personalInfoDTO != null) {
             philhealthNumberTextField.setValue(personalInfoDTO.getPhilhealthNumber());
             philhealthNumberTextField.setReadOnly(true);
