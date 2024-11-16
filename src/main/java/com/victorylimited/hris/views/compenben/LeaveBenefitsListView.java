@@ -137,12 +137,7 @@ public class LeaveBenefitsListView extends VerticalLayout {
             }
         }));
 
-        Button deleteButton = new Button();
-        deleteButton.setTooltipText("Delete Employee Rates");
-        deleteButton.setIcon(LineAwesomeIcon.TRASH_ALT_SOLID.create());
-        deleteButton.addThemeVariants(ButtonVariant.LUMO_PRIMARY, ButtonVariant.LUMO_ERROR);
-
-        rowToolbarLayout.add(viewButton, editButton, deleteButton);
+        rowToolbarLayout.add(viewButton, editButton);
         rowToolbarLayout.setJustifyContentMode(JustifyContentMode.CENTER);
         rowToolbarLayout.getStyle().set("flex-wrap", "wrap");
 
