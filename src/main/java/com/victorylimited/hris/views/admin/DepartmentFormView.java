@@ -3,6 +3,8 @@ package com.victorylimited.hris.views.admin;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
 import com.vaadin.flow.component.formlayout.FormLayout;
+import com.vaadin.flow.component.notification.Notification;
+import com.vaadin.flow.component.notification.NotificationVariant;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.textfield.TextField;
@@ -100,5 +102,9 @@ public class DepartmentFormView extends VerticalLayout implements HasUrlParamete
         departmentDTO.setUpdatedBy(loggedInUser);
 
         departmentService.saveOrUpdate(departmentDTO);
+
+        // Show notification message.
+        Notification notification = Notification.show("You have successfully saved a department reference.",  5000, Notification.Position.TOP_CENTER);
+        notification.addThemeVariants(NotificationVariant.LUMO_SUCCESS);
     }
 }

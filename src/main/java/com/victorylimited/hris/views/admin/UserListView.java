@@ -1,11 +1,15 @@
 package com.victorylimited.hris.views.admin;
 
 import com.vaadin.flow.component.Component;
+import com.vaadin.flow.component.Html;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
+import com.vaadin.flow.component.confirmdialog.ConfirmDialog;
 import com.vaadin.flow.component.grid.Grid;
 import com.vaadin.flow.component.grid.GridVariant;
 import com.vaadin.flow.component.html.Span;
+import com.vaadin.flow.component.notification.Notification;
+import com.vaadin.flow.component.notification.NotificationVariant;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.textfield.TextField;
@@ -75,16 +79,6 @@ public class UserListView extends VerticalLayout {
         userDTOGrid.addColumn(UserDTO::getEmailAddress).setHeader("Email Address").setSortable(true);
         userDTOGrid.addColumn(UserDTO::getRole).setHeader("Role").setSortable(true);
         userDTOGrid.addColumn(new ComponentRenderer<>(HorizontalLayout::new, (layout, userDTO) -> {
-            String theme = String.format("badge %s", userDTO.isAccountLocked() ? "success" : "error");
-
-            Span activeSpan = new Span();
-            activeSpan.getElement().setAttribute("theme", theme);
-            activeSpan.setText(userDTO.isAccountLocked() ? "Yes" : "No");
-
-            layout.setJustifyContentMode(JustifyContentMode.CENTER);
-            layout.add(activeSpan);
-        })).setHeader("Is Locked?").setSortable(true);
-        userDTOGrid.addColumn(new ComponentRenderer<>(HorizontalLayout::new, (layout, userDTO) -> {
             String theme = String.format("badge %s", userDTO.isAccountActive() ? "success" : "error");
 
             Span activeSpan = new Span();
@@ -142,7 +136,37 @@ public class UserListView extends VerticalLayout {
             }
         }));
 
-        rowToolbarLayout.add(viewUserButton, editUserButton);
+        Button deleteUserButton = new Button();
+        deleteUserButton.setTooltipText("Delete User");
+        deleteUserButton.setIcon(LineAwesomeIcon.TRASH_SOLID.create());
+        deleteUserButton.addThemeVariants(ButtonVariant.LUMO_PRIMARY, ButtonVariant.LUMO_ERROR);
+        deleteUserButton.addClickListener(buttonClickEvent -> deleteUserButton.getUI().ifPresent(ui -> {
+            if (userDTOGrid.getSelectionModel().getFirstSelectedItem().isPresent()) {
+                // Show the confirmation dialog.
+                ConfirmDialog confirmDialog = new ConfirmDialog();
+                confirmDialog.setHeader("Delete User Account");
+                confirmDialog.setText(new Html("<p>WARNING! This will permanently remove the record in the database. Are you sure you want to delete the selected user account?</p>"));
+                confirmDialog.setConfirmText("Yes, Delete it.");
+                confirmDialog.setConfirmButtonTheme("error primary");
+                confirmDialog.addConfirmListener(confirmEvent -> {
+                    // Delete the selected user account.
+                    UserDTO selectedUserDTO = userDTOGrid.getSelectionModel().getFirstSelectedItem().get();
+                    userService.delete(selectedUserDTO);
+
+                    // Show success notification.
+                    Notification notification = Notification.show("You have successfully deleted the selected user account.",  5000, Notification.Position.TOP_CENTER);
+                    notification.addThemeVariants(NotificationVariant.LUMO_SUCCESS);
+
+                    // Update the user data grid.
+                    this.updateUserDTOGrid();
+                });
+                confirmDialog.setCancelable(true);
+                confirmDialog.setCancelText("No");
+                confirmDialog.open();
+            }
+        }));
+
+        rowToolbarLayout.add(viewUserButton, editUserButton, deleteUserButton);
         rowToolbarLayout.setJustifyContentMode(JustifyContentMode.CENTER);
         rowToolbarLayout.getStyle().set("flex-wrap", "wrap");
 

@@ -5,6 +5,8 @@ import com.vaadin.flow.component.button.ButtonVariant;
 import com.vaadin.flow.component.checkbox.Checkbox;
 import com.vaadin.flow.component.combobox.ComboBox;
 import com.vaadin.flow.component.formlayout.FormLayout;
+import com.vaadin.flow.component.notification.Notification;
+import com.vaadin.flow.component.notification.NotificationVariant;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.textfield.EmailField;
@@ -45,7 +47,7 @@ public class UserFormView extends VerticalLayout implements HasUrlParameter<Stri
     private EmailField emailField;
     private ComboBox<String> roleComboBox;
     private ComboBox<EmployeeDTO> employeeDTOComboBox;
-    private Checkbox accountLockedCheckbox, accountActiveCheckbox, passwordChangedCheckbox;
+    private Checkbox accountActiveCheckbox, passwordChangedCheckbox;
 
     public UserFormView(UserService userService,
                         EmployeeService employeeService,
@@ -112,14 +114,11 @@ public class UserFormView extends VerticalLayout implements HasUrlParameter<Stri
         accountActiveCheckbox = new Checkbox("Is Account Active?");
         if (userDTO != null) accountActiveCheckbox.setValue(userDTO.isAccountActive());
 
-        accountLockedCheckbox = new Checkbox("Is Account Locked?");
-        if (userDTO != null) accountLockedCheckbox.setValue(userDTO.isAccountLocked());
-
         passwordChangedCheckbox = new Checkbox("Is Password Changed?");
         if (userDTO != null) passwordChangedCheckbox.setValue(userDTO.isPasswordChanged());
 
         HorizontalLayout checkBoxLayout = new HorizontalLayout();
-        checkBoxLayout.add(accountActiveCheckbox, accountLockedCheckbox, passwordChangedCheckbox);
+        checkBoxLayout.add(accountActiveCheckbox, passwordChangedCheckbox);
         checkBoxLayout.setJustifyContentMode(JustifyContentMode.EVENLY);
         checkBoxLayout.setMaxWidth("720px");
         checkBoxLayout.setPadding(true);
@@ -169,7 +168,6 @@ public class UserFormView extends VerticalLayout implements HasUrlParameter<Stri
         userDTO.setRole(roleComboBox.getValue());
         userDTO.setEmailAddress(emailField.getValue());
         userDTO.setAccountActive(accountActiveCheckbox.getValue());
-        userDTO.setAccountLocked(accountLockedCheckbox.getValue());
         userDTO.setPasswordChanged(passwordChangedCheckbox.getValue());
         userDTO.setUpdatedBy(loggedInUser);
 
@@ -182,5 +180,9 @@ public class UserFormView extends VerticalLayout implements HasUrlParameter<Stri
                                                     userDTO.getUsername(),
                                                     generatedPassword);
         }
+
+        // Show notification message.
+        Notification notification = Notification.show("You have successfully saved the user account.",  5000, Notification.Position.TOP_CENTER);
+        notification.addThemeVariants(NotificationVariant.LUMO_SUCCESS);
     }
 }

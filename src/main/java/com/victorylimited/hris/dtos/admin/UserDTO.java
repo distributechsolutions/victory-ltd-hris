@@ -53,14 +53,6 @@ public class UserDTO extends BaseDTO {
         this.emailAddress = emailAddress;
     }
 
-    public boolean isAccountLocked() {
-        return accountLocked;
-    }
-
-    public void setAccountLocked(boolean accountLocked) {
-        this.accountLocked = accountLocked;
-    }
-
     public boolean isAccountActive() {
         return accountActive;
     }
