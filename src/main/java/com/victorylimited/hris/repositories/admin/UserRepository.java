@@ -27,8 +27,7 @@ public interface UserRepository extends JpaRepository<User, UUID> {
 
     @Query("""
            SELECT u FROM User u
-           WHERE u.accountLocked = :param
-           OR u.accountActive = :param
+           WHERE u.accountActive = :param
            OR u.passwordChanged = :param
            """)
     List<User> findByBooleanParameter(@Param("param") boolean param);

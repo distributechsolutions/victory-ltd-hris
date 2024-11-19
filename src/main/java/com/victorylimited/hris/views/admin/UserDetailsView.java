@@ -78,12 +78,6 @@ public class UserDetailsView extends VerticalLayout implements HasUrlParameter<S
         Span accountActiveValueSpan = new Span(userDTO.isAccountActive() ? "Yes" : "No");
         accountActiveValueSpan.getStyle().setFontWeight("bold");
 
-        Span accountLockedLabelSpan = new Span("Is Locked?");
-        accountLockedLabelSpan.getStyle().set("text-align", "right");
-
-        Span accountLockedValueSpan = new Span(userDTO.isAccountLocked() ? "Yes" : "No");
-        accountLockedValueSpan.getStyle().setFontWeight("bold");
-
         Span passwordChangeLabelSpan = new Span("Is Password Changed?");
         passwordChangeLabelSpan.getStyle().set("text-align", "right");
 
@@ -100,8 +94,6 @@ public class UserDetailsView extends VerticalLayout implements HasUrlParameter<S
                               emailValueSpan,
                               accountActiveLabelSpan,
                               accountActiveValueSpan,
-                              accountLockedLabelSpan,
-                              accountLockedValueSpan,
                               passwordChangeLabelSpan,
                               passwordChangedValueSpan);
         userDetailsLayout.setWidth("720px");
