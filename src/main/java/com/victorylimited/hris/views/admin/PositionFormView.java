@@ -3,6 +3,8 @@ package com.victorylimited.hris.views.admin;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
 import com.vaadin.flow.component.formlayout.FormLayout;
+import com.vaadin.flow.component.notification.Notification;
+import com.vaadin.flow.component.notification.NotificationVariant;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.textfield.TextField;
@@ -100,5 +102,9 @@ public class PositionFormView extends VerticalLayout implements HasUrlParameter<
         positionDTO.setUpdatedBy(loggedInUser);
 
         positionService.saveOrUpdate(positionDTO);
+
+        // Show notification message.
+        Notification notification = Notification.show("You have successfully saved a position reference.",  5000, Notification.Position.TOP_CENTER);
+        notification.addThemeVariants(NotificationVariant.LUMO_SUCCESS);
     }
 }

@@ -22,7 +22,7 @@ public class Employee extends BaseEntity {
     @Column(name = "first_name", length = 35, nullable = false)
     private String firstName;
 
-    @Column(name = "middle_name", length = 35, nullable = false)
+    @Column(name = "middle_name", length = 35)
     private String middleName;
 
     @Column(name = "suffix", length = 5)

@@ -5,6 +5,8 @@ import com.vaadin.flow.component.button.ButtonVariant;
 import com.vaadin.flow.component.combobox.ComboBox;
 import com.vaadin.flow.component.datepicker.DatePicker;
 import com.vaadin.flow.component.formlayout.FormLayout;
+import com.vaadin.flow.component.notification.Notification;
+import com.vaadin.flow.component.notification.NotificationVariant;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.textfield.TextField;
@@ -94,7 +96,6 @@ public class EmployeeFormView extends VerticalLayout implements HasUrlParameter<
         if (employeeDTO != null) firstNameTextField.setValue(employeeDTO.getFirstName());
 
         middleNameTextField = new TextField("Middle Name");
-        middleNameTextField.setRequired(true);
         middleNameTextField.setMinLength(2);
         middleNameTextField.setMaxLength(50);
         middleNameTextField.setAllowedCharPattern("[a-zA-Z ]*");
@@ -127,6 +128,7 @@ public class EmployeeFormView extends VerticalLayout implements HasUrlParameter<
         atmAccountNoTextField.setMinLength(10);
         atmAccountNoTextField.setMaxLength(15);
         atmAccountNoTextField.setClearButtonVisible(true);
+        atmAccountNoTextField.setHelperText("Set 000000000000000 if the employee doesn't have an ATM account number.");
         if (employeeDTO != null) atmAccountNoTextField.setValue(employeeDTO.getAtmAccountNumber());
 
         Button saveButton = new Button("Save");
@@ -147,15 +149,15 @@ public class EmployeeFormView extends VerticalLayout implements HasUrlParameter<
         buttonLayout.setPadding(true);
 
         employeeDTOFormLayout.add(employeeNoTextField,
-                biometricNoTextField,
-                lastNameTextField,
-                suffixTextField,
-                firstNameTextField,
-                middleNameTextField,
-                genderComboBox,
-                dateHiredDatePicker,
-                atmAccountNoTextField,
-                buttonLayout);
+                                  biometricNoTextField,
+                                  lastNameTextField,
+                                  suffixTextField,
+                                  firstNameTextField,
+                                  middleNameTextField,
+                                  genderComboBox,
+                                  dateHiredDatePicker,
+                                  atmAccountNoTextField,
+                                  buttonLayout);
         employeeDTOFormLayout.setColspan(atmAccountNoTextField, 2);
         employeeDTOFormLayout.setColspan(buttonLayout, 2);
         employeeDTOFormLayout.setMaxWidth("768px");
@@ -183,5 +185,9 @@ public class EmployeeFormView extends VerticalLayout implements HasUrlParameter<
         employeeDTO.setUpdatedBy(loggedInUser);
 
         employeeService.saveOrUpdate(employeeDTO);
+
+        // Show notification message.
+        Notification notification = Notification.show("You have successfully saved the employee record.",  5000, Notification.Position.TOP_CENTER);
+        notification.addThemeVariants(NotificationVariant.LUMO_SUCCESS);
     }
 }
