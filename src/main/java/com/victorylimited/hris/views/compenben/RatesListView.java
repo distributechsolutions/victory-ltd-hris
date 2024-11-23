@@ -67,26 +67,17 @@ public class RatesListView extends VerticalLayout {
     private Grid<RatesDTO> buildRatesDTOGrid() {
         ratesDTOGrid = new Grid<>(RatesDTO.class, false);
 
-        ratesDTOGrid.addColumn(ratesDTO -> ratesDTO.getEmployeeDTO().getEmployeeNumber())
-                    .setHeader("Employee No.")
-                    .setSortable(true);
+        ratesDTOGrid.addColumn(ratesDTO -> ratesDTO.getEmployeeDTO().getEmployeeNumber()).setHeader("Employee No.");
         ratesDTOGrid.addColumn(ratesDTO -> ratesDTO.getEmployeeDTO().getFirstName()
                                                                     .concat(" ")
                                                                     .concat(ratesDTO.getEmployeeDTO().getMiddleName())
                                                                     .concat(" ")
                                                             .concat(ratesDTO.getEmployeeDTO().getLastName())
                                                             .concat(ratesDTO.getEmployeeDTO().getSuffix() != null ? ratesDTO.getEmployeeDTO().getSuffix() : ""))
-                    .setHeader("Employee Name")
-                    .setSortable(true);
-        ratesDTOGrid.addColumn(ratesDTO -> "PHP ".concat(String.valueOf(ratesDTO.getMonthlyRate())))
-                    .setHeader("Monthly Rate")
-                    .setSortable(true);
-        ratesDTOGrid.addColumn(ratesDTO -> "PHP ".concat(String.valueOf(ratesDTO.getDailyRate())))
-                    .setHeader("Daily Rate")
-                    .setSortable(true);
-        ratesDTOGrid.addColumn(ratesDTO -> "PHP ".concat(String.valueOf(ratesDTO.getHourlyRate())))
-                    .setHeader("Hourly Rate")
-                    .setSortable(true);
+                    .setHeader("Employee Name");
+        ratesDTOGrid.addColumn(ratesDTO -> "PHP ".concat(String.valueOf(ratesDTO.getMonthlyRate()))).setHeader("Monthly Rate");
+        ratesDTOGrid.addColumn(ratesDTO -> "PHP ".concat(String.valueOf(ratesDTO.getDailyRate()))).setHeader("Daily Rate");
+        ratesDTOGrid.addColumn(ratesDTO -> "PHP ".concat(String.valueOf(ratesDTO.getHourlyRate()))).setHeader("Hourly Rate");
         ratesDTOGrid.addColumn(new ComponentRenderer<>(HorizontalLayout::new, (layout, ratesDTO) -> {
                                     String theme = String.format("badge %s", ratesDTO.isCurrentRates() ? "success" : "error");
 
@@ -97,15 +88,12 @@ public class RatesListView extends VerticalLayout {
                                     layout.setJustifyContentMode(JustifyContentMode.CENTER);
                                     layout.add(activeSpan);
                                 }))
-                    .setHeader("Is Current Rates?")
-                    .setSortable(true);
+                    .setHeader("Is Current Rates?");
         ratesDTOGrid.addComponentColumn(userDTO -> buildRowToolbar()).setHeader("Action");
         ratesDTOGrid.addThemeVariants(GridVariant.LUMO_ROW_STRIPES,
                                       GridVariant.LUMO_COLUMN_BORDERS,
                                       GridVariant.LUMO_WRAP_CELL_CONTENT);
         ratesDTOGrid.setSelectionMode(Grid.SelectionMode.SINGLE);
-        ratesDTOGrid.setMultiSort(true, Grid.MultiSortPriority.APPEND);
-        ratesDTOGrid.setAllRowsVisible(true);
         ratesDTOGrid.setEmptyStateText("No rate records found.");
         ratesDTOGrid.setItems((query -> ratesService.getAll(query.getPage(), query.getPageSize()).stream()));
 

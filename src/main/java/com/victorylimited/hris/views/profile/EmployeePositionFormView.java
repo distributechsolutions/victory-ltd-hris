@@ -94,7 +94,7 @@ public class EmployeePositionFormView extends VerticalLayout implements HasUrlPa
         positionDTOComboBox.setRequiredIndicatorVisible(true);
         if (employeePositionDTO != null) positionDTOComboBox.setValue(employeePositionDTO.getPositionDTO());
 
-        currentPositionCheckbox = new Checkbox("Is Position Active?");
+        currentPositionCheckbox = new Checkbox("Is Current Position?");
         if (employeePositionDTO != null) currentPositionCheckbox.setValue(employeePositionDTO.isCurrentPosition());
 
         Button saveButton = new Button("Save");

@@ -45,6 +45,7 @@ public class EmployeeFormView extends VerticalLayout implements HasUrlParameter<
                       atmAccountNoTextField;
     private ComboBox<String> genderComboBox;
     private DatePicker dateHiredDatePicker;
+    private Button saveButton, cancelButton;
 
     public EmployeeFormView(EmployeeService employeeService) {
         this.employeeService = employeeService;
@@ -67,20 +68,25 @@ public class EmployeeFormView extends VerticalLayout implements HasUrlParameter<
     private void buildEmployeeFormLayout() {
         employeeNoTextField = new TextField("Employee Number");
         employeeNoTextField.setRequired(true);
+        employeeNoTextField.setRequiredIndicatorVisible(true);
         employeeNoTextField.setAllowedCharPattern("\\d*");
+        employeeNoTextField.setMinLength(3);
         employeeNoTextField.setMaxLength(10);
         employeeNoTextField.setClearButtonVisible(true);
         if (employeeDTO != null) employeeNoTextField.setValue(employeeDTO.getEmployeeNumber());
 
         biometricNoTextField = new TextField("Biometric Number");
         biometricNoTextField.setRequired(true);
+        biometricNoTextField.setRequiredIndicatorVisible(true);
         biometricNoTextField.setAllowedCharPattern("\\d*");
+        biometricNoTextField.setMinLength(3);
         biometricNoTextField.setMaxLength(10);
         biometricNoTextField.setClearButtonVisible(true);
         if (employeeDTO != null) biometricNoTextField.setValue(employeeDTO.getBiometricsNumber());
 
         lastNameTextField = new TextField("Last Name");
         lastNameTextField.setRequired(true);
+        lastNameTextField.setRequiredIndicatorVisible(true);
         lastNameTextField.setMinLength(2);
         lastNameTextField.setMaxLength(50);
         lastNameTextField.setAllowedCharPattern("[a-zA-Z ]*");
@@ -89,6 +95,7 @@ public class EmployeeFormView extends VerticalLayout implements HasUrlParameter<
 
         firstNameTextField = new TextField("First Name");
         firstNameTextField.setRequired(true);
+        firstNameTextField.setRequiredIndicatorVisible(true);
         firstNameTextField.setMinLength(2);
         firstNameTextField.setMaxLength(50);
         firstNameTextField.setAllowedCharPattern("[a-zA-Z ]*");
@@ -113,32 +120,32 @@ public class EmployeeFormView extends VerticalLayout implements HasUrlParameter<
 
         genderComboBox = new ComboBox<>("Gender");
         genderComboBox.setRequired(true);
+        genderComboBox.setRequiredIndicatorVisible(true);
         genderComboBox.setItems("Male", "Female");
         genderComboBox.setClearButtonVisible(true);
         if (employeeDTO != null) genderComboBox.setValue(employeeDTO.getGender());
 
         dateHiredDatePicker = new DatePicker("Date Hired");
         dateHiredDatePicker.setRequired(true);
+        dateHiredDatePicker.setRequiredIndicatorVisible(true);
         dateHiredDatePicker.setClearButtonVisible(true);
         if (employeeDTO != null) dateHiredDatePicker.setValue(employeeDTO.getDateHired());
 
         atmAccountNoTextField = new TextField("ATM Account Number");
         atmAccountNoTextField.setRequired(true);
+        atmAccountNoTextField.setRequiredIndicatorVisible(true);
         atmAccountNoTextField.setAllowedCharPattern("\\d*");
-        atmAccountNoTextField.setMinLength(10);
-        atmAccountNoTextField.setMaxLength(15);
+        atmAccountNoTextField.setMinLength(14);
+        atmAccountNoTextField.setMaxLength(19);
         atmAccountNoTextField.setClearButtonVisible(true);
         atmAccountNoTextField.setHelperText("Set 000000000000000 if the employee doesn't have an ATM account number.");
         if (employeeDTO != null) atmAccountNoTextField.setValue(employeeDTO.getAtmAccountNumber());
 
-        Button saveButton = new Button("Save");
+        saveButton = new Button("Save");
         saveButton.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
-        saveButton.addClickListener(buttonClickEvent -> {
-            saveOrUpdateEmployeeDTO();
-            saveButton.getUI().ifPresent(ui -> ui.navigate(EmployeeListView.class));
-        });
+        saveButton.addClickListener(buttonClickEvent -> saveOrUpdateEmployeeDTO());
 
-        Button cancelButton = new Button("Cancel");
+        cancelButton = new Button("Cancel");
         cancelButton.addThemeVariants(ButtonVariant.LUMO_TERTIARY);
         cancelButton.addClickListener(buttonClickEvent -> cancelButton.getUI().ifPresent(ui -> ui.navigate(EmployeeListView.class)));
 
@@ -184,10 +191,23 @@ public class EmployeeFormView extends VerticalLayout implements HasUrlParameter<
         employeeDTO.setAtmAccountNumber(atmAccountNoTextField.getValue());
         employeeDTO.setUpdatedBy(loggedInUser);
 
-        employeeService.saveOrUpdate(employeeDTO);
+        // Checks if the employee number and biometric number fields are not empty.
+        if (employeeNoTextField.getValue().equals("")
+                || biometricNoTextField.getValue().equals("")
+                || lastNameTextField.getValue().equals("")
+                || firstNameTextField.getValue().equals("")
+                || atmAccountNoTextField.getValue().equals("")) {
+            // Show notification message.
+            Notification notification = Notification.show("You cannot save the employee record. Please fill up the required fields.",  5000, Notification.Position.TOP_CENTER);
+            notification.addThemeVariants(NotificationVariant.LUMO_ERROR);
+        } else {
+            employeeService.saveOrUpdate(employeeDTO);
 
-        // Show notification message.
-        Notification notification = Notification.show("You have successfully saved the employee record.",  5000, Notification.Position.TOP_CENTER);
-        notification.addThemeVariants(NotificationVariant.LUMO_SUCCESS);
+            // Show notification message.
+            Notification notification = Notification.show("You have successfully saved the employee record.",  5000, Notification.Position.TOP_CENTER);
+            notification.addThemeVariants(NotificationVariant.LUMO_SUCCESS);
+
+            saveButton.getUI().ifPresent(ui -> ui.navigate(EmployeeListView.class));
+        }
     }
 }

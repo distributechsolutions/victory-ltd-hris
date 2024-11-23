@@ -69,18 +69,15 @@ public class EmployeeDepartmentListView extends VerticalLayout {
         employeeDepartmentDTOGrid = new Grid<>(EmployeeDepartmentDTO.class, false);
 
         employeeDepartmentDTOGrid.addColumn(employeeDepartmentDTO -> employeeDepartmentDTO.getEmployeeDTO().getEmployeeNumber())
-                .setHeader("Employee No.")
-                .setSortable(true);
+                .setHeader("Employee No.");
         employeeDepartmentDTOGrid.addColumn(employeeDepartmentDTO -> employeeDepartmentDTO.getEmployeeDTO().getFirstName().concat(" ")
                         .concat(employeeDepartmentDTO.getEmployeeDTO().getMiddleName())
                         .concat(" ")
                         .concat(employeeDepartmentDTO.getEmployeeDTO().getLastName())
                         .concat(employeeDepartmentDTO.getEmployeeDTO().getSuffix() != null ? employeeDepartmentDTO.getEmployeeDTO().getSuffix() : ""))
-                .setHeader("Employee Name")
-                .setSortable(true);
+                .setHeader("Employee Name");
         employeeDepartmentDTOGrid.addColumn(employeeDepartmentDTO -> employeeDepartmentDTO.getDepartmentDTO().getName())
-                .setHeader("Department")
-                .setSortable(true);
+                                 .setHeader("Department");
         employeeDepartmentDTOGrid.addColumn(new ComponentRenderer<>(HorizontalLayout::new, (layout, employeeDepartmentDTO) -> {
             String theme = String.format("badge %s", employeeDepartmentDTO.isCurrentDepartment() ? "success" : "error");
 
@@ -90,14 +87,12 @@ public class EmployeeDepartmentListView extends VerticalLayout {
 
             layout.setJustifyContentMode(JustifyContentMode.CENTER);
             layout.add(activeSpan);
-        })).setHeader("Is Current Department?").setSortable(true);
+        })).setHeader("Is Current Department?");
         employeeDepartmentDTOGrid.addComponentColumn(userDTO -> buildRowToolbar()).setHeader("Action");
         employeeDepartmentDTOGrid.addThemeVariants(GridVariant.LUMO_ROW_STRIPES,
-                GridVariant.LUMO_COLUMN_BORDERS,
-                GridVariant.LUMO_WRAP_CELL_CONTENT);
+                                                   GridVariant.LUMO_COLUMN_BORDERS,
+                                                   GridVariant.LUMO_WRAP_CELL_CONTENT);
         employeeDepartmentDTOGrid.setSelectionMode(Grid.SelectionMode.SINGLE);
-        employeeDepartmentDTOGrid.setMultiSort(true, Grid.MultiSortPriority.APPEND);
-        employeeDepartmentDTOGrid.setAllRowsVisible(true);
         employeeDepartmentDTOGrid.setEmptyStateText("No employee departments found.");
         employeeDepartmentDTOGrid.setItems((query -> employeeDepartmentService.getAll(query.getPage(), query.getPageSize()).stream()));
 

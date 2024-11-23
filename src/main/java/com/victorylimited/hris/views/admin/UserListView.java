@@ -70,14 +70,14 @@ public class UserListView extends VerticalLayout {
     private Grid<UserDTO> buildUserDTOGrid() {
         userDTOGrid = new Grid<>(UserDTO.class, false);
 
-        userDTOGrid.addColumn(UserDTO::getUsername).setHeader("Username").setSortable(true);
+        userDTOGrid.addColumn(UserDTO::getUsername).setHeader("Username");
         userDTOGrid.addColumn(userDTO -> userDTO.getEmployeeDTO().getLastName()
                                     .concat(userDTO.getEmployeeDTO().getSuffix() != null ? userDTO.getEmployeeDTO().getSuffix() : "")
                                     .concat(", ")
                                     .concat(userDTO.getEmployeeDTO().getFirstName()))
-                    .setHeader("Employee Name").setSortable(true);
-        userDTOGrid.addColumn(UserDTO::getEmailAddress).setHeader("Email Address").setSortable(true);
-        userDTOGrid.addColumn(UserDTO::getRole).setHeader("Role").setSortable(true);
+                    .setHeader("Employee Name");
+        userDTOGrid.addColumn(UserDTO::getEmailAddress).setHeader("Email Address");
+        userDTOGrid.addColumn(UserDTO::getRole).setHeader("Role");
         userDTOGrid.addColumn(new ComponentRenderer<>(HorizontalLayout::new, (layout, userDTO) -> {
             String theme = String.format("badge %s", userDTO.isAccountActive() ? "success" : "error");
 
@@ -87,7 +87,7 @@ public class UserListView extends VerticalLayout {
 
             layout.setJustifyContentMode(JustifyContentMode.CENTER);
             layout.add(activeSpan);
-        })).setHeader("Is Active?").setSortable(true);
+        })).setHeader("Is Active?");
         userDTOGrid.addColumn(new ComponentRenderer<>(HorizontalLayout::new, (layout, userDTO) -> {
             String theme = String.format("badge %s", userDTO.isPasswordChanged() ? "success" : "error");
 
@@ -97,14 +97,12 @@ public class UserListView extends VerticalLayout {
 
             layout.setJustifyContentMode(JustifyContentMode.CENTER);
             layout.add(activeSpan);
-        })).setHeader("Is Password Changed?").setSortable(true);
+        })).setHeader("Is Password Changed?");
         userDTOGrid.addComponentColumn(userDTO -> buildRowToolbar()).setHeader("Action");
         userDTOGrid.addThemeVariants(GridVariant.LUMO_ROW_STRIPES,
                                      GridVariant.LUMO_COLUMN_BORDERS,
                                      GridVariant.LUMO_WRAP_CELL_CONTENT);
         userDTOGrid.setSelectionMode(Grid.SelectionMode.SINGLE);
-        userDTOGrid.setMultiSort(true, Grid.MultiSortPriority.APPEND);
-        userDTOGrid.setAllRowsVisible(true);
         userDTOGrid.setEmptyStateText("No user records found.");
         userDTOGrid.setItems((query -> userService.getAll(query.getPage(), query.getPageSize()).stream()));
 

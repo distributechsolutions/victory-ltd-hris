@@ -68,28 +68,22 @@ public class EmployeeListView extends VerticalLayout {
         employeeDTOGrid = new Grid<>(EmployeeDTO.class, false);
 
         employeeDTOGrid.addColumn(EmployeeDTO::getEmployeeNumber)
-                       .setHeader("Employee No.")
-                       .setSortable(true);
+                       .setHeader("Employee No.");
         employeeDTOGrid.addColumn(EmployeeDTO::getBiometricsNumber)
-                       .setHeader("Biometric No.")
-                       .setSortable(true);
+                       .setHeader("Biometric No.");
         employeeDTOGrid.addColumn(employeeDTO -> employeeDTO.getFirstName().concat(" ")
                                                                            .concat(employeeDTO.getMiddleName())
                                                                            .concat(" ")
                                                                            .concat(employeeDTO.getLastName())
                                                                            .concat(employeeDTO.getSuffix() != null ? employeeDTO.getSuffix() : ""))
-                       .setHeader("Employee Name")
-                       .setSortable(true);
+                       .setHeader("Employee Name");
         employeeDTOGrid.addColumn(new LocalDateRenderer<>(EmployeeDTO::getDateHired, "MMM dd, yyyy"))
-                       .setHeader("Date Hired")
-                       .setSortable(true);
+                       .setHeader("Date Hired");
         employeeDTOGrid.addComponentColumn(userDTO -> buildRowToolbar()).setHeader("Action");
         employeeDTOGrid.addThemeVariants(GridVariant.LUMO_ROW_STRIPES,
                                          GridVariant.LUMO_COLUMN_BORDERS,
                                          GridVariant.LUMO_WRAP_CELL_CONTENT);
         employeeDTOGrid.setSelectionMode(Grid.SelectionMode.SINGLE);
-        employeeDTOGrid.setMultiSort(true, Grid.MultiSortPriority.APPEND);
-        employeeDTOGrid.setAllRowsVisible(true);
         employeeDTOGrid.setEmptyStateText("No employee records found.");
         employeeDTOGrid.setItems((query -> employeeService.getAll(query.getPage(), query.getPageSize()).stream()));
 

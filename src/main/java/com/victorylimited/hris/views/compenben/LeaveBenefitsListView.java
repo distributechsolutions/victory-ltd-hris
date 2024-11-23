@@ -67,26 +67,16 @@ public class LeaveBenefitsListView extends VerticalLayout {
         leaveBenefitsDTOGrid = new Grid<>(LeaveBenefitsDTO.class, false);
 
         leaveBenefitsDTOGrid.addColumn(leaveBenefitsDTO -> leaveBenefitsDTO.getEmployeeDTO().getEmployeeNumber())
-                            .setHeader("Employee No.")
-                            .setSortable(true);
+                            .setHeader("Employee No.");
         leaveBenefitsDTOGrid.addColumn(leaveBenefitsDTO -> leaveBenefitsDTO.getEmployeeDTO().getFirstName()
                                                                                             .concat(" ")
                                                                                             .concat(leaveBenefitsDTO.getEmployeeDTO().getLastName())
                                                                                             .concat(leaveBenefitsDTO.getEmployeeDTO().getSuffix() != null ? leaveBenefitsDTO.getEmployeeDTO().getSuffix() : ""))
-                            .setHeader("Employee Name")
-                            .setSortable(true);
-        leaveBenefitsDTOGrid.addColumn(LeaveBenefitsDTO::getLeaveCode)
-                            .setHeader("Leave Code")
-                            .setSortable(true);
-        leaveBenefitsDTOGrid.addColumn(LeaveBenefitsDTO::getLeaveType)
-                            .setHeader("Leave Type")
-                            .setSortable(true);
-        leaveBenefitsDTOGrid.addColumn(LeaveBenefitsDTO::getLeaveCount)
-                            .setHeader("Leave Count")
-                            .setSortable(true);
-        leaveBenefitsDTOGrid.addColumn(LeaveBenefitsDTO::getLeaveForYear)
-                            .setHeader("For Year")
-                            .setSortable(true);
+                            .setHeader("Employee Name");
+        leaveBenefitsDTOGrid.addColumn(LeaveBenefitsDTO::getLeaveCode).setHeader("Leave Code");
+        leaveBenefitsDTOGrid.addColumn(LeaveBenefitsDTO::getLeaveType).setHeader("Leave Type");
+        leaveBenefitsDTOGrid.addColumn(LeaveBenefitsDTO::getLeaveCount).setHeader("Leave Count");
+        leaveBenefitsDTOGrid.addColumn(LeaveBenefitsDTO::getLeaveForYear).setHeader("For Year");
         leaveBenefitsDTOGrid.addColumn(new ComponentRenderer<>(HorizontalLayout::new, (layout, leaveBenefitsDTO) -> {
                                             String theme = String.format("badge %s", leaveBenefitsDTO.isLeaveActive() ? "success" : "error");
 
@@ -97,15 +87,12 @@ public class LeaveBenefitsListView extends VerticalLayout {
                                             layout.setJustifyContentMode(JustifyContentMode.CENTER);
                                             layout.add(activeSpan);
                                         }))
-                            .setHeader("Is Leave Active?")
-                            .setSortable(true);
+                            .setHeader("Is Leave Active?");
         leaveBenefitsDTOGrid.addComponentColumn(userDTO -> buildRowToolbar()).setHeader("Action");
         leaveBenefitsDTOGrid.addThemeVariants(GridVariant.LUMO_ROW_STRIPES,
                                               GridVariant.LUMO_COLUMN_BORDERS,
                                               GridVariant.LUMO_WRAP_CELL_CONTENT);
         leaveBenefitsDTOGrid.setSelectionMode(Grid.SelectionMode.SINGLE);
-        leaveBenefitsDTOGrid.setMultiSort(true, Grid.MultiSortPriority.APPEND);
-        leaveBenefitsDTOGrid.setAllRowsVisible(true);
         leaveBenefitsDTOGrid.setEmptyStateText("No benefit records found.");
         leaveBenefitsDTOGrid.setItems((query -> leaveBenefitsService.getAll(query.getPage(), query.getPageSize()).stream()));
 

@@ -34,7 +34,7 @@ public class Employee extends BaseEntity {
     @Column(name = "date_hired", nullable = false)
     private LocalDate dateHired;
 
-    @Column(name = "atm_account_number", length = 15, nullable = false)
+    @Column(name = "atm_account_number", length = 19, nullable = false)
     private String atmAccountNumber;
 
     public Employee() {

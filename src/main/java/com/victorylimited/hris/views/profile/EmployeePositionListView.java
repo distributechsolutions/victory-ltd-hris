@@ -68,18 +68,15 @@ public class EmployeePositionListView extends VerticalLayout {
         employeePositionDTOGrid = new Grid<>(EmployeePositionDTO.class, false);
 
         employeePositionDTOGrid.addColumn(employeePositionDTO -> employeePositionDTO.getEmployeeDTO().getEmployeeNumber())
-                .setHeader("Employee No.")
-                .setSortable(true);
+                               .setHeader("Employee No.");
         employeePositionDTOGrid.addColumn(employeePositionDTO -> employeePositionDTO.getEmployeeDTO().getFirstName().concat(" ")
                         .concat(employeePositionDTO.getEmployeeDTO().getMiddleName())
                         .concat(" ")
                         .concat(employeePositionDTO.getEmployeeDTO().getLastName())
                         .concat(employeePositionDTO.getEmployeeDTO().getSuffix() != null ? employeePositionDTO.getEmployeeDTO().getSuffix() : ""))
-                .setHeader("Employee Name")
-                .setSortable(true);
+                .setHeader("Employee Name");
         employeePositionDTOGrid.addColumn(employeePositionDTO -> employeePositionDTO.getPositionDTO().getName())
-                .setHeader("Position")
-                .setSortable(true);
+                .setHeader("Position");
         employeePositionDTOGrid.addColumn(new ComponentRenderer<>(HorizontalLayout::new, (layout, employeePositionDTO) -> {
             String theme = String.format("badge %s", employeePositionDTO.isCurrentPosition() ? "success" : "error");
 
@@ -89,14 +86,12 @@ public class EmployeePositionListView extends VerticalLayout {
 
             layout.setJustifyContentMode(JustifyContentMode.CENTER);
             layout.add(activeSpan);
-        })).setHeader("Is Current Position?").setSortable(true);
+        })).setHeader("Is Current Position?");
         employeePositionDTOGrid.addComponentColumn(userDTO -> buildRowToolbar()).setHeader("Action");
         employeePositionDTOGrid.addThemeVariants(GridVariant.LUMO_ROW_STRIPES,
                                                  GridVariant.LUMO_COLUMN_BORDERS,
                                                  GridVariant.LUMO_WRAP_CELL_CONTENT);
         employeePositionDTOGrid.setSelectionMode(Grid.SelectionMode.SINGLE);
-        employeePositionDTOGrid.setMultiSort(true, Grid.MultiSortPriority.APPEND);
-        employeePositionDTOGrid.setAllRowsVisible(true);
         employeePositionDTOGrid.setEmptyStateText("No employee positions found.");
         employeePositionDTOGrid.setItems((query -> employeePositionService.getAll(query.getPage(), query.getPageSize()).stream()));
 
