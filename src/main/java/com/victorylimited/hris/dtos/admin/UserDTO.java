@@ -9,7 +9,6 @@ public class UserDTO extends BaseDTO {
     private String password;
     private String role;
     private String emailAddress;
-    private boolean accountLocked;
     private boolean accountActive;
     private boolean passwordChanged;
 

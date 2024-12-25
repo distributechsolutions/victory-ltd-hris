@@ -24,6 +24,7 @@ import com.victorylimited.hris.views.common.LeaveFilingView;
 import com.victorylimited.hris.views.compenben.LeaveBenefitsListView;
 import com.victorylimited.hris.views.compenben.RatesListView;
 import com.victorylimited.hris.views.common.EmployeeInfoView;
+import com.victorylimited.hris.views.attendance.TimesheetListView;
 import com.victorylimited.hris.views.profile.EmployeeDepartmentListView;
 import com.victorylimited.hris.views.profile.EmployeeListView;
 import com.victorylimited.hris.views.profile.EmployeePositionListView;
@@ -113,6 +114,20 @@ public class MainLayout extends AppLayout {
         return nav;
     }
 
+    private SideNav createAttendanceNavigation() {
+        SideNav nav = new SideNav();
+
+        if (userDTO.getRole().equals("ROLE_ADMIN") ||
+                userDTO.getRole().equals("ROLE_HR_MANAGER") ||
+                userDTO.getRole().equals("ROLE_HR_SUPERVISOR") ||
+                userDTO.getRole().equals("ROLE_HR_EMPLOYEE")) {
+            nav.setLabel("Attendance");
+            nav.addItem(new SideNavItem("Timesheets", TimesheetListView.class, LineAwesomeIcon.TABLE_SOLID.create()));
+        }
+
+        return nav;
+    }
+
     private SideNav createCompenbenNavigation() {
         SideNav nav = new SideNav();
 
@@ -152,6 +167,7 @@ public class MainLayout extends AppLayout {
 
         navigationLayout.add(this.createProfileNavigation(),
                              this.createEmployeeNavigation(),
+                             this.createAttendanceNavigation(),
                              this.createCompenbenNavigation(),
                              this.createAdminNavigation());
         navigationLayout.setSpacing(true);
@@ -159,6 +175,7 @@ public class MainLayout extends AppLayout {
 
         this.createProfileNavigation().setWidthFull();
         this.createEmployeeNavigation().setWidthFull();
+        this.createAttendanceNavigation().setWidthFull();
         this.createCompenbenNavigation().setWidthFull();
         this.createAdminNavigation().setWidthFull();
 

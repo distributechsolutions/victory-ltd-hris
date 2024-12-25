@@ -1,6 +1,7 @@
-package com.victorylimited.hris.dtos.compenben;
+package com.victorylimited.hris.dtos.attendance;
 
 import com.victorylimited.hris.dtos.BaseDTO;
+import com.victorylimited.hris.dtos.compenben.LeaveBenefitsDTO;
 import com.victorylimited.hris.dtos.profile.EmployeeDTO;
 
 import java.time.LocalDateTime;
