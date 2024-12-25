@@ -45,7 +45,7 @@ public class UserFormView extends VerticalLayout implements HasUrlParameter<Stri
     private EmailField emailField;
     private ComboBox<String> roleComboBox;
     private ComboBox<EmployeeDTO> employeeDTOComboBox;
-    private Checkbox accountLockedCheckbox, accountActiveCheckbox, passwordChangedCheckbox;
+    private Checkbox accountActiveCheckbox, passwordChangedCheckbox;
 
     public UserFormView(UserService userService,
                         EmployeeService employeeService,
@@ -112,14 +112,11 @@ public class UserFormView extends VerticalLayout implements HasUrlParameter<Stri
         accountActiveCheckbox = new Checkbox("Is Account Active?");
         if (userDTO != null) accountActiveCheckbox.setValue(userDTO.isAccountActive());
 
-        accountLockedCheckbox = new Checkbox("Is Account Locked?");
-        if (userDTO != null) accountLockedCheckbox.setValue(userDTO.isAccountLocked());
-
         passwordChangedCheckbox = new Checkbox("Is Password Changed?");
         if (userDTO != null) passwordChangedCheckbox.setValue(userDTO.isPasswordChanged());
 
         HorizontalLayout checkBoxLayout = new HorizontalLayout();
-        checkBoxLayout.add(accountActiveCheckbox, accountLockedCheckbox, passwordChangedCheckbox);
+        checkBoxLayout.add(accountActiveCheckbox, passwordChangedCheckbox);
         checkBoxLayout.setJustifyContentMode(JustifyContentMode.EVENLY);
         checkBoxLayout.setMaxWidth("720px");
         checkBoxLayout.setPadding(true);
@@ -169,7 +166,6 @@ public class UserFormView extends VerticalLayout implements HasUrlParameter<Stri
         userDTO.setRole(roleComboBox.getValue());
         userDTO.setEmailAddress(emailField.getValue());
         userDTO.setAccountActive(accountActiveCheckbox.getValue());
-        userDTO.setAccountLocked(accountLockedCheckbox.getValue());
         userDTO.setPasswordChanged(passwordChangedCheckbox.getValue());
         userDTO.setUpdatedBy(loggedInUser);
 

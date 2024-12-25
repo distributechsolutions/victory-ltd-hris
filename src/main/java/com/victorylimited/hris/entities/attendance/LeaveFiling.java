@@ -1,6 +1,7 @@
-package com.victorylimited.hris.entities.compenben;
+package com.victorylimited.hris.entities.attendance;
 
 import com.victorylimited.hris.entities.BaseEntity;
+import com.victorylimited.hris.entities.compenben.LeaveBenefits;
 import com.victorylimited.hris.entities.profile.Employee;
 import jakarta.persistence.*;
 

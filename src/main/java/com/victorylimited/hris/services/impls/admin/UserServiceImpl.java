@@ -53,7 +53,6 @@ public class UserServiceImpl implements UserService {
         user.setPassword(object.getPassword());
         user.setRole(object.getRole());
         user.setEmailAddress(object.getEmailAddress());
-        user.setAccountLocked(object.isAccountLocked());
         user.setAccountActive(object.isAccountActive());
         user.setPasswordChanged(object.isPasswordChanged());
         user.setUpdatedBy(object.getUpdatedBy());
@@ -76,7 +75,6 @@ public class UserServiceImpl implements UserService {
         userDTO.setPassword(user.getPassword());
         userDTO.setRole(user.getRole());
         userDTO.setEmailAddress(user.getEmailAddress());
-        userDTO.setAccountLocked(user.isAccountLocked());
         userDTO.setAccountActive(user.isAccountActive());
         userDTO.setPasswordChanged(user.isPasswordChanged());
         userDTO.setCreatedBy(user.getCreatedBy());
@@ -122,7 +120,6 @@ public class UserServiceImpl implements UserService {
                 userDTO.setPassword(user.getPassword());
                 userDTO.setRole(user.getRole());
                 userDTO.setEmailAddress(user.getEmailAddress());
-                userDTO.setAccountLocked(user.isAccountLocked());
                 userDTO.setAccountActive(user.isAccountActive());
                 userDTO.setPasswordChanged(user.isPasswordChanged());
                 userDTO.setCreatedBy(user.getCreatedBy());
@@ -166,7 +163,6 @@ public class UserServiceImpl implements UserService {
                 userDTO.setPassword(user.getPassword());
                 userDTO.setRole(user.getRole());
                 userDTO.setEmailAddress(user.getEmailAddress());
-                userDTO.setAccountLocked(user.isAccountLocked());
                 userDTO.setAccountActive(user.isAccountActive());
                 userDTO.setPasswordChanged(user.isPasswordChanged());
                 userDTO.setCreatedBy(user.getCreatedBy());
@@ -194,7 +190,6 @@ public class UserServiceImpl implements UserService {
         userDTO.setPassword(user.getPassword());
         userDTO.setRole(user.getRole());
         userDTO.setEmailAddress(user.getEmailAddress());
-        userDTO.setAccountLocked(user.isAccountLocked());
         userDTO.setAccountActive(user.isAccountActive());
         userDTO.setPasswordChanged(user.isPasswordChanged());
         userDTO.setCreatedBy(user.getCreatedBy());

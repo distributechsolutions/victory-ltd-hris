@@ -6,6 +6,9 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 import java.util.UUID;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -103,5 +106,21 @@ public class StringUtil {
         }
 
         return leaveCode;
+    }
+
+    /**
+     * This will check if the input String is a date or not.
+     *
+     * @param dateString - An input String date.
+     * @return True, if the input is not a date. False, if it is a date.
+     */
+    public static boolean isNotDate(String dateString) {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy/MM/dd");
+        try {
+            LocalDate.parse(dateString, formatter);
+            return false; // The string is a date
+        } catch (DateTimeParseException e) {
+            return true; // The string is not a date
+        }
     }
 }

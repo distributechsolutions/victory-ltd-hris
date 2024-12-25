@@ -1,6 +1,6 @@
-package com.victorylimited.hris.services.compenben;
+package com.victorylimited.hris.services.attendance;
 
-import com.victorylimited.hris.dtos.compenben.LeaveFilingDTO;
+import com.victorylimited.hris.dtos.attendance.LeaveFilingDTO;
 import com.victorylimited.hris.dtos.profile.EmployeeDTO;
 import com.victorylimited.hris.services.BaseService;
 import org.springframework.transaction.annotation.Transactional;

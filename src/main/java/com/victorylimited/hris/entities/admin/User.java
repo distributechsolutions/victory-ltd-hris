@@ -23,9 +23,6 @@ public class User extends BaseEntity {
     @Column(name = "email_address", length = 50, nullable = false)
     private String emailAddress;
 
-    @Column(name = "is_account_locked", nullable = false)
-    private boolean accountLocked;
-
     @Column(name = "is_account_active", nullable = false)
     private boolean accountActive;
 
@@ -70,14 +67,6 @@ public class User extends BaseEntity {
 
     public void setEmailAddress(String emailAddress) {
         this.emailAddress = emailAddress;
-    }
-
-    public boolean isAccountLocked() {
-        return accountLocked;
-    }
-
-    public void setAccountLocked(boolean accountLocked) {
-        this.accountLocked = accountLocked;
     }
 
     public boolean isAccountActive() {

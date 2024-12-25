@@ -123,6 +123,18 @@ public class EmployeeServiceImpl implements EmployeeService {
     }
 
     @Override
+    public EmployeeDTO getEmployeeByBiometricId(String biometricId) {
+        logger.info("Getting employee record with biometrics ID ".concat(biometricId).concat(" from the database."));
+        Employee employee = employeeRepository.findByBiometricsNumber(biometricId);
+
+        logger.info("Employee record with biometrics ID ".concat(biometricId.toString()).concat(" has successfully retrieved."));
+        EmployeeDTO employeeDTO = getEmployeeDTO(employee);
+
+        logger.info("Employee data transfer object has successfully returned.");
+        return employeeDTO;
+    }
+
+    @Override
     public List<EmployeeDTO> getEmployeesWhoAreApprovers() {
         logger.info("Retrieving employees who are approvers from the database.");
         List<Employee> employeeList = employeeRepository.findEmployeesWhoAreApprovers();

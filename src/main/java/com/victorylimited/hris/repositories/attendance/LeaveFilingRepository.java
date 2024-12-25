@@ -1,6 +1,6 @@
-package com.victorylimited.hris.repositories.compenben;
+package com.victorylimited.hris.repositories.attendance;
 
-import com.victorylimited.hris.entities.compenben.LeaveFiling;
+import com.victorylimited.hris.entities.attendance.LeaveFiling;
 import com.victorylimited.hris.entities.profile.Employee;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;

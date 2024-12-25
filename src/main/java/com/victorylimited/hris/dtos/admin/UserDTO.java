@@ -9,7 +9,6 @@ public class UserDTO extends BaseDTO {
     private String password;
     private String role;
     private String emailAddress;
-    private boolean accountLocked;
     private boolean accountActive;
     private boolean passwordChanged;
 
@@ -51,14 +50,6 @@ public class UserDTO extends BaseDTO {
 
     public void setEmailAddress(String emailAddress) {
         this.emailAddress = emailAddress;
-    }
-
-    public boolean isAccountLocked() {
-        return accountLocked;
-    }
-
-    public void setAccountLocked(boolean accountLocked) {
-        this.accountLocked = accountLocked;
     }
 
     public boolean isAccountActive() {

@@ -75,16 +75,6 @@ public class UserListView extends VerticalLayout {
         userDTOGrid.addColumn(UserDTO::getEmailAddress).setHeader("Email Address").setSortable(true);
         userDTOGrid.addColumn(UserDTO::getRole).setHeader("Role").setSortable(true);
         userDTOGrid.addColumn(new ComponentRenderer<>(HorizontalLayout::new, (layout, userDTO) -> {
-            String theme = String.format("badge %s", userDTO.isAccountLocked() ? "success" : "error");
-
-            Span activeSpan = new Span();
-            activeSpan.getElement().setAttribute("theme", theme);
-            activeSpan.setText(userDTO.isAccountLocked() ? "Yes" : "No");
-
-            layout.setJustifyContentMode(JustifyContentMode.CENTER);
-            layout.add(activeSpan);
-        })).setHeader("Is Locked?").setSortable(true);
-        userDTOGrid.addColumn(new ComponentRenderer<>(HorizontalLayout::new, (layout, userDTO) -> {
             String theme = String.format("badge %s", userDTO.isAccountActive() ? "success" : "error");
 
             Span activeSpan = new Span();
