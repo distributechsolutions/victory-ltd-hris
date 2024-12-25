@@ -10,6 +10,9 @@ import java.util.List;
 import java.util.UUID;
 
 public interface EmployeeRepository extends JpaRepository<Employee, UUID> {
+    @Query("SELECT e FROM Employee e WHERE e.biometricsNumber = :param")
+    Employee findByBiometricsNumber(@Param("param") String biometricsNumber);
+
     @Query("""
            SELECT e FROM Employee e WHERE
            LOWER(e.employeeNumber) LIKE LOWER(CONCAT('%', :param, '%')) OR

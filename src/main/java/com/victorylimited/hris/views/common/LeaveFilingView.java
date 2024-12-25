@@ -27,11 +27,11 @@ import com.vaadin.flow.router.Route;
 
 import com.victorylimited.hris.dtos.admin.UserDTO;
 import com.victorylimited.hris.dtos.compenben.LeaveBenefitsDTO;
-import com.victorylimited.hris.dtos.compenben.LeaveFilingDTO;
+import com.victorylimited.hris.dtos.attendance.LeaveFilingDTO;
 import com.victorylimited.hris.dtos.profile.EmployeeDTO;
 import com.victorylimited.hris.services.admin.UserService;
 import com.victorylimited.hris.services.compenben.LeaveBenefitsService;
-import com.victorylimited.hris.services.compenben.LeaveFilingService;
+import com.victorylimited.hris.services.attendance.LeaveFilingService;
 import com.victorylimited.hris.services.profile.EmployeeService;
 import com.victorylimited.hris.utils.SecurityUtil;
 import com.victorylimited.hris.views.MainLayout;

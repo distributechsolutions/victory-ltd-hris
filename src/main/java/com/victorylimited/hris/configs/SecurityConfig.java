@@ -32,8 +32,8 @@ public class SecurityConfig extends VaadinWebSecurity {
 
     @Bean
     public UserDetailsService jdbcUserDetailsService() {
-        String usersByUsernameQuery = "SELECT username, password, is_account_active FROM vlh_user_account WHERE username = ? AND is_account_active = true AND is_account_locked = false";
-        String rolesByUsernameQuery = "SELECT username, role FROM vlh_user_account WHERE username = ? AND is_account_active = true AND is_account_locked = false";
+        String usersByUsernameQuery = "SELECT username, password, is_account_active FROM vlh_user_account WHERE username = ? AND is_account_active = true";
+        String rolesByUsernameQuery = "SELECT username, role FROM vlh_user_account WHERE username = ? AND is_account_active = true";
 
         JdbcUserDetailsManager jdbcUserDetailsManager = new JdbcUserDetailsManager();
         jdbcUserDetailsManager.setDataSource(this.configureDataSource());
