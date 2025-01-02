@@ -235,7 +235,7 @@ public class LeaveFilingView extends VerticalLayout {
             layout.setJustifyContentMode(JustifyContentMode.CENTER);
             layout.add(statusSpan);
         })).setHeader("Status");
-        employeeLeaveFilingDTOGrid.addComponentColumn(addressDTO -> this.buildRowToolbar()).setHeader("Action");
+        employeeLeaveFilingDTOGrid.addComponentColumn(leaveFilingDTO -> leaveFilingDTO.getLeaveStatus().equalsIgnoreCase("PENDING") ? this.buildRowToolbar() : new Span()).setHeader("Action");
         employeeLeaveFilingDTOGrid.addThemeVariants(GridVariant.LUMO_ROW_STRIPES,
                                                     GridVariant.LUMO_COLUMN_BORDERS,
                                                     GridVariant.LUMO_WRAP_CELL_CONTENT);
