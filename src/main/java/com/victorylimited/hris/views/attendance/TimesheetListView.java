@@ -45,10 +45,10 @@ import java.util.Objects;
                "ROLE_HR_SUPERVISOR",
                "ROLE_HR_EMPLOYEE"})
 @PageTitle("Timesheet List")
-@Route(value = "timesheets", layout = MainLayout.class)
+@Route(value = "timesheets-view", layout = MainLayout.class)
 public class TimesheetListView extends VerticalLayout {
     @Resource private final TimesheetService timesheetService;
-    @Resource private EmployeeService employeeService;
+    @Resource private final EmployeeService employeeService;
 
     private Grid<TimesheetDTO> timesheetDTOGrid;
     private TextField searchFilterTextField;
@@ -139,7 +139,7 @@ public class TimesheetListView extends VerticalLayout {
         timesheetDTOGrid.setSelectionMode(Grid.SelectionMode.SINGLE);
         timesheetDTOGrid.setMultiSort(true, Grid.MultiSortPriority.APPEND);
         timesheetDTOGrid.setEmptyStateText("No rate records found.");
-        timesheetDTOGrid.setItems((query -> timesheetService.getAll(query.getPage(), query.getPageSize()).stream()));
+        timesheetDTOGrid.setItems((query -> timesheetService.getAll(query.getPage(), query.getPageSize()).stream().filter(timesheetDTO -> timesheetDTO.getStatus().equalsIgnoreCase("PENDING"))));
 
         return timesheetDTOGrid;
     }
@@ -161,7 +161,7 @@ public class TimesheetListView extends VerticalLayout {
         Button editButton = new Button();
         editButton.setTooltipText("Edit Timesheet");
         editButton.setIcon(LineAwesomeIcon.PENCIL_ALT_SOLID.create());
-        editButton.addThemeVariants(ButtonVariant.LUMO_PRIMARY, ButtonVariant.LUMO_SUCCESS);
+        editButton.addThemeVariants(ButtonVariant.LUMO_SUCCESS);
         editButton.addClickListener(buttonClickEvent -> editButton.getUI().ifPresent(ui -> {
             if (timesheetDTOGrid.getSelectionModel().getFirstSelectedItem().isPresent()) {
                 TimesheetDTO selectedTimesheetDTO = timesheetDTOGrid.getSelectionModel().getFirstSelectedItem().get();
@@ -169,11 +169,30 @@ public class TimesheetListView extends VerticalLayout {
             }
         }));
 
+        Button approveButton = new Button();
+        approveButton.setTooltipText("Approve Timesheet");
+        approveButton.setIcon(LineAwesomeIcon.THUMBS_UP.create());
+        approveButton.addThemeVariants(ButtonVariant.LUMO_PRIMARY, ButtonVariant.LUMO_SUCCESS);
+        approveButton.addClickListener(buttonClickEvent -> {
+            if (timesheetDTOGrid.getSelectionModel().getFirstSelectedItem().isPresent()) {
+                TimesheetDTO selectedTimesheetDTO = timesheetDTOGrid.getSelectionModel().getFirstSelectedItem().get();
+                selectedTimesheetDTO.setStatus("APPROVED");
+                selectedTimesheetDTO.setUpdatedBy(loggedInUser);
+
+                timesheetService.saveOrUpdate(selectedTimesheetDTO);
+
+                this.updateTimesheetDTOGrid();
+
+                Notification notification = Notification.show("Timesheet approved successfully.", 5000, Notification.Position.TOP_CENTER);
+                notification.addThemeVariants(NotificationVariant.LUMO_SUCCESS);
+            }
+        });
+
         // If the row of record does not have time in or time out, add the edit button. Else, only the view button.
         if (timesheetDTO.getLogTimeIn() == null || timesheetDTO.getLogTimeOut() == null) {
-            rowToolbarLayout.add(viewButton, editButton);
+            rowToolbarLayout.add(viewButton, editButton, approveButton);
         } else {
-            rowToolbarLayout.add(viewButton);
+            rowToolbarLayout.add(viewButton, approveButton);
         }
 
         rowToolbarLayout.setJustifyContentMode(JustifyContentMode.CENTER);
@@ -184,9 +203,9 @@ public class TimesheetListView extends VerticalLayout {
 
     private void updateTimesheetDTOGrid() {
         if (!searchFilterTextField.getValue().isEmpty()) {
-            timesheetDTOGrid.setItems(timesheetService.findByParameter(searchFilterTextField.getValue()));
+            timesheetDTOGrid.setItems(timesheetService.findByParameter(searchFilterTextField.getValue()).stream().filter(timesheetDTO -> timesheetDTO.getStatus().equalsIgnoreCase("PENDING")).toList());
         } else {
-            timesheetDTOGrid.setItems(query -> timesheetService.getAll(query.getPage(), query.getPageSize()).stream());
+            timesheetDTOGrid.setItems(query -> timesheetService.getAll(query.getPage(), query.getPageSize()).stream().filter(timesheetDTO -> timesheetDTO.getStatus().equalsIgnoreCase("PENDING")));
         }
     }
 
