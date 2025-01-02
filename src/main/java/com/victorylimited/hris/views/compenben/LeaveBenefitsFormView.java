@@ -153,7 +153,7 @@ public class LeaveBenefitsFormView extends VerticalLayout implements HasUrlParam
         }
 
         leaveBenefitsDTO.setEmployeeDTO(employeeDTOComboBox.getValue());
-        leaveBenefitsDTO.setLeaveCode(StringUtil.generateLeaveCode(leaveTypeComboBox.getValue(),
+        leaveBenefitsDTO.setLeaveCode(StringUtil.generateDataCode(leaveTypeComboBox.getValue(),
                                                                    employeeDTOComboBox.getValue().getEmployeeNumber(),
                                                                    leaveForYearIntegerField.getValue().toString()));
         leaveBenefitsDTO.setLeaveType(leaveTypeComboBox.getValue());

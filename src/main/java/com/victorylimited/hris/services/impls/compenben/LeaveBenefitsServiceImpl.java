@@ -46,7 +46,7 @@ public class LeaveBenefitsServiceImpl implements LeaveBenefitsService {
             leaveBenefits = new LeaveBenefits();
             leaveBenefits.setCreatedBy(object.getCreatedBy());
             leaveBenefits.setDateAndTimeCreated(LocalDateTime.now(ZoneId.of("Asia/Manila")));
-            logMessage = "Employee's rates record is successfully created.";
+            logMessage = "Employee's leave benefit record is successfully created.";
         }
 
         leaveBenefits.setLeaveCode(object.getLeaveCode());

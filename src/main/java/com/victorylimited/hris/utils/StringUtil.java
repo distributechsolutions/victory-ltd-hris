@@ -88,8 +88,8 @@ public class StringUtil {
      * @param inputs - A sequence of input strings.
      * @return A concatenated input strings which is the leave code.
      */
-    public static String generateLeaveCode(String... inputs) {
-        String leaveCode = "";
+    public static String generateDataCode(String... inputs) {
+        String dataCode = "";
 
         for (String input : inputs) {
             Pattern pattern = Pattern.compile("\\(([^)]+)\\)");
@@ -102,10 +102,10 @@ public class StringUtil {
                 output = input;
             }
 
-            leaveCode = leaveCode.concat(output);
+            dataCode = dataCode.concat(output);
         }
 
-        return leaveCode;
+        return dataCode;
     }
 
     /**
