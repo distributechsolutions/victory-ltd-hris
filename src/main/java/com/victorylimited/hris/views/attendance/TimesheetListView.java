@@ -45,10 +45,10 @@ import java.util.Objects;
                "ROLE_HR_SUPERVISOR",
                "ROLE_HR_EMPLOYEE"})
 @PageTitle("Timesheet List")
-@Route(value = "timesheets", layout = MainLayout.class)
+@Route(value = "timesheets-view", layout = MainLayout.class)
 public class TimesheetListView extends VerticalLayout {
     @Resource private final TimesheetService timesheetService;
-    @Resource private EmployeeService employeeService;
+    @Resource private final EmployeeService employeeService;
 
     private Grid<TimesheetDTO> timesheetDTOGrid;
     private TextField searchFilterTextField;

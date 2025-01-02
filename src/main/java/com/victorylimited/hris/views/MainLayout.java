@@ -15,10 +15,12 @@ import com.vaadin.flow.theme.lumo.LumoUtility;
 
 import com.victorylimited.hris.dtos.admin.UserDTO;
 import com.victorylimited.hris.services.admin.UserService;
+import com.victorylimited.hris.services.attendance.LeaveFilingService;
 import com.victorylimited.hris.utils.SecurityUtil;
 import com.victorylimited.hris.views.admin.DepartmentListView;
 import com.victorylimited.hris.views.admin.PositionListView;
 import com.victorylimited.hris.views.admin.UserListView;
+import com.victorylimited.hris.views.attendance.LeaveApprovalsListView;
 import com.victorylimited.hris.views.common.DashboardView;
 import com.victorylimited.hris.views.common.LeaveFilingView;
 import com.victorylimited.hris.views.compenben.LeaveBenefitsListView;
@@ -29,16 +31,22 @@ import com.victorylimited.hris.views.profile.EmployeeDepartmentListView;
 import com.victorylimited.hris.views.profile.EmployeeListView;
 import com.victorylimited.hris.views.profile.EmployeePositionListView;
 
+import jakarta.annotation.Resource;
+
 import org.vaadin.lineawesome.LineAwesomeIcon;
 
 /**
  * The main view is a top-level placeholder for other views.
  */
 public class MainLayout extends AppLayout {
+    @Resource private final LeaveFilingService leaveFilingService;
+
     private UserDTO userDTO;
     private H1 viewTitle;
 
-    public MainLayout(UserService userService) {
+    public MainLayout(UserService userService,
+                      LeaveFilingService leaveFilingService) {
+        this.leaveFilingService = leaveFilingService;
 
         // Gets the user data transfer object based from the logged in user.
         if (SecurityUtil.getAuthenticatedUser() != null) {
@@ -91,7 +99,7 @@ public class MainLayout extends AppLayout {
     private SideNav createProfileNavigation() {
         SideNav nav = new SideNav();
 
-        nav.addItem(new SideNavItem("Dashboard", DashboardView.class, LineAwesomeIcon.CHART_BAR_SOLID.create()));
+        nav.addItem(new SideNavItem("My Dashboard", DashboardView.class, LineAwesomeIcon.CHART_BAR_SOLID.create()));
         nav.addItem(new SideNavItem("My Profile", EmployeeInfoView.class, LineAwesomeIcon.USER_TIE_SOLID.create()));
         nav.addItem(new SideNavItem("My Leave Filings", LeaveFilingView.class, LineAwesomeIcon.DOOR_OPEN_SOLID.create()));
 
@@ -117,12 +125,35 @@ public class MainLayout extends AppLayout {
     private SideNav createAttendanceNavigation() {
         SideNav nav = new SideNav();
 
+        if (!userDTO.getRole().equals("ROLE_EMPLOYEE")) {
+            nav.setLabel("Attendance");
+        }
+
         if (userDTO.getRole().equals("ROLE_ADMIN") ||
                 userDTO.getRole().equals("ROLE_HR_MANAGER") ||
                 userDTO.getRole().equals("ROLE_HR_SUPERVISOR") ||
                 userDTO.getRole().equals("ROLE_HR_EMPLOYEE")) {
-            nav.setLabel("Attendance");
-            nav.addItem(new SideNavItem("Timesheets", TimesheetListView.class, LineAwesomeIcon.TABLE_SOLID.create()));
+            nav.addItem(new SideNavItem("Timesheets", TimesheetListView.class, LineAwesomeIcon.CALENDAR_WEEK_SOLID.create()));
+        }
+
+        if (userDTO.getRole().equals("ROLE_ADMIN") ||
+                userDTO.getRole().equals("ROLE_HR_MANAGER") ||
+                userDTO.getRole().equals("ROLE_HR_SUPERVISOR") ||
+                userDTO.getRole().equals("ROLE_MANAGER") ||
+                userDTO.getRole().equals("ROLE_SUPERVISOR")) {
+            // Get the count of pending leaves to approved. Check every 5 seconds.
+            int pendingLeaveCounts = leaveFilingService.getByLeaveStatusAndAssignedApproverEmployeeDTO("PENDING", userDTO.getEmployeeDTO()).size();
+
+            // Show a notification badge that displays the count of leaves to be approved.
+            Span counter = new Span(String.valueOf(pendingLeaveCounts));
+            counter.getElement().getThemeList().add("badge pill medium error primary");
+            counter.getStyle().set("margin-inline-start", "var(--lumo-space-s)");
+
+            // Create the navigation item for leave approvals.
+            SideNavItem leaveApprovalNavItem = new SideNavItem("Leave Approvals", LeaveApprovalsListView.class, LineAwesomeIcon.CALENDAR_CHECK.create());
+            if (pendingLeaveCounts > 0) leaveApprovalNavItem.setSuffixComponent(counter);
+
+            nav.addItem(leaveApprovalNavItem);
         }
 
         return nav;
