@@ -2,16 +2,15 @@ package com.victorylimited.hris.views.compenben;
 
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
-import com.vaadin.flow.component.checkbox.Checkbox;
 import com.vaadin.flow.component.combobox.ComboBox;
 import com.vaadin.flow.component.formlayout.FormLayout;
 import com.vaadin.flow.component.html.Div;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.textfield.BigDecimalField;
-import com.vaadin.flow.component.textfield.IntegerField;
 import com.vaadin.flow.data.provider.Query;
 import com.vaadin.flow.router.*;
+
 import com.victorylimited.hris.dtos.compenben.AllowanceDTO;
 import com.victorylimited.hris.dtos.profile.EmployeeDTO;
 import com.victorylimited.hris.services.compenben.AllowanceService;
@@ -19,10 +18,10 @@ import com.victorylimited.hris.services.profile.EmployeeService;
 import com.victorylimited.hris.utils.SecurityUtil;
 import com.victorylimited.hris.utils.StringUtil;
 import com.victorylimited.hris.views.MainLayout;
+
 import jakarta.annotation.Resource;
 import jakarta.annotation.security.RolesAllowed;
 
-import java.time.LocalDate;
 import java.util.Objects;
 import java.util.UUID;
 
@@ -82,7 +81,6 @@ public class AllowanceFormView extends VerticalLayout implements HasUrlParameter
                                        "(FA) Food Allowance",
                                        "(LA) Laundry Allowance",
                                        "(TA) Travel Allowance",
-                                       "(PL) Paternity Leave",
                                        "(RA) Rice Allowance",
                                        "(OA) Other Allowance");
         allowanceTypeComboBox.setClearButtonVisible(true);
